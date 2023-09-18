@@ -1,0 +1,10 @@
+---
+title: "Additional Material"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Additional Material}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Additional material for LBGFS2023

@@ -1,0 +1,10 @@
+---
+title: "Course Notes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Course Notes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Course notes for LBGFS2023
