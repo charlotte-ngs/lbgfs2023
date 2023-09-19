@@ -1,0 +1,22 @@
+title: LBG - FS 2023
+
+url: https://charlotte-ngs.github.io/lbgfs2023/
+
+template:
+  params:
+    bootswatch: flatly
+
+navbar:
+  title:
+  type: default
+  left:
+  - text: Course Notes
+    href: articles/course_notes.html
+  - text: Exercises
+    href: articles/course_exercises.html
+  - text: Solutions
+    href: articles/course_solutions.html
+  - text: Additional Material
+    href: articles/course_additional_material.html
+  - text: News
+    href: news/index.html
