@@ -1,9 +1,10 @@
 Package: lbgfs2023
-Title: What the Package Does (One Line, Title Case)
+Title: Course Material for Livestock Breeding and Genomics Fall 2023 at ETHZ
 Version: 0.0.1
 Authors@R: 
-    person("Peter", "von Rohr", , "peter.vonrohr@qualitasag.ch", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person("Peter", "von Rohr", , "peter.vonrohr@usys.ethz.ch", role = c("aut", "cre"))
+Description: Contains all material for the masters course of Livestock Breeding and Genomics 
+    offered in the fall semester 2023 at ETH Zurich.
 License: CC0
 Encoding: UTF-8
 Language: en
