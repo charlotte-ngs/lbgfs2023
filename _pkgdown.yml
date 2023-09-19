@@ -4,7 +4,7 @@ template:
   params:
     bootswatch: flatly
 navbar:
-  title: 
+  title: ~
   type: default
   left:
   - text: Course Notes
