@@ -1,0 +1,27 @@
+---
+title: Livestock Breeding and Genomics
+author: Peter von Rohr
+date: 2023-09-19
+url: https://charlotte-ngs.github.io/lbgfs2023
+github-repo: https://github.com/charlotte-ngs/lbgfs2023
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [bibliography.bib]
+link-citations: true
+output: bookdown::gitbook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::knit_hooks$set(hook_convert_odg = rmdhelp::hook_convert_odg)
+```
+
+```{r mrtminit, include=FALSE}
+met <- rmdhelp::MendeleyExportToolR6$new()
+met$set_this_rmd_file(ps_this_rmd_file = ifelse(rstudioapi::isAvailable(), 
+                                                 rstudioapi::getSourceEditorContext()$path, 
+                                                 whereami::thisfile()))
+```
+
+
+# Preface {-} 
