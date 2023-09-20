@@ -244,7 +244,7 @@ The expected mean genotypic value of the offsprings of parent $S$ with genotype 
 The breeding value $BV_{12}$ corresponds to 
 
 \begin{align}
-ZW_{12} &=   2*(\mu_{12} - \mu) \notag \\
+BV_{12} &=   2*(\mu_{12} - \mu) \notag \\
         &=   2\left(0.5(p-q)a + 0.5d - \left[(p - q)a + 2pqd \right] \right) \notag \\
         &=   2\left(0.5pa - 0.5qa + 0.5d - pa + qa - 2pqd \right) \notag \\
         &=   2\left(0.5(q-p)a + (0.5 - 2pq)d \right) \notag \\

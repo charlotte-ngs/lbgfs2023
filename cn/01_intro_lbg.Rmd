@@ -60,14 +60,14 @@ Note, it is important to distinguish between the observed or measured values of 
 
 
 ### Genotypes and Phenotypes {#geno-pheno}
-In livestock breeding we are mainly concerned with changing animal populations at the genetic level. The reason why we are interested in changing a population genetically is because parents do not pass their phenotypes to their offspring. Parents pass a random sample of their genes to their offspring. For each offspring every parent does transmit a different sample of their genes. From a genetic point of view, we want to know not only the most desirable phenotype, but also the most desirable __genotypes__. From the central dogma of molecular biology (https://en.wikipedia.org/wiki/Central_dogma_of_molecular_biology), it follows that an animal's genotype provides the genetic background of phenotypes. The relationship between phenotypes ($P$) and genotypes ($G$) can be summarized by the following equation \@ref(eq:phengenenv)
+In livestock breeding we are mainly concerned with changing animal populations at the genetic level. The reason why we are interested in changing a population genetically is because parents do not pass their phenotypes to their offspring. Parents pass a random sample of their genes or alleles to their offspring. For each offspring every parent does transmit a different sample of their genes. For answering the fundamental questions of livestock breeding which aim to find the best parents for future generations, we would have to know which animals would pass the most valuable genes or alleles to potential offspring when selecting these animals as parents. The value of genes or alleles with respect to a certain trait of interest cannot be measured or observed directly. Hence, we have to estimate those values. This can be done by using the effect that phenotypes measured or observed in an animal always have a genetic background. The genetic background for a given phenotype can be demonstated using the central dogma of molecular biology (https://en.wikipedia.org/wiki/Central_dogma_of_molecular_biology). This dogma describes the relationship between phenotypes ($Y$) and genotypes ($V$) by the following equation \@ref(eq:phengenenv)
 
 \begin{equation}
-P = G + E
+Y = V + E
 (\#eq:phengenenv)
 \end{equation}
 
-where $E$ represents the __environmental effects__. Because we want to change our populations at a genetic level, we are interested in the effect ($G$) of every genotype. In most cases, we are not able to directly observe or measure $G$. But we will see later on how we can estimate $G$ based on measurements and observations of $P$ and based on estimates of $E$. The estimates of $G$ will later be called __breeding values__ and those estimates will be used by breeders as information for their tools to improve animal populations. Those tools are being described in the following section.
+where $E$ represents the __environmental effects__. How the value of alleles or genes passed from parents to offspring are estimated based on the model shown in equation \@ref(eq:phengenenv) is described in chapter \@ref(quan-gen). 
 
 
 ## Improvement of Animal Populations {#improvementanimalpopulations}
@@ -102,7 +102,7 @@ The development of computing power is often summarized by the so-called __Moore'
 
 When comparing the development of computing performance with the performance of livestock animals, there is an obvious relation between the two. This means the performance increase of livestock animals was in part facilitated by the development of cheap computing power. The two figures \@ref(fig:milkcompperf) and \@ref(fig:moorelaw) compare the two developments. The first diagram shows the annual milk production per cow. 
 
-```{r milkcompperf, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", fig.cap="Yearly Milk Yield per Cow in the USA"}
+```{r milkcompperf, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", fig.cap="Yearly Milk Yield per Cow in the USA", out.width="100%"}
 #rmddochelper::use_odg_graphic(ps_path = "odg/milkcompperf.odg")
 knitr::include_graphics(path = "odg/milkcompperf.png")
 ```
