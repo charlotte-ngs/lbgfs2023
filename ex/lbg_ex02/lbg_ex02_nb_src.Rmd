@@ -1,0 +1,188 @@
+---
+title: Livestock Breeding and Genomics - Notebook 2
+author: Peter von Rohr
+date: '2022-09-29'
+output: html_notebook
+params:
+  doctype:
+    label: Document Type
+    value: solution
+    choices:
+    - exercise
+    - solution
+    - notebook
+  isonline:
+    label: Online (y/n)
+    value: true
+    choices:
+    - true
+    - false
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: Vectors in R
+
+### Vector Definition
+Although there exists a function called `vector()` in R, vectors are always defined in R using the function `c()` which stands for "concatenation". 
+
+### Vector Assignment
+Let us assume we want to assign the following vector $a$ 
+
+$$a = \left[\begin{array}{c}
+10 \\
+7 \\
+43
+\end{array}\right]$$
+to the variable named `a` in R, then this can be done with the following statement
+
+```{r vec-assign}
+a <- c(10,7,43)
+```
+
+### Access of single Vector Element
+A single vector element can be accessed using the variable name followed by the element index in brackets. Hence, if we want to know the first element of vector `a`, we have to write
+
+```{r first-element}
+a[1]
+```
+
+### Computations with Vector Elements
+Vector elements can be used in arithmetic operations such as summation, subtraction and multiplication as shown below
+
+```{r arithmetic-operation}
+a[1] + a[3]
+a[2] * a[3]
+a[3] - a[1]
+```
+
+The function `sum()` can be used to compute the sum of all vector elements. The function `mean()` computes the mean of all vector elements. 
+
+```{r sum-mean}
+sum(a)
+mean(a)
+```
+
+### Vector Computations
+Arithmetic operations can also be performed not only on elements of vectors but also on complete vectors. Hence, we can add the vector `a` to itself or we can multiply it by a factor of 3.5 which is shown in the following code-chunk
+
+```{r vector-computation}
+a + a
+3.5 * a
+```
+
+### More Computations on Vectors
+
+Given are the following two vectors $v$ and $w$. 
+
+$$v = \left[\begin{array}{c}
+   3  \\ 
+  -5  \\ 
+   1  \\ 
+   9  \\
+  \end{array}\right]$$
+  
+$$w = \left[\begin{array}{c}
+    1  \\ 
+    9  \\ 
+  -12  \\ 
+   27  \\
+  \end{array}\right]$$
+
+
+Compute
+
+* the sum $v+w$, 
+* the difference $v-w$ and 
+* the dot product $v\cdot w$. 
+
+
+### Your Solution
+The following steps could be helpful for the solution
+
+* Start by assigning the vectors to variables
+* Perform the arithmetic operations with the variables
+* Compute the dot-product either with `crossprod()` or with the operator `%*%`
+
+
+
+
+
+## Problem 2: Matrices in R
+Matrices in R are defined using the function `matrix()`. The function `matrix()` takes as first arguments all the elements of the matrix as a vector and as further arguments the number of rows and the number of columns. The following statment generates a matrix with $4$ rows and $3$ columns containing all integer numbers from $1$ to $12$. 
+
+```{r}
+mat_by_col <- matrix(1:12, nrow = 4, ncol = 3)
+mat_by_col
+```
+
+As can be seen, the matrix elements are ordered by columns. Often, we want to define a matrix where elements are filled by rows. This can by done using the option `byrow=TRUE` 
+
+```{r}
+mat_by_row <- matrix(1:12, nrow = 4, ncol = 3, byrow = TRUE)
+mat_by_row
+```
+
+### Access of Matrix Elements
+Matrix elements can be accessed similarly to what was shown for vectors. But to access a single element, we need two indices, one for rows and one for columns. Hence the matrix element in the second row and third column can be accessed by 
+
+```{r}
+mat_by_row[2,3]
+```
+
+
+### Arithmetic Computations with Matrices
+Arithmetic computations with matrices can be done with the well-known operators as long as the matrices are compatible. For summation and subtraction matrices must have the same number of rows and columns. For matrix-multiplication, the number of columns of the first matrix must be equal to the number of rows of the second matrix. 
+
+In R the arithmetic operators `+`, `-` and `*` all perform element-wise operations. The matrix multiplication can either be done using the operator `%*%` or the function `crossprod()`. It has to be noted that the statement 
+
+```
+crossprod(A, B)
+```
+
+computes the matrix-product $A^T \cdot B$ where $A^T$ stands for the transpose of matrix $A$. Hence the matrix product $A \cdot B$ would have to be computed as 
+
+```
+crossprod(t(A), B)
+```
+
+
+### More Examples
+Given the matrices X and Y
+
+```{r}
+X <- matrix(1:15, nrow = 5, ncol = 3)
+Y <- matrix(16:30, nrow = 5, ncol = 3)
+```
+
+Compute 
+
+- $X + Y$
+- $Y - X$
+- multiplication of elements between $X$ and $Y$
+- matrix-product $X^T \cdot Y$
+- matrix-product $X^T \cdot X$
+- matrix-product $Y^T \cdot Y$
+
+
+
+### Your Solution
+
+* Matrices must be assigned to variables as shown above
+* Arithmethic operations are performed
+* Matrix muliplications can be done with `crossprod`
+
+
+
+ 
+
+
+```{r, echo=FALSE, results='asis'}
+cat('\n---\n\n _Latest Changes: ', format(Sys.time(), '%Y-%m-%d %H:%M:%S'), ' (', Sys.info()['user'], ')_\n', sep = '')
+```
+ 
