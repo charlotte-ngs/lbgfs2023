@@ -8,3 +8,22 @@ vignette: >
 ---
 
 Additional material for LBGFS2023
+
+# Slides
+
+```{r slide-table, echo=FALSE, message=FALSE, warning=FALSE}
+root_url <- "https://charlotte-ngs.github.io/lbgfs2023" 
+sl_url <- paste0(root_url, "/sl/")
+tbl_sl <- tibble::tibble(Nr = c(1, 2),
+                         Date = c("2023-09-22",
+                                  "2023-09-29"),
+                         Topic = c(
+                           paste0("[Introduction to Livestock Breeding and Genomics](", 
+                                  sl_url, 
+                                  "lbgfs2023_slides_l01_intro_lbg.pdf)", 
+                                  collapse = ""),
+                           paste0("[Basics of Quantitative Genetics](", 
+                                  sl_url, 
+                                  "lbgfs2023_slides_l02_basics_qg.pdf)", 
+                                  collapse = "")
+                           ))
