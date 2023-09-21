@@ -24,6 +24,7 @@ material will be illustrated via exercises and assignments.
 
 ## Information
 
+- Moodle: <https://moodle-app2.let.ethz.ch/course/view.php?id=20077>
 - Form: in presence
 - Lecturer: Peter von Rohr
 - Date: Friday 9-12

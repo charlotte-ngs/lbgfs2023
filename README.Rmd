@@ -29,6 +29,7 @@ Methods for analysing livestock data, in particular for the estimation of breedi
 
 
 ## Information
+- Moodle: https://moodle-app2.let.ethz.ch/course/view.php?id=20077
 - Form: in presence
 - Lecturer: Peter von Rohr
 - Date: Friday 9-12
