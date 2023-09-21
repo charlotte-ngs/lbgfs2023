@@ -1,3 +1,5 @@
+# lbgfs2023 0.0.6
+
 # lbgfs2023 0.0.5
 
 * Replaced rmdhelp::get_latest_change()
