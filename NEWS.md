@@ -1,3 +1,5 @@
+# lbgfs2023 0.0.7
+
 # lbgfs2023 0.0.6
 
 * Material for lbg_ex01
