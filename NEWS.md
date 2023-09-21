@@ -1,3 +1,5 @@
+# lbgfs2023 0.0.4
+
 # lbgfs2023 0.0.3
 
 * Publish first chapters of cn
