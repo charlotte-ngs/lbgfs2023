@@ -1,5 +1,7 @@
 # lbgfs2023 0.0.6
 
+* Material for lbg_ex01
+
 # lbgfs2023 0.0.5
 
 * Replaced rmdhelp::get_latest_change()
