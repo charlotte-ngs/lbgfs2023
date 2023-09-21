@@ -13,5 +13,7 @@ RoxygenNote: 7.2.3
 Suggests: 
     knitr,
     rmarkdown
+Remotes:
+    github::charlotte-ngs/rmdhelp
 VignetteBuilder: knitr
-URL: https://charlotte-ngs.github.io/lbgfs2023/
+URL: https://charlotte-ngs.github.io/lbgfs2023
