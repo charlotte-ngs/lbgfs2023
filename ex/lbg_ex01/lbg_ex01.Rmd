@@ -1,0 +1,133 @@
+---
+title: Livestock Breeding and Genomics - `r tools::toTitleCase(params$doctype)` 1
+author: Peter von Rohr
+date: 2023-09-21
+output:
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+    keep_md: false
+    keep_tex: false
+header-includes:
+ \usepackage{longtable}
+ \usepackage{float}
+params:
+  doctype:
+    label: 'Document Type'
+    value: 'solution'
+    choices: ['exercise', 'solution', 'notebook']
+  isonline:
+    label: 'Online (y/n)'
+    value: TRUE
+    choices: [TRUE, FALSE]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This questionnaire helps me to assess your experience with programming and data analysis. It is not a test and it will not be graded. Please, answer the following question. Thank you very much for your collaboration. 
+
+
+## Question 1
+What programming languages do you know? For each programming language you know, please indicate the level of your knowledge with the labels _professional_ (p), _intermediate_ (m) and _beginner_ (b).
+
+
+### Your Answer <!-- Please specify your answer, starting on the next line-->
+
+
+## Question 2
+Have you made any experiences with programming languages such as R in previous courses or projects?
+
+### Your Answer <!-- Please specify your answer, starting on the next line-->
+
+
+## Question 3
+What tools do you use when you have to work with data during your internships/practicals or during your Bachelor or Master thesis?
+
+### Your Answer <!-- Please specify your answer, starting on the next line-->
+
+
+
+## Question 4
+Are you interested in learning how to program? Please rate the level of your interest with the labels _very high_, _rather high_, _low_ and _very low_. 
+
+### Your Answer <!-- Please specify your answer, starting on the next line-->
+
+
+
+## Question 5
+What is the meaning of the following terms: 
+
+* Genotypefrequency: 
+* Allelefrequency:
+* Breeding value:
+* Additive genetic variance:
+
+
+
+## Question 6
+How many different vectors do you see in the following picture?
+
+```{r vector-physics-perspective, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/vector-physics-perspective.odg", ps_rmd_src = s_this_rmd_file)
+knitr::include_graphics(path = "odg/vector-physics-perspective.png")
+```
+
+
+
+## Question 7
+What is a matrix?
+
+### Your Answer <!-- Please specify your answer, starting on the next line-->
+
+
+
+## Question 8
+Please convert the following system of linear equations into matrix-vector notation
+
+\begin{align}
+ x_1 +  x_2 &= 2 \notag \\
+ x_1 -  x_2 &= 1 \notag \\
+ x_1        &= 4 \notag
+(\#eq:intro-linalg-first-example)
+\end{align}
+
+
+
+## Question 9
+How do you assign the vector $v = \left[\begin{array}{c}10 \\ 15 \\ 21 \end{array} \right]$ to the variable named `vec` in R?
+
+### Your Answer <!-- Please specify your answer, starting on the next line-->
+
+
+
+## Question 10
+How do you assign the matrix $M = \left[\begin{array}{cc}1 & 2 \\ 3  &  4 \\ 5  & 6 \end{array} \right]$ to the variable named `mat` in R?
+
+### Your Answer <!-- Please specify your answer, starting on the next line-->
+
+
+\clearpage 
+\pagebreak
+
+## Question 11
+Let us assume, we have some data in a file called `data.csv`. The format of the data is in `comma separated values` (csv). How do you read the data from the file and assign it to the variable named `datadf` in R?
+
+### Your Answer <!-- Please specify your answer, starting on the next line-->
+
+
+
+## Question 12
+We have measurements of body weight and height of dairy cows. What is the statistical approach that you can use to see whether the `height` of the cow is related to its `body weight`? What is the technique that you can use to estimate the strength of the relationship between the two variables `height` and `body weight`?
+
+### Your Answer <!-- Please specify your answer, starting on the next line-->
+
+
+
+## Question 13
+Do you have any experience in writing RMarkdown documents? If yes, for what type of document (reports, Bachelor thesis, others, ...) did you use RMarkdown? 
+
+### Your Answer <!-- Please specify your answer, starting on the next line-->
+

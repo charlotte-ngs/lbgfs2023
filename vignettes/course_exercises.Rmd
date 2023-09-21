@@ -7,4 +7,29 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Exercises for LBGFS2023
+Links to exercises are shown in the following table.
+
+```{r exercise-table, echo=FALSE, message=FALSE, warning=FALSE}
+s_ex_url <- "https://charlotte-ngs.github.io/lbgfs2022/ex/"
+s_nb_url <- "https://charlotte-ngs.github.io/lbgfs2022/nb/"
+tbl_ex <- tibble::tibble(Nr = c(1),
+                         Date = c("2022-09-23"),
+                         Topic = c(
+                           paste0("[Questionnaire](", 
+                                  s_ex_url, 
+                                  "lbg_ex01.pdf)", collapse = "")
+                           ))
+knitr::kable(tbl_ex)
+```
+
+
+```{r latest-changes, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
+cat(paste0("\n---\n\n", 
+           " _Latest Changes: ", 
+           format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z"), 
+           " (", 
+           Sys.info()[["user"]], 
+           ")_", collapse = ""))
+```
+
+
