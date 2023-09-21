@@ -12,5 +12,3 @@ Encoding: UTF-8
 RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
-BuildType: Website
-WebsitePath: /Users/pvr/Data/Projects/Github/charlotte-ngs/lbgfs2023_gh-root/main/lbgfs2023/cn
