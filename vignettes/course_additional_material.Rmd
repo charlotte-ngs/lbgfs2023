@@ -27,3 +27,16 @@ tbl_sl <- tibble::tibble(Nr = c(1, 2),
                                   "lbgfs2023_slides_l02_basics_qg.pdf)", 
                                   collapse = "")
                            ))
+knitr::kable(tbl_sl)
+```
+
+
+```{r latest-changes, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
+cat(paste0("\n---\n\n", 
+           " _Latest Changes: ", 
+           format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z"), 
+           " (", 
+           Sys.info()[["user"]], 
+           ")_", collapse = ""))
+```
+
