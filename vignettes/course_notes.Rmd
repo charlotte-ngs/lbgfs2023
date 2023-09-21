@@ -7,4 +7,42 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Course notes for LBGFS2023
+# Chapters
+
+Chapters of course notes are linked below.
+
+```{r chapter-table, echo=FALSE, message=FALSE, warning=FALSE}
+s_cn_url <- "https://charlotte-ngs.github.io/lbgfs2023/cn/"
+tbl_chpt <- tibble::tibble(Nr      = c(1, 2),
+                           Date    = c("2023-09-22",
+                                       "2023-09-29"),
+                           Topic   = c(
+                             paste0("[Introduction to Livestock Breeding and Genomics](", 
+                                    s_cn_url, 
+                                    "01_intro.pdf)", collapse = ""),
+                             paste0("[Basics of Quantitative Genetics - Single Locus](", 
+                                    s_cn_url, 
+                                    "021_basic_qg_single_locus.pdf)", collapse = "")))
+knitr::kable(tbl_chpt)
+```
+
+# Appendix
+
+```{r appendix-table, echo=FALSE, message=FALSE, warning=FALSE}
+s_app_url <- "https://charlotte-ngs.github.io/lbgfs2022/cn/"
+tbl_appendix <- tibble::tibble(Nr  = c(1,2),
+                               Date = rep("2022-09-23",2),
+                               Topic = c(
+                                 paste0("[Introduction to Linear Algebra](", s_app_url, "099_Appendix_A_LinAlg.pdf)", 
+                                        collapse = ""),
+                                 paste0("[Introduction to R](", s_app_url, "099_Appendix_B_IntroR.pdf)")
+                               ))
+knitr::kable(tbl_appendix)
+```
+
+
+```{r latest-changes, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
+cat(rmdhelp::get_latest_change())
+```
+
+
