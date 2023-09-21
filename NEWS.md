@@ -1,5 +1,7 @@
 # lbgfs2023 0.0.8
 
+* Added missing knitr::kable() statement
+
 # lbgfs2023 0.0.7
 
 * Slides l01 and l02
