@@ -1,6 +1,10 @@
 # lbgfs2023 0.0.5
 
+* Replaced rmdhelp::get_latest_change()
+
 # lbgfs2023 0.0.4
+
+* Added rmdhelp to Remotes field in DESCRIPTION
 
 # lbgfs2023 0.0.3
 
