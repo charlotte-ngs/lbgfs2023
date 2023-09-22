@@ -47,6 +47,7 @@ tbl_ho <- tibble::tibble(Nr = c(1),
                                   s_ho_url,
                                   "/20230921_howto_jhub.pdf)")
                          ))
+knitr::kable(tbl_ho)
 ```
 
 
