@@ -1,5 +1,7 @@
 # lbgfs2023 0.1.2
 
+* Display table of handouts
+
 # lbgfs2023 0.1.1
 
 * Handouts
