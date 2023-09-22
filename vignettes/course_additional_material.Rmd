@@ -7,12 +7,15 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r setup, include=FALSE}
+root_url <- "https://charlotte-ngs.github.io/lbgfs2023" 
+```
+
 Additional material for LBGFS2023
 
 # Slides
 
 ```{r slide-table, echo=FALSE, message=FALSE, warning=FALSE}
-root_url <- "https://charlotte-ngs.github.io/lbgfs2023" 
 sl_url <- paste0(root_url, "/sl/")
 tbl_sl <- tibble::tibble(Nr = c(1, 2),
                          Date = c("2023-09-22",
@@ -31,6 +34,22 @@ knitr::kable(tbl_sl)
 ```
 
 
+# Handouts
+
+```{r hand-outs-table, echo=FALSE, message=FALSE, warning=FALSE}
+s_ho_url <- file.path(root_url,"houts")
+tbl_ho <- tibble::tibble(Nr = c(1),
+                         Date = c("2023-09-22"),
+                         Topic = c(
+                           paste0("JypyterHub Platform [html](",
+                                  s_ho_url, 
+                                  "/20230921_howto_jhub.html) | [pdf](",
+                                  s_ho_url,
+                                  "/20230921_howto_jhub.pdf)")
+                         ))
+```
+
+
 ```{r latest-changes, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
 cat(paste0("\n---\n\n", 
            " _Latest Changes: ", 
@@ -39,4 +58,7 @@ cat(paste0("\n---\n\n",
            Sys.info()[["user"]], 
            ")_", collapse = ""))
 ```
+
+
+
 
