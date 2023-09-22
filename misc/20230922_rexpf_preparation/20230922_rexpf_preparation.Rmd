@@ -1,0 +1,190 @@
+---
+title: "Prepare RStudio-Server Exercise Platform"
+author: "Peter von Rohr"
+date: "2023-09-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Disclaimer
+Preparation steps to get to the RStudio-Server platform are documented.
+
+
+## Procedure
+The following steps are followed to prepare required files for students.
+
+
+### Step 1: Download BelegungenLerneinheit from edoz
+Login to `edoz` and download the BelegungenLerneinheit as xlsx file. Move the file to a separate directory.
+
+```bash
+mkdir students
+cd students/
+mv ~/Downloads/BelegungenLerneinheit_751630500L_Herbstsemester_2023.xlsx .
+```
+
+
+### Step 2: Process Downloaded xlsx file
+From the downloaded xlsx file, we only need some columns
+
+```{r}
+s_bl_fs_2023_dir <- file.path(here::here(), "students")
+s_bl_fs_2023_path <- list.files(path = s_bl_fs_2023_dir, pattern = "xlsx", full.names = TRUE)
+tbl_bl_fs_2023 <- readxl::read_excel(path = s_bl_fs_2023_path)
+tbl_bl_fs_2023
+```
+
+Select only the columns that are required
+
+```{r}
+library(dplyr)
+tbl_students_fs_2023 <- tbl_bl_fs_2023 %>%
+  select(Familienname, Rufname, Nummer, `E-Mail`)
+tbl_students_fs_2023
+```
+
+### Step 3: Generate Usernames
+The part of the email addresses before the `@` are taken as usernames
+
+```{r}
+tbl_students_fs_2023$Username <- sapply(tbl_students_fs_2023$`E-Mail`, 
+                                         function(x) unlist(strsplit(x, "@", fixed = T))[1] , 
+                                         USE.NAMES = FALSE)
+tbl_students_fs_2023
+```
+
+
+### Step 4: Adding Ports
+```{r, echo=FALSE}
+n_rstudio_port <- 8787
+n_start_port <- 10087
+```
+
+The docker instances are mapping the RStudio-Server port `r n_rstudio_port` to different ports on the host. These are generated from `r n_start_port` onwards and directly written to the student info file.
+
+```{r}
+tbl_students_fs_2023$Port <- c(n_start_port:(n_start_port + nrow(tbl_students_fs_2023)-1))
+tbl_students_fs_2023
+```
+
+
+
+### Step 5: Write Info To Files
+Create two files, one with the complete student information and one with only usernames
+
+```{r}
+# student info
+s_students_fs_2023_path <- file.path(s_bl_fs_2023_dir, "students_lbgfs_2023.csv")
+readr::write_delim(tbl_students_fs_2023, 
+                   file = s_students_fs_2023_path, 
+                   delim = ",",
+                   col_names = FALSE)
+# usernames
+tbl_usernames_fs_2023 <- tbl_students_fs_2023 %>%
+  select(Username)
+s_usernames_fs_2023_path <- file.path(s_bl_fs_2023_dir, "usernames_lbgfs_2023.csv")
+readr::write_delim(tbl_usernames_fs_2023, 
+                   file = s_usernames_fs_2023_path, 
+                   delim = ",",
+                   col_names = FALSE)
+```
+
+
+## Test Student
+Do the same for a test student
+
+```{r}
+tbl_test_students_fs_2023 <- tibble::tibble(Familienname = "von Rohr",
+                                            Rufname      = "Peter",
+                                            Nummer       = "88-918-123",
+                                            `E-Mail`     = "peter.vonrohr@usys.ethz.ch",
+                                            Username     = "vrohrp",
+                                            Port         = 10187)
+s_test_students_fs_2023_path <- file.path(s_bl_fs_2023_dir, "test_students_lbgfs_2023.csv")
+readr::write_delim(tbl_test_students_fs_2023, 
+                   file = s_test_students_fs_2023_path, 
+                   delim = ",",
+                   col_names = FALSE)
+tbl_test_usernames_fs_2023 <- tbl_test_students_fs_2023 %>%
+  select(Username)
+s_test_usernames_fs_2023_path <- file.path(s_bl_fs_2023_dir, "test_usernames_lbgfs_2023.csv")
+readr::write_delim(tbl_test_usernames_fs_2023, 
+                   file = s_test_usernames_fs_2023_path, 
+                   delim = ",",
+                   col_names = FALSE)
+
+```
+
+
+## Upload Data to Server
+Prepare on server
+
+```bash
+# sq2h
+cd;cd courses/
+mkdir -p lbgfs2023
+cd lbgfs2023/
+```
+
+Upload
+
+```bash
+cd lbgfs2023_gh-root/main/lbgfs2023/
+scp -r docker quagadmin@2-htz.quagzws.com:/home/quagadmin/courses/lbgfs2023
+scp -r students quagadmin@2-htz.quagzws.com:/home/quagadmin/courses/lbgfs2023
+scp -r bash quagadmin@2-htz.quagzws.com:/home/quagadmin/courses/lbgfs2023
+```
+
+Build new container image
+
+```bash
+# rm old images first
+docker rmi <image_ids>
+# build from dockerfile
+cd;cd courses/lbgfs2023/docker
+docker build -t lbgfs2023 .
+```
+
+
+## Start Container Instances
+
+```bash
+
+```
+
+
+## Send E-Mail
+The following commands are used to send e-mails to students
+
+```
+export GELSRC=/home/quagadmin/courses/lbgfs2023
+cd $GELSRC
+if [ ! -d "email_sent" ]; then mkdir -p email_sent;fi
+cat students/test_students_lbgfs_2023.csv  | while read s
+do
+  user=$(echo "$s" | cut -d ',' -f5)
+  email=$(echo "$s" | cut -d ',' -f4)
+  echo " * Sending ${user}_mail.txt to $email ..."
+  cat ${user}_email.txt | ssmtp $email
+  sleep 2
+  mv ${user}_email.txt email_sent
+done
+
+# real students
+cat students/students_lbgfs_2023.csv  | while read s
+do
+  user=$(echo "$s" | cut -d ',' -f5)
+  email=$(echo "$s" | cut -d ',' -f4)
+  echo " * Sending ${user}_mail.txt to $email ..."
+  cat ${user}_email.txt | ssmtp $email
+  sleep 2
+  mv ${user}_email.txt email_sent
+done
+```
+
+
+## Create Table with Rexpf Links
+Links are created in separate Rmd document.

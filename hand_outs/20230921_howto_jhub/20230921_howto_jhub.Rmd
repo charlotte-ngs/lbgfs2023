@@ -1,0 +1,68 @@
+---
+title: "How-To Use JupyterHub as Exercise Platform"
+author: "Peter von Rohr"
+date: "2023-09-21"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# rmdhelp::show_knit_hook_call()
+knitr::knit_hooks$set(hook_convert_odg = rmdhelp::hook_convert_odg)
+```
+
+
+## Background
+JupyterHub is provided by LET as a possible exercise platform. 
+
+
+## Availability
+JupyterHub can be accessed from the moodle course page at: https://moodle-app2.let.ethz.ch/course/view.php?id=20077. 
+Either use the link in the section __Exercise Platform__ or use the navigation bar on the left of the page, as shown below.
+
+```{r jhub-availabilty, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/jhub-availabilty.odg")
+knitr::include_graphics(path = "odg/jhub-availabilty.png")
+```
+
+On the JupyterHub page click on __Open in new window__ which opens the JupyterHub start page
+
+```{r jhub-start, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/jhub-start.odg")
+knitr::include_graphics(path = "odg/jhub-start.png")
+```
+
+On the JupyterHub start page click on __Start My Server__
+
+```{r jhub-server-start, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/jhub-server-start.odg")
+knitr::include_graphics(path = "odg/jhub-server-start.png")
+```
+
+
+## Initial Download of Exercise Repository
+When starting the JupyterHub the first time, we have to download the exercise files. This is done from the terminal. To do that click on the __Terminal__ Symbol on the Launcher.
+
+```{r jhub-terminal-start, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/jhub-terminal-start.odg")
+knitr::include_graphics(path = "odg/jhub-terminal-start.png")
+```
+
+Once the terminal is started enter the following command
+
+```bash
+git clone -b rexpf https://github.com/charlotte-ngs/lbgfs2023.git
+```
+
+The output is shown in the screen-shot below. Then you will have an additional subdirectory called __lbgfs2023__. 
+
+```{r jhub-git-clone, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/jhub-git-clone.odg")
+knitr::include_graphics(path = "odg/jhub-git-clone.png")
+```
+
+
+## Updating Directory lbgfs2023
+  

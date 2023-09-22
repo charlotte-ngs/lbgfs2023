@@ -41,7 +41,7 @@ Methods for analysing livestock data, in particular for the estimation of breedi
 
     
 ### Exercise Platform
-- Information about the exercise platform will follow
+- Information about the [RStudio exercise platform](https://charlotte-ngs.github.io/lbgfs2023/misc/20230922_rexpf_links.html)
 
 
 ## Questions

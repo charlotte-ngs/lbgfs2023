@@ -1,0 +1,27 @@
+---
+title: "R Exercise Platform Links"
+author: "Peter von Rohr"
+date: "2023-09-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Links to the RStudio Exercise Platform
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+s_bl_fs_2023_dir <- file.path(here::here(), "students")
+s_students_fs_2023_path <- file.path(s_bl_fs_2023_dir, "students_lbgfs_2023.csv")
+tbl_rexpf_links <- readr::read_delim(file = s_students_fs_2023_path, delim = ",", col_names = F)
+colnames(tbl_rexpf_links) <- c("Name", "FirstName", "Number", "E-Mail", "User", "Port")
+tbl_rexpf_links$Link <- sapply(tbl_rexpf_links$Port, 
+                               function(x) paste0("http://2-htz.quagzws.com:",x, collapse = ""),
+                               USE.NAMES = FALSE)
+tbl_rexpf_links <- tbl_rexpf_links %>%
+  select(Name,FirstName,Link)
+knitr::kable(tbl_rexpf_links)
+```
+
