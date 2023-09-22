@@ -1,6 +1,10 @@
 # lbgfs2023 0.1.1
 
+* Handouts
+
 # lbgfs2023 0.1.0
+
+* Links to rexpf
 
 # lbgfs2023 0.0.9
 
