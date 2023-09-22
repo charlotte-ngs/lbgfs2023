@@ -37,7 +37,10 @@ material will be illustrated via exercises and assignments.
 
 ### Exercise Platform
 
-- Information about the exercise platform will follow
+- Information about the [RStudio exercise
+  platform](https://charlotte-ngs.github.io/lbgfs2023/misc/20230922_rexpf_links.html)
+- The JupyterHub exercise platform is available via the Moodle course
+  page.
 
 ## Questions
 
