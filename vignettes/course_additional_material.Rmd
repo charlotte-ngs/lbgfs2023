@@ -51,6 +51,22 @@ knitr::kable(tbl_ho)
 ```
 
 
+# Datasets
+
+```{r data-set-table, echo=FALSE, message=FALSE, warning=FALSE}
+s_data_url <- file.path(root_url, "data")
+tbl_data <- tibble::tibble(Nr = c(1),
+                           Date = c("2023-09-29"),
+                           Topic = c(
+                             paste0("[Exercise 3 - Problem 1](",
+                                    s_data_url, 
+                                    "/lbgfs2023_lbg_ex03.csv)")
+                           ))
+knitr::kable(tbl_data)
+```
+
+
+
 ```{r latest-changes, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
 cat(paste0("\n---\n\n", 
            " _Latest Changes: ", 

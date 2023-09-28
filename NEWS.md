@@ -1,5 +1,7 @@
 # lbgfs2023 0.2.0
 
+* Dataset for exercise 3 - Problem 1
+
 # lbgfs2023 0.1.2
 
 * Display table of handouts
