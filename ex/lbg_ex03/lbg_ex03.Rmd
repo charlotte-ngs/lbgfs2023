@@ -55,9 +55,12 @@ In the above dataset, genotypes are encoded as follows
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 tbl_genotype_code <- tibble::tibble(
-  Genotype = c("$G_2G_2$",
+  LocusG = c("$G_2G_2$",
   "$G_1G_2$",
-  "$G_1G_1$"),
+  "$G_1G_1$"),  
+  LocusH = c("$H_2H_2$",
+  "$H_1H_2$",
+  "$H_1H_1$"),
   Code = c(0:2)
 )
 knitr::kable(tbl_genotype_code, 
@@ -85,6 +88,50 @@ knitr::kable(tbl_genotype_code,
 
 ### Solution
 
+* Read the dataset and assign it to a tibble or dataframe
+
+```{r, message=FALSE, warning=FALSE}
+s_lbg_ex03_p01_data_url <- "https://charlotte-ngs.github.io/lbgfs2023/data/lbgfs2023_lbg_ex03.csv"
+tbl_lbe_ex03 <- readr::read_delim(s_lbg_ex03_p01_data_url, delim = ",")
+tbl_lbe_ex03
+```
+
+
+* Compute genotype frequencies using either the function `table()` or a `dplyr` pipeline
+The solution with `table()` results in counts which can be converted to frequencies
+
+```{r}
+n_nr_total_animals <- nrow(tbl_lbe_ex03)
+vec_freq_table_LocusG <- table(tbl_lbe_ex03$LocusG)
+round(vec_freq_table_LocusG / n_nr_total_animals, digits = 3)
+```
+
+The same for locus $H$
+
+```{r}
+vec_freq_table_LocusH <- table(tbl_lbe_ex03$LocusH)
+round(vec_freq_table_LocusH / n_nr_total_animals, digits = 3)
+```
+
+The second solution is to use `dplyr`
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+tbl_lbe_ex03 %>% 
+  select(LocusG) %>%
+  group_by(LocusG) %>% 
+  summarise(genotype_frequency = n() / n_nr_total_animals)
+```
+
+Similarly for Locus $H$
+
+```{r, message=FALSE, warning=FALSE}
+tbl_lbe_ex03 %>% 
+  select(LocusH) %>%
+  group_by(LocusH) %>% 
+  summarise(genotype_frequency = n() / n_nr_total_animals)
+```
+
 <!-- master-solution-end -->
 
 
@@ -105,17 +152,3 @@ Use the dataset from Problem 1 and check for Hardy-Weinberg equilibrium using a 
 <!-- master-solution-end -->
 
 
-## Problem 3
-
-<!-- your-solution-start
-### Your Solution
-
----  your-solution-end -->
-
-
-<!-- master-solution-start -->
-
-### Solution
-
-<!-- master-solution-end -->
- 
