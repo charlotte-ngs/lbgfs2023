@@ -13,7 +13,7 @@ echo " *** Start fetching with $SCRIPT ..."
 
 ### # define a few constants
 BRANCH=rexpf
-PROJDIR=lbgfs2022
+PROJDIR=lbgfs2023
 PROJROOT=/home/quagadmin/courses/${PROJDIR}
 GITHUBURL=https://github.com/charlotte-ngs/${PROJDIR}.git
 ADMIN=`whoami`

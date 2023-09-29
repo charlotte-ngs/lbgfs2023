@@ -188,3 +188,34 @@ done
 
 ## Create Table with Rexpf Links
 Links are created in separate Rmd document.
+
+
+## Cloning the material
+
+```
+# on 2-htz
+export GITURI=https://github.com/charlotte-ngs/lbgfs2023.git
+export GELSRC=/home/quagadmin/courses/lbgfs2023
+export GELHOME=${GELSRC}/home
+cd $GELSRC
+# test student
+cat students/test_usernames_lbgfs_2023.csv | while read s
+do
+  cd $GELHOME/$s
+  echo " * Cloning repo for $s ..."
+  git clone $GITURI -b rexpf
+  sleep 2
+done
+
+# students
+cd $GELSRC
+# real student
+cat students/usernames_lbgfs_2023.csv | while read s
+do
+  cd $GELHOME/$s
+  echo " * Cloning repo for $s ..."
+  git clone $GITURI -b rexpf
+  sleep 2
+done
+```
+

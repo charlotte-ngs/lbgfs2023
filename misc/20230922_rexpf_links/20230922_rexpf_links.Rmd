@@ -9,7 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Links to the RStudio Exercise Platform
+* RStudio exercise platform username: `rstudio`
+* Links to the RStudio Exercise Platform
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(dplyr)
