@@ -1,3 +1,5 @@
+# lbgfs2023 0.2.4
+
 # lbgfs2023 0.2.3
 
 * Updated handouts to checkout of material
