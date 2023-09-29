@@ -65,4 +65,17 @@ knitr::include_graphics(path = "odg/jhub-git-clone.png")
 
 
 ## Updating Directory lbgfs2023
-  
+Once, the first version of the repository is cloned from Github. The any new material has to be fetched by updating the repository. This can be done with
+
+```bash
+cd lbgfs2023
+git pull
+```
+
+In the terminal this looks as follows:
+
+```{r jhub-git-pull, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/jhub-git-pull.odg")
+knitr::include_graphics(path = "odg/jhub-git-pull.png")
+```
+ 
