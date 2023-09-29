@@ -1,5 +1,7 @@
 # lbgfs2023 0.2.2
 
+* Updated rexpf preparation and added username
+
 # lbgfs2023 0.2.1
 
 * Deployed lbg_ex03
