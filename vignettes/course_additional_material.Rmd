@@ -66,6 +66,25 @@ knitr::kable(tbl_data)
 ```
 
 
+## Overhead Pictures
+
+```{r ohp-table, echo=FALSE, message=FALSE, warning=FALSE}
+s_ohp_url <- file.path(root_url, "ohp")
+tbl_ohp <- tibble::tibble(Nr = c(1, 2),
+                          Date = c("2023-09-22",
+                                   "2023-09-29"),
+                          Topic = c(
+                            paste0("[Introduction](",
+                                   s_ohp_url,
+                                   "/20230922_ohp_l01.pdf)",
+                                   "[Frequencies and Values](",
+                                   s_ohp_url,
+                                   "/20230929_ohp_l02.pdf)")
+                          ))
+knitr::kable(tbl_ohp)
+```
+
+
 
 ```{r latest-changes, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
 cat(paste0("\n---\n\n", 
