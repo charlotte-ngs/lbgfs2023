@@ -1,0 +1,21 @@
+---
+title: Quantitative Genetics - Multiple Loci
+author: Peter von Rohr
+date: "`r Sys.Date()`"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Two and more Loci
+
+* Two loci $G$ and $H$ having an effect on the same quantitative trait.
+* Effect of one locus can have an influence on the effect of the other locus
+
+$\rightarrow$ __Interaction__ between loci. 
+
+* Interaction is quantified by 
+
+$$I_{GH} = V - V_G - V_H$$
