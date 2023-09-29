@@ -1,5 +1,7 @@
 # lbgfs2023 0.2.4
 
+* Added update section to jhub handout
+
 # lbgfs2023 0.2.3
 
 * Updated handouts to checkout of material
