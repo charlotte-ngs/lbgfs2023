@@ -1,5 +1,7 @@
 # lbgfs2023 0.2.3
 
+* Updated handouts to checkout of material
+
 # lbgfs2023 0.2.2
 
 * Updated rexpf preparation and added username
