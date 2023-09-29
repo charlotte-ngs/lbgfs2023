@@ -1,5 +1,7 @@
 # lbgfs2023 0.2.1
 
+* Deployed lbg_ex03
+
 # lbgfs2023 0.2.0
 
 * Dataset for exercise 3 - Problem 1
