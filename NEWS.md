@@ -1,5 +1,7 @@
 # lbgfs2023 0.2.5
 
+* Added ohp_l01 and ohp_l02
+
 # lbgfs2023 0.2.4
 
 * Added update section to jhub handout
