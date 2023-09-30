@@ -1,5 +1,7 @@
 # lbgfs2023 0.2.6
 
+* Corrected links in ohp table
+
 # lbgfs2023 0.2.5
 
 * Added ohp_l01 and ohp_l02
