@@ -74,9 +74,10 @@ knitr::kable(tbl_data)
 
 ```{r ohp-table, echo=FALSE, message=FALSE, warning=FALSE}
 s_ohp_url <- file.path(root_url, "ohp")
-tbl_ohp <- tibble::tibble(Nr = c(1, 2),
+tbl_ohp <- tibble::tibble(Nr = c(1, 2, 3),
                           Date = c("2023-09-22",
-                                   "2023-09-29"),
+                                   "2023-09-29",
+                                   "2023-10-06"),
                           Topic = c(
                             paste0("[Introduction](",
                                    s_ohp_url,
