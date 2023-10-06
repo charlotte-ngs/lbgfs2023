@@ -83,7 +83,10 @@ tbl_ohp <- tibble::tibble(Nr = c(1, 2),
                                    "/20230922_ohp_l01.pdf)", collapse = ""),
                             paste0("[Frequencies and Values](",
                                    s_ohp_url,
-                                   "/20230929_ohp_l02.pdf)", collapse = "")
+                                   "/20230929_ohp_l02.pdf)", collapse = ""),
+                            paste0("[Breeding Values](",
+                                   s_ohp_url,
+                                   "/20231006_ohp_l03.pdf)", collapse = "")
                           ))
 knitr::kable(tbl_ohp)
 ```
