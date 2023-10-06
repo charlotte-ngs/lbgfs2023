@@ -1,5 +1,7 @@
 # lbgfs2023 0.3.1
 
+* Added solution for lbg_ex02
+
 # lbgfs2023 0.3.0
 
 * Material for multiple loci
