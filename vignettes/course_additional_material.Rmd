@@ -17,9 +17,10 @@ Additional material for LBGFS2023
 
 ```{r slide-table, echo=FALSE, message=FALSE, warning=FALSE}
 sl_url <- paste0(root_url, "/sl/")
-tbl_sl <- tibble::tibble(Nr = c(1, 2),
+tbl_sl <- tibble::tibble(Nr = c(1, 2, 3),
                          Date = c("2023-09-22",
-                                  "2023-09-29"),
+                                  "2023-09-29",
+                                  "2023-10-06"),
                          Topic = c(
                            paste0("[Introduction to Livestock Breeding and Genomics](", 
                                   sl_url, 
@@ -28,7 +29,10 @@ tbl_sl <- tibble::tibble(Nr = c(1, 2),
                            paste0("[Basics of Quantitative Genetics](", 
                                   sl_url, 
                                   "lbgfs2023_slides_l02_basics_qg.pdf)", 
-                                  collapse = "")
+                                  collapse = ""),
+                           paste0("[Multiple Loci](",
+                                  sl_url,
+                                  "l03_qg_multiple_loci.pdf")
                            ))
 knitr::kable(tbl_sl)
 ```

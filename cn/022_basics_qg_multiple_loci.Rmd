@@ -1,0 +1,103 @@
+\clearpage
+\pagebreak
+```{r met-intro-qg-multiple-loci-reset, echo=FALSE}
+s_this_rmd_file <- rmdhelp::get_this_rmd_file()
+met$set_this_rmd_file(ps_this_rmd_file = s_this_rmd_file)
+```
+
+
+## Extension To More Loci {#extension-to-more-loci}
+When only a single locus is considered, the genotypic values ($V_{ij}$) can be decomposed according to equation \@ref(eq:SeparationGenoValue) into population mean, breeding value and dominance deviation. When a genotype refers to more than one locus, the genotypic value may contain an additional deviation caused by non-additive combination effects. The overall set of effects that might arise when considering mulitple loci is shown in Figure \@ref(fig:genotypic-value-multiple-loci).
+
+```{r genotypic-value-multiple-loci, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%", fig.cap="Decomposition of the Influence of two Loci on a Quantitative Trait"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/genotypic-value-multiple-loci.odg")
+knitr::include_graphics(path = "odg/genotypic-value-multiple-loci.png")
+```
+
+
+### Epistatic Interaction {#epistatic-interaction}
+Let $V_A$ be the genotypic value of locus $A$ and $V_B$ denote the genotypic value of a second locus $B$, then the total genotypic value $V$ attributed to both loci $A$ and $B$ can be written as 
+
+\begin{align}
+V &= V_A + V_B + I_{AB} 
+(\#eq:AggregateGenotypicValueTwoLoci)
+\end{align}
+
+where $I_{AB}$ is the deviation from additive combination of these genotypic values. When computing the population mean earlier in this chapter, we assumed that $I$ was zero for all combinations of genotypes. If $I$ is not zero for any combination of genes at different loci, those genes are said to __interact__ with each other or to exhibit __epistasis__. The deviation $I$ is called interaction deviation or epistatic deviation. If $I$ is zero, the genes are called to act additively between loci. Hence _additive action_ may mean different things. When referring to one locus, it means absence of dominance. When referring to different loci, it means absence of epistasis.
+
+Interaction between loci may occur between pairs or between higher numbers of different loci. The complex nature of higher order interactions, i.e., interactions between higher number of loci does not need to concern us. Because in the total genotypic value $V$, interaction deviations of all sorts are treated together in an overall interaction deviation $I$. 
+
+Applying the decomposition of the genotypic values $V_A$ of locus $A$ and $V_B$ of locus $B$ as shown in \@ref(eq:SeparationGenoValue) leads to 
+
+\begin{align}
+V &= V_A + V_B + I_{AB} \notag \\
+  &= \mu_A + BV_A + D_A + \mu_B + BV_B + D_B + I_{AB}
+(\#eq:DecomposeGenotypicValueTwoLoci)
+\end{align}
+
+Collecting terms in \@ref(eq:DecomposeGenotypicValueTwoLoci) as follows
+
+\begin{align}
+\mu &= \mu_A + \mu_B \notag \\
+U   &= BV_A + BV_B \notag \\
+D   &= D_A + D_B \notag \\
+I   &= I_{AB}
+(\#eq:CollectVariables)
+\end{align}
+
+The decomposition shown in \@ref(eq:DecomposeGenotypicValueTwoLoci) and the collection of variables (see \@ref(eq:CollectVariables)) can be generalized to more than two loci. This leads to the following generalized form of decomposing the overall total genotype $V$ for the case of multiple loci affecting a certain trait of interest.
+
+\begin{equation}
+V = \mu + U + D + I
+(\#eq:AggregateGenotypicValueMultipleLoci)
+\end{equation}
+
+where $U$ is the sum of the breeding values attributable to the separate loci and $D$ is the sum of all dominance deviations. For our purposes in livestock breeding where we want to assess the genetic potential of a selection candidate to be a parent of offspring forming the next generation, the __breeding value__ is the most important quantity. The breeding value is of primary importance because a given parent passes a random sample of its alleles to its offspring. We have seen in section \@ref(allele-substitution) that breeding values are additive in the number of favorable alleles. Hence the more favorable alleles a given parent passes to its offspring the higher the breeding value of this parent. 
+
+On the other hand, the dominance deviation measures the effect of a certain genotype occurring in an individual and the interaction deviation estimates the effects of combining different genotypes at different loci in the genome. But because parents do not pass complete genotypes nor do they pass stretches of DNA with several loci, but only a random collection of its alleles, it is really the breeding value that is of primary importance in assessing the genetic potential of a given selection candidate. 
+
+
+### Interaction Variance {#interaction-variance}
+If genotypes at different loci show epistatic interaction effects as described in section \@ref(epistatic-interaction), the interactions give rise to an additional variance component called $V_I$, which is the variance of interaction deviations. This new variance component $V_I$ can be further decomposed into sub-components. The first level of sub-components is according to the number of loci that are considered. Two-way interactions involve two loci, three-way interactions consider three loci and in general $n$-way interactions arise from $n$ different loci. The next level of subdivision is according to whether they include additive effects, dominance deviations or both. 
+
+In general it can be said that for practical purposes, interaction effects explain only a very small amount of the overall variation. As already mentioned in section \@ref(#epistatic-interaction) for livestock breeding, we are mostly interested in the additive effects. This is also true when looking at the variance components. Hence dominance variance and variances of interaction deviations are not used very often in practical livestock breeding application. 
+
+
+## Genetic Models {#genetic-models}
+In this chapter, we have seen how to model the genetic basis of a quantitative trait when a single locus affects the trait of interest. We call this a single-locus model. When several loci have an effect on a certain trait, then we talk about a __polygenic model__. Letting the number of loci affecting a certain phenotype tend to infinity, the resulting model is called __infinitesimal model__. 
+
+```{r hist-clt-setup, echo=FALSE}
+# fixing some constants
+set.seed(9876)
+n_nr_sample <- 10000
+n_nr_comp <- 10^(1:3)
+
+# define a function to compute sample means
+sample_comp_sum <- function(pn_nr_comp, pn_nr_sample){
+  return(sapply(1:pn_nr_comp, 
+                function(x, y) sum(runif(y))/y,
+                pn_nr_sample))
+}
+# vectors with component sums
+vec_sum_10 <- sample_comp_sum(pn_nr_comp = n_nr_comp[1], pn_nr_sample = n_nr_sample)
+vec_sum_100 <- sample_comp_sum(pn_nr_comp = n_nr_comp[2], pn_nr_sample = n_nr_sample)
+vec_sum_1000 <- sample_comp_sum(pn_nr_comp = n_nr_comp[3], pn_nr_sample = n_nr_sample)
+```
+
+From a statistical point of view, the breeding values in an infinitesimal model are considered as a random effect with a known distribution. Due to the central limit theorem, this distribution is assumed to be a normal distribution. The central limit theorem says that the distribution of any sum of a large number of very small effects converges to a normal distribution. For our case where a given trait of interest is thought to be influenced by a large number of genetic loci each having a small effect, the sum of the breeding values of all loci together can be approximated by a normal distribution. Figure (\@ref(fig:hist-clt)) shows the distribution for a sum of `r n_nr_comp[1]`, `r n_nr_comp[2]` and `r n_nr_comp[3]` components each. The histograms show a better approximation to the normal distribution the larger the number of components considered in the sum.
+
+```{r hist-clt, echo=FALSE, fig.cap="Distribution of Sums of Different Numbers of Components", out.width="100%"}
+# plots
+opar <- par()
+par(mfrow=c(1,3))
+hist(vec_sum_10)
+hist(vec_sum_100)
+hist(vec_sum_1000)
+```
+
+
+
+### Model Usage In Routine Evaluations
+Traditional prediction of breeding values before the introduction of genomic selection is based on the infinitesimal model. When genomic selection was introduced which takes into account the information from a large number of loci, genomic breeding values are estimated using a polygenic model.
+
+ 
