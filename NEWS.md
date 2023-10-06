@@ -1,5 +1,7 @@
 # lbgfs2023 0.3.0
 
+* Material for multiple loci
+
 # lbgfs2023 0.2.6
 
 * Corrected links in ohp table
