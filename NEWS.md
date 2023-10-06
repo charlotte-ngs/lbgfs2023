@@ -1,3 +1,7 @@
+# lbgfs2023 0.3.2
+
+* Deploy lbg_ex04
+
 # lbgfs2023 0.3.1
 
 * Added solution for lbg_ex02
