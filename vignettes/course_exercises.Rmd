@@ -12,10 +12,11 @@ Links to exercises are shown in the following table.
 ```{r exercise-table, echo=FALSE, message=FALSE, warning=FALSE}
 s_ex_url <- "https://charlotte-ngs.github.io/lbgfs2022/ex/"
 s_nb_url <- "https://charlotte-ngs.github.io/lbgfs2022/nb/"
-tbl_ex <- tibble::tibble(Nr = c(1, 2, 3),
+tbl_ex <- tibble::tibble(Nr = c(1, 2, 3, 4),
                          Date = c("2023-09-22",
                                   "2023-09-29",
-                                  "2023-09-29"),
+                                  "2023-09-29",
+                                  "2023-10-06"),
                          Topic = c(
                            paste0("[Questionnaire](", 
                                   s_ex_url, 
@@ -29,7 +30,12 @@ tbl_ex <- tibble::tibble(Nr = c(1, 2, 3),
                                   s_ex_url,
                                   "lbg_ex03.pdf) | [nb](",
                                   s_nb_url,
-                                  "lbg_ex03_nb_src.nb.html)", collapse = "")
+                                  "lbg_ex03_nb_src.nb.html)", collapse = ""),
+                           paste0("Breeding Values [pdf](",
+                                  s_ex_url,
+                                  "lbg_ex04.pdf) | [nb](",
+                                  s_nb_url,
+                                  "lbg_ex04_nb_src.nb.html)", collapse = "")
                            ))
 knitr::kable(tbl_ex)
 ```
