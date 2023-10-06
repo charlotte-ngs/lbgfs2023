@@ -8,3 +8,16 @@ vignette: >
 ---
 
 Solutions to exercises for LBGFS2023
+
+```{r solution-table, echo=FALSE, warning=FALSE, message=FALSE}
+s_sol_url <- "https://charlotte-ngs.github.io/lbgfs2022/sol/"
+tbl_sol <- tibble::tibble(Nr = c(1),
+                          Date = c("2023-10-06"),
+                          Topic = c(
+                            paste0("[Linear Algebra](",
+                                   s_sol_url,
+                                   "lbg_ex02_sol.pdf)", collapse = "")
+                          ))
+knitr::kable(tbl_sol)
+```
+

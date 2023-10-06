@@ -1,8 +1,8 @@
 #!/bin/bash
 # sq2h
 SCRIPTDIR=/home/quagadmin/courses/lbgfs2023/bash
-DIRTOFETCH=ex/lbg_ex03
-#DIRTOFETCH=sol/lbg_ex10
+#DIRTOFETCH=ex/lbg_ex03
+DIRTOFETCH=sol/lbg_ex02
 TESTSTUDENT=/home/quagadmin/courses/lbgfs2023/students/test_usernames_lbgfs_2023.csv
 STUDENTUSER=/home/quagadmin/courses/lbgfs2023/students/usernames_lbgfs_2023.csv
 #' fetch individual directory
@@ -13,7 +13,7 @@ cd $SCRIPTDIR
 cat $TESTSTUDENT | while read s
 do
   echo " * Student: $s"
-#  ./fetch.sh -s $s -d $DIRTOFETCH
+  ./fetch.sh -s $s -d $DIRTOFETCH
   sleep 2
 done
 
