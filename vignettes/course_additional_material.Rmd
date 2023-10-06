@@ -32,7 +32,7 @@ tbl_sl <- tibble::tibble(Nr = c(1, 2, 3),
                                   collapse = ""),
                            paste0("[Multiple Loci](",
                                   sl_url,
-                                  "l03_qg_multiple_loci.pdf")
+                                  "l03_qg_multiple_loci.pdf)")
                            ))
 knitr::kable(tbl_sl)
 ```
