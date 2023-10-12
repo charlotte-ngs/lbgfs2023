@@ -5,7 +5,7 @@ mrmt$set_this_rmd_file(ps_this_rmd_file = s_this_rmd_file)
 ```
 In chapter \@ref(quan-gen), we have already seen that the __breeding value__ is a really important concept. The Definition \@ref(def:defbreedingvalue) of the term breeding value has some important consequences. 
 
-* The breeding value is based on the average of a large number of offspring. This is necessary, because offspring inherit a random sample of a parents alleles. But not all offspring receive the same sample of alleles. Taking the average of a large number of offspring reduces the effect of sampling and thereby lets the breeding value converge to a stable value. 
+* The breeding value is based on the average of a large number of offspring. This is necessary, because offspring inherit a random sample of the alleles of a parent. But not all offspring receive the same sample of alleles. Taking the average of a large number of offspring reduces the effect of sampling and thereby lets the breeding value converge to a stable value. 
 * The breeding value is defined as a deviation from the population mean. This population mean depends on allele frequencies which are specific for each population. Therefore breeding values can only be compared within one population.
 * Because the breeding value is defined as a deviation, the expected value of the breeding values and the mean of all breeding values are $0$ by definition.
 
