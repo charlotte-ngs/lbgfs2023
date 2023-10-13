@@ -35,7 +35,12 @@ tbl_ex <- tibble::tibble(Nr = c(1, 2, 3, 4),
                                   s_ex_url,
                                   "lbg_ex04.pdf) | [nb](",
                                   s_nb_url,
-                                  "lbg_ex04_nb_src.nb.html)", collapse = "")
+                                  "lbg_ex04_nb_src.nb.html)", collapse = ""),
+                           paste0("Genetic Evaluation [pdf](",
+                                  s_ex_url,
+                                  "lbg_ex05.pdf) | [nb](",
+                                  s_nb_url,
+                                  "lbg_ex05_nb_src.nb.html)", collapse = "")
                            ))
 knitr::kable(tbl_ex)
 ```

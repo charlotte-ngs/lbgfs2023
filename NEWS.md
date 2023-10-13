@@ -1,3 +1,7 @@
+# lbgfs2023 0.4.2
+
+* Release lbg_ex05
+
 # lbgfs2023 0.4.1
 
 * Added slides l04
