@@ -1,3 +1,7 @@
+# lbgfs2023 0.4.3
+
+* Corrected exercise page
+
 # lbgfs2023 0.4.2
 
 * Release lbg_ex05
