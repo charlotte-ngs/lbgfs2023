@@ -1,0 +1,213 @@
+---
+title: Livestock Breeding and Genomics - `r tools::toTitleCase(params$doctype)` 4
+author: Peter von Rohr
+date: 2023-10-05
+output:
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+    keep_md: false
+    keep_tex: false
+header-includes:
+ \usepackage{longtable}
+ \usepackage{float}
+params:
+  doctype:
+    label: 'Document Type'
+    value: 'solution'
+    choices: ['exercise', 'solution', 'notebook']
+  isonline:
+    label: 'Online (y/n)'
+    value: TRUE
+    choices: [TRUE, FALSE]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: Breeding Values For a Monogenic Trait
+We assume that the absorption of cholesterol is determined by a certain enzyme. The level of enzyme production is determined by a single bi-allelic locus $E$. The genotype frequencies and the genotypic values for the two dairy cattle populations `Original Braunvieh` and `Brown Swiss` are given in the following table.
+
+```{r table-geno-freq-value, echo=FALSE}
+l_maf <- list(ob = 0.25, bs = 0.1)
+l_a <- list(ob = 15, bs = 29)
+l_d <- list(ob = 3, bs = 0)
+tbl_geno_freq_value <- tibble::tibble(Variable = c(
+  "$f(E_1E_1)$",
+  "$f(E_1E_2)$",
+  "$f(E_2E_2)$",
+  "$a$",
+  "$d$"),
+  `Original Braunvieh` = c(
+    l_maf$ob^2, 
+    2*l_maf$ob*(1-l_maf$ob),
+    (1-l_maf$ob)^2,
+    l_a$ob,
+    l_d$ob
+  ),
+  `Brown Swiss` = c(
+    l_maf$bs^2,
+    2*l_maf$bs * (1-l_maf$bs),
+    (1-l_maf$bs),
+    l_a$bs,
+    l_d$bs
+  ))
+knitr::kable(tbl_geno_freq_value, booktabs = TRUE, longtable = TRUE, escape = FALSE)
+```
+
+
+### Hints
+* Assume that allele $E_1$ is the allele with the positive effect on the enzyme level
+* Assume that the Hardy-Weinberg Equilibrium holds in both populations
+
+
+### Your Task
+Compute the breeding values for all three genotypes in both populations. 
+
+
+<!-- your-solution-start
+### Your Solution
+
+* Use the formula shown in the class or in the course notes to compute the breeding values for the three genotypes
+* Adapt the parameters that change for the two populations.
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+The breeding values are computed as shown in the following table.
+
+```{r table-bv, echo=FALSE}
+tbl_bv <- tibble::tibble(Genotype = c(
+   "$E_1E_1$",
+  "$E_1E_2$",
+  "$E_2E_2$"),
+  `Breeding Value` = c(
+    "$BV_{11} = 2q\\alpha$",
+    "$BV_{12} = (q-p)\\alpha$",
+    "$BV_{22} = -2p\\alpha$"
+  ))
+knitr::kable(tbl_bv, booktabs = TRUE, escape = FALSE)
+```
+
+with $\alpha = a + (q-p)d$. The values for $a$ and $d$ are given in the task and the allele frequencies $p$ and $q$ can be computed from the given genotype frequencies. 
+
+$$p = f(E_1) = f(E_1E1) + {1\over 2}f(E_1E_2)$$
+and $q = 1-p$
+
+For the two populations we get
+
+```{r table-allele-freq-alpha, echo=FALSE}
+l_alpha <- list(ob = l_a$ob + (1-2*l_maf$ob)*l_d$ob,
+                bs = l_a$bs + (1-2*l_maf$bs)*l_d$bs)
+tbl_allele_freq_alpha <- tibble::tibble(Variable = c(
+  "$p$",
+  "$q$",
+  "$\\alpha$"),
+  `Original Braunvieh` = c(
+    l_maf$ob,
+    1-l_maf$ob,
+    l_alpha$ob),
+  `Brown Swiss` =  c(
+    l_maf$bs,
+    1-l_maf$bs,
+    l_alpha$bs))
+knitr::kable(tbl_allele_freq_alpha, booktabs = TRUE, escape = FALSE)
+```
+
+The breeding values for the two breeds are given in the following table
+
+```{r table-bv-result, echo=FALSE}
+tbl_table_bv_result <- tibble::tibble(Genotype = c(
+   "$E_1E_1$",
+  "$E_1E_2$",
+  "$E_2E_2$"),
+  `Breeding Value` = c(
+    "$BV_{11}$",
+    "$BV_{12}$",
+    "$BV_{22}$"
+  ),
+  `Original Braunvieh` = c(
+    2 * (1-l_maf$ob) * l_alpha$ob,
+    (1-2*l_maf$ob) * l_alpha$ob,
+    -2 * l_maf$ob * l_alpha$ob
+  ),
+  `Brown Swiss` =  c(
+    2 * (1-l_maf$bs) * l_alpha$bs,
+    (1-2*l_maf$bs) * l_alpha$bs,
+    -2 * l_maf$bs  * l_alpha$bs))
+knitr::kable(tbl_table_bv_result, booktabs = TRUE, escape = FALSE)
+```
+
+<!-- master-solution-end -->
+
+
+## Problem 2: Quantitative Genetics
+In a population the following numbers of genotypes were counted for a given genetic locus called $A$. 
+
+```{r GenotypeFreqs, echo=FALSE}
+dfGenotypeFreq <- tibble::tibble(Genotypes = c("$A_1A_1$", "$A_1A_2$", "$A_2A_2$"),
+                             Numbers   = c(24, 53, 23))
+knitr::kable(dfGenotypeFreq, booktabs = TRUE, longtable = TRUE, escape = FALSE)
+```
+
+a) Compute the genotype frequencies
+b) Compute the allele frequencies
+c) Compute the population mean $\mu$ under the following assumptions
+
+* the difference between the genotypic values of the homozygous genotypes is $20$ and
+* the genotypic value of the heterozygous genotype is $2$.
+
+
+<!-- your-solution-start
+### Your Solution
+The requested quantities can be computed according to material presented during the lecture.
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+a) Compute the genotype frequencies
+
+```{r echo=TRUE, results='markup'}
+nTotNrInd <- sum(dfGenotypeFreq$Numbers)
+vGenoTypeFreq <- dfGenotypeFreq$Numbers / nTotNrInd
+cat(paste("genotype-frequency", dfGenotypeFreq$Genotypes[1]), ": ", vGenoTypeFreq[1])
+cat(paste("genotype-frequency", dfGenotypeFreq$Genotypes[2]), ": ", vGenoTypeFreq[2])
+cat(paste("genotype-frequency", dfGenotypeFreq$Genotypes[3]), ": ", vGenoTypeFreq[3])
+```
+
+b) Compute the allele frequencies
+
+```{r echo=TRUE, results='markup'}
+vGenFreqP <- vGenoTypeFreq[1] + 0.5*vGenoTypeFreq[2]
+vGenFreqQ <-  vGenoTypeFreq[3] + 0.5*vGenoTypeFreq[2]
+cat("allele frequency for A1: ", vGenFreqP)
+cat("allele frequency for A2: ", vGenFreqQ)
+```
+
+c) Compute the population mean $\mu$ under the following assumptions
+
+* the difference between the genotypic values of the homozygous genotypes is $20$ and
+* the genotypic value of the heterozygous genotype is $2$.
+
+```{r echo=TRUE, results='markup'}
+nDeltaHom <- 20
+### # additive value A
+nAddValue <- nDeltaHom / 2
+nDom <- 2
+### # population mean
+nMu <- (vGenFreqP-vGenFreqQ) * nAddValue + 2 * vGenFreqP * vGenFreqQ * nDom
+cat("Population mean: ", nMu, "\n")
+```
+
+
+<!-- master-solution-end -->
+ 

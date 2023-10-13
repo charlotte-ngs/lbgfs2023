@@ -1,0 +1,249 @@
+---
+title: Livestock Breeding and Genomics - `r tools::toTitleCase(params$doctype)` 3
+author: Peter von Rohr
+date: 2023-09-28
+output:
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+    keep_md: false
+    keep_tex: false
+header-includes:
+ \usepackage{longtable}
+ \usepackage{float}
+params:
+  doctype:
+    label: 'Document Type'
+    value: 'solution'
+    choices: ['exercise', 'solution', 'notebook']
+  isonline:
+    label: 'Online (y/n)'
+    value: TRUE
+    choices: [TRUE, FALSE]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: Genotype and Allele Frequencies
+```{r lbg-ex03-p01-setup, echo=FALSE}
+s_lbg_ex03_p01_data_url <- "https://charlotte-ngs.github.io/lbgfs2023/data/lbgfs2023_lbg_ex03.csv"
+```
+
+Given the dataset available from:
+
+```{r, echo=FALSE}
+cat(s_lbg_ex03_p01_data_url, "\n")
+```
+
+The dataset can be read using the following command
+
+```{r, echo=FALSE, results='asis'}
+cat("```r\n")
+cat(paste0("readr::read_delim(\"", 
+           s_lbg_ex03_p01_data_url, 
+           "\", ", "\n", "delim = \",\")", 
+           collapse = ""), "\n")
+cat("```\n")
+```
+
+
+In the above dataset, genotypes are encoded as follows
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+tbl_genotype_code <- tibble::tibble(
+  LocusG = c("$G_2G_2$",
+  "$G_1G_2$",
+  "$G_1G_1$"),  
+  LocusH = c("$H_2H_2$",
+  "$H_1H_2$",
+  "$H_1H_1$"),
+  Code = c(0:2)
+)
+knitr::kable(tbl_genotype_code, 
+             booktabs = TRUE, 
+             longtable = TRUE, 
+             escape = FALSE)
+```
+
+### Your Tasks
+
+* compute genotype frequencies
+* compute allele frequencies
+
+<!-- your-solution-start
+### Your Solution
+
+* Read the dataset and assign it to a tibble or dataframe
+* Compute genotype frequencies using either the function `table()` or a `dplyr` pipeline
+* From genotype frequencies compute allele frequencies
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+
+* Read the dataset and assign it to a tibble or dataframe
+
+```{r, message=FALSE, warning=FALSE}
+s_lbg_ex03_p01_data_url <- "https://charlotte-ngs.github.io/lbgfs2023/data/lbgfs2023_lbg_ex03.csv"
+tbl_lbe_ex03 <- readr::read_delim(s_lbg_ex03_p01_data_url, delim = ",")
+tbl_lbe_ex03
+```
+
+
+* Compute genotype frequencies using either the function `table()` or a `dplyr` pipeline
+The solution with `table()` results in counts which can be converted to frequencies
+
+```{r}
+n_nr_total_animals <- nrow(tbl_lbe_ex03)
+vec_freq_table_LocusG <- table(tbl_lbe_ex03$LocusG)
+round(vec_freq_table_LocusG / n_nr_total_animals, digits = 3)
+```
+
+The same for locus $H$
+
+```{r}
+vec_freq_table_LocusH <- table(tbl_lbe_ex03$LocusH)
+round(vec_freq_table_LocusH / n_nr_total_animals, digits = 3)
+```
+
+The second solution is to use `dplyr`
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+tbl_lbe_ex03 %>% 
+  select(LocusG) %>%
+  group_by(LocusG) %>% 
+  summarise(genotype_frequency = n() / n_nr_total_animals)
+```
+
+Similarly for Locus $H$
+
+```{r, message=FALSE, warning=FALSE}
+tbl_lbe_ex03 %>% 
+  select(LocusH) %>%
+  group_by(LocusH) %>% 
+  summarise(genotype_frequency = n() / n_nr_total_animals)
+```
+
+<!-- master-solution-end -->
+
+
+## Problem 2: Check for Hardy-Weinberg Equilibrium
+Use the dataset from Problem 1 and check for Hardy-Weinberg equilibrium at both loci using a $\chi^2$ test.
+
+
+<!-- your-solution-start
+### Your Solution
+
+* Read the data
+* Compute genotype frequencies according to what would be expected following the Hary-Weinberg equilibrium
+* Use the function `chisq.test()` for the doing the test.
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+
+* Read the data, as shown above
+
+```{r, message=FALSE, warning=FALSE}
+s_lbg_ex03_p01_data_url <- "https://charlotte-ngs.github.io/lbgfs2023/data/lbgfs2023_lbg_ex03.csv"
+tbl_lbe_ex03 <- readr::read_delim(s_lbg_ex03_p01_data_url, delim = ",")
+```
+
+
+* Genotype frequencies: Because of the used genotype encoding, the numbers can be interpreted as counts of the favorable alleles $G_1$ and $H_1$. So the total number of favorable alleles for both loci is given by
+
+```{r}
+sum(tbl_lbe_ex03$LocusG)
+```
+
+for Locus $G$ and for Locus $H$
+
+```{r}
+sum(tbl_lbe_ex03$LocusH)
+```
+
+To get to the allele frequencies $p$ at both loci, we have to divide these sums by the total number of alleles which is two times the number of animals in the dataset. Hence the allele frequencies are
+
+```{r}
+n_nr_alleles_total <- 2 * n_nr_total_animals
+round(sum(tbl_lbe_ex03$LocusG) / n_nr_alleles_total, digits = 3)
+```
+
+for Locus $G$ and
+
+```{r}
+round(sum(tbl_lbe_ex03$LocusH) / n_nr_alleles_total, digits = 3)
+```
+
+These frequencies can also be computed by taking the mean of each of the genotype columns and deviding them by $2$
+
+```{r}
+round(mean(tbl_lbe_ex03$LocusG)/2, digits = 3)
+```
+
+and analogeously
+
+```{r}
+round(mean(tbl_lbe_ex03$LocusH)/2, digits = 3)
+```
+
+Hence the allele frequencies are 
+
+```{r}
+n_allele_freq_p_locus_G <- mean(tbl_lbe_ex03$LocusG)/2
+n_allele_freq_q_locus_G <- 1-n_allele_freq_p_locus_G
+n_allele_freq_p_locus_H <- mean(tbl_lbe_ex03$LocusH)/2
+n_allele_freq_q_locus_H <- 1-n_allele_freq_p_locus_H
+```
+
+The genotype frequencies according to Hardy-Weinberg are given by
+
+```{r}
+vec_geno_freq_locus_G_hw <- c(n_allele_freq_q_locus_G^2,
+                           2*n_allele_freq_q_locus_G * n_allele_freq_p_locus_G,
+                           n_allele_freq_p_locus_G^2)
+round(vec_geno_freq_locus_G_hw, digits = 3)
+```
+
+and the same for locus $H$
+
+```{r}
+vec_geno_freq_locus_H_hw <- c(n_allele_freq_q_locus_H^2,
+                           2*n_allele_freq_q_locus_H * n_allele_freq_p_locus_H,
+                           n_allele_freq_p_locus_H^2)
+round(vec_geno_freq_locus_H_hw, digits = 3)
+```
+
+
+* Run $\chi^2$ test with then genotype counts from the data
+
+```{r}
+chisq.test(table(tbl_lbe_ex03$LocusG), p = vec_geno_freq_locus_G_hw)
+```
+
+for locus $H$
+
+```{r}
+chisq.test(table(tbl_lbe_ex03$LocusH), p = vec_geno_freq_locus_H_hw)
+```
+
+Although there are differences in the distribution of genotype frequencies, the $\chi^2$ test does not give us a result in the test-statistic that would suggest that there is a detectable deviation from the Hary-Weinberg equilibrium.
+
+
+
+
+
+
+<!-- master-solution-end -->
+
+

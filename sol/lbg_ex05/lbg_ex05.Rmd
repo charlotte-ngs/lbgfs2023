@@ -1,0 +1,318 @@
+---
+title: Livestock Breeding and Genomics - `r tools::toTitleCase(params$doctype)` 5
+author: Peter von Rohr
+date: 2023-10-13
+output:
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+    keep_md: false
+    keep_tex: false
+header-includes:
+ \usepackage{longtable}
+ \usepackage{float}
+params:
+  doctype:
+    label: 'Document Type'
+    value: 'solution'
+    choices: ['exercise', 'solution', 'notebook']
+  isonline:
+    label: 'Online (y/n)'
+    value: TRUE
+    choices: [TRUE, FALSE]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: QTL Data
+```{r p01-setup, echo=FALSE}
+s_data_path <- "https://charlotte-ngs.github.io/lbgfs2023/data/p1_qtl_1_loci.csv"  
+```
+
+Estimate genotypic values $a$ and $d$ and predict breeding values for all animals using the QTL-data given under:
+
+```{r, echo=FALSE, results='asis'}
+cat(s_data_path, "\n")
+```
+
+
+<!-- your-solution-start
+### Your Solution
+
+* Start by re-formatting the paternal and maternal alleles into a genotype
+* Use a linear regression to estimate genotypic values
+* Predict breeding values for all animals
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+
+Read the QTL data
+
+```{r}
+tbl_qtl <- readr::read_delim(file = s_data_path, delim = ";",
+                             col_types = readr::cols(
+                               ID = readr::col_integer(),
+                               L1_pat = readr::col_integer(),
+                               L1_mat = readr::col_integer(),
+                               Phenotype = readr::col_double()
+                             ))
+head(tbl_qtl)
+```
+
+Determine the QTL genotype from the maternal and the paternal allele
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+tbl_qtl_geno <- tbl_qtl %>%
+  mutate(Genotype = L1_pat + L1_mat - 2L)
+head(tbl_qtl_geno)
+```
+
+Fit the regression of phenotypes on genotypes using only the homozygous animals
+
+```{r}
+tbl_qtl_hom <- tbl_qtl_geno %>%
+  filter(Genotype != 1L)
+head(tbl_qtl_hom)
+```
+
+Check the genotype frequencies
+
+```{r}
+table(tbl_qtl_hom$Genotype)
+```
+
+The regression is used to determine the genotypic value $a$
+
+```{r}
+lm_geno_a <- lm(Phenotype ~ Genotype, data = tbl_qtl_hom)
+(sry_geno_a <- summary(lm_geno_a))
+``` 
+
+The genotypic value $a$ can be read from the regression slope which is 
+
+```{r}
+n_value_a <- sry_geno_a$coefficients["Genotype", "Estimate"]
+```
+
+
+$$a = `r n_value_a`$$
+
+The value $d$ is obtained by subracting from the mean of the heterozygous animals, the intercept and the value $a$. First, we generate a dataset with only heterozygous animals. 
+
+```{r}
+tbl_qtl_het <- tbl_qtl_geno %>% 
+  filter(Genotype == 1L)
+table(tbl_qtl_het$Genotype)
+```
+
+The value $d$ is computed as
+
+```{r}
+n_mean_het <- mean(tbl_qtl_het$Phenotype)
+n_inter <- sry_geno_a$coefficients["(Intercept)", "Estimate"]
+n_val_d <-  n_mean_het - n_value_a - n_inter
+```
+
+$$d = `r n_mean_het` - `r n_value_a` - `r n_inter` = `r n_val_d`$$
+
+To compute the breeding values, we need the allele substitution effect $\alpha$ and the allele frequencies $p$ and $q$. The genotype frequencies are computed with
+
+```{r}
+(tbl_qtl_freq <- tbl_qtl_geno %>%
+  group_by(Genotype) %>%
+  summarise(geno_count = n(),
+            geno_freq = geno_count/nrow(tbl_qtl_geno)))
+```
+
+The allele frequencies $p$ and $q$ is 
+
+```{r}
+n_geno_freq_g2g2 <- tbl_qtl_freq$geno_freq[1]
+n_geno_freq_g1g2 <- tbl_qtl_freq$geno_freq[2]
+n_geno_freq_g1g1 <- tbl_qtl_freq$geno_freq[3]
+n_allele_freq_q <- n_geno_freq_g2g2 + 0.5 * n_geno_freq_g1g2
+n_allele_freq_p <- n_geno_freq_g1g1 + 0.5 * n_geno_freq_g1g2
+```
+
+
+```{r}
+n_alpha = n_value_a + (n_allele_freq_q - n_allele_freq_p) * n_val_d
+```
+
+
+$$\alpha = a + (q-p)d = `r n_value_a` + (`r n_allele_freq_q` - `r n_allele_freq_p`) * `r n_val_d` = `r n_alpha`$$
+
+The breeding values for the three genotypes are 
+
+```{r}
+n_bv_g1g1 <- 2 * n_allele_freq_q * n_alpha
+n_bv_g1g2 <- (n_allele_freq_q - n_allele_freq_p) * n_alpha
+n_bv_g2g2 <- -2 * n_allele_freq_p * n_alpha
+```
+
+In a table this is 
+
+```{r}
+tbl_bv <- tibble::tibble(Genotype = c("$G_1G_1$", "$G_1G_2$", "$G_2G_2$"),
+                         `Breeding Value` = c(paste("$2q\\alpha = $", n_bv_g1g1),
+                                              paste("$(q-p)\\alpha = $", n_bv_g1g2),
+                                              paste("$-2p\\alpha = $", n_bv_g2g2)))
+knitr::kable(tbl_bv, longtable = TRUE, booktabs = TRUE, escape = FALSE)
+```
+
+
+<!-- master-solution-end -->
+ 
+
+## Problem 2: Increase Effects of Genotype on Phenotype
+```{r p02-setup, echo=FALSE}
+s_data_path <- "https://charlotte-ngs.github.io/lbgfs2023/data/p1_qtl_1_loci.csv"  
+n_h2_all <- 0.45
+n_ratio_qtl <- 0.5 
+```
+
+Change the phenotypic records in the above given dataset such that the QTL explains $`r n_ratio_qtl * 100`%$ of the genetic variation when a heritability of $`r n_h2_all`$ is assumed. It is assumed that the QTL acts purely additively, hence the genotypic value of the heterozygotes can be set to $d=0$. 
+
+Show the results as a scatter plot of all phenotypic values for the QTL genotypes.
+
+<!-- your-solution-start
+### Your Solution
+
+* Compute the genetic variance that can be attributed to the QTL based on the phenotypic variance on the heritability and on the amount of variation explained by the QTL. 
+* Read the data and convert the paternal and the maternal alleles to QTL-genotypes
+* Compute allele frequencies
+* Compute the genotypic value $a$ from the QTL variance
+* Add genotypic value to the phenotypes according to the QTL-Genotype
+* Fit regression of new phenotypes on genotypes
+* Show the results with plots
+
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+In a first step the phenotypic variance, the genetic variance and the QTL-variance must be determined from the data and the given information.
+
+```{r}
+tbl_qtl <- readr::read_delim(file = s_data_path, delim = ";",
+                             col_types = readr::cols(
+                               ID = readr::col_integer(),
+                               L1_pat = readr::col_integer(),
+                               L1_mat = readr::col_integer(),
+                               Phenotype = readr::col_double()
+                             ))
+head(tbl_qtl)
+```
+
+The phenotypic variance is computed as
+
+```{r}
+(n_phen_var <- var(tbl_qtl$Phenotype))
+```
+
+The genetic variance is 
+
+```{r}
+(n_gen_var <- n_h2_all * n_phen_var)
+```
+
+The variation explained by the QTL is
+
+```{r}
+(n_qtl_var <- n_ratio_qtl * n_gen_var)
+```
+
+From `n_qtl_var`, the additive effect $a$ can be computed. Because, $d=0$, the additive effect $\alpha$ is the same as $a$. Hence with $\alpha=a$, the genetic additive variance ($\sigma_A^2$) is computed as $\sigma_A^2 = 2pqa^2$
+
+From that we get 
+
+$$a = \sqrt{\frac{\sigma_{QTL}^2}{2pq}}$$
+
+The genotype frequencies $p$ and $q$ can be determined via the genotype frequencies. To do that, we first have to derive the genotypes from the alleles. 
+
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+tbl_qtl_geno <- tbl_qtl %>%
+  mutate(Genotype = L1_pat + L1_mat - 2L)
+head(tbl_qtl_geno)
+```
+
+The genotype frequencies are computed with
+
+```{r}
+(tbl_qtl_freq <- tbl_qtl_geno %>%
+  group_by(Genotype) %>%
+  summarise(geno_count = n(),
+            geno_freq = geno_count/nrow(tbl_qtl_geno)))
+```
+
+The allele frequencies $p$ and $q$ is 
+
+```{r}
+n_geno_freq_g2g2 <- tbl_qtl_freq$geno_freq[1]
+n_geno_freq_g1g2 <- tbl_qtl_freq$geno_freq[2]
+n_geno_freq_g1g1 <- tbl_qtl_freq$geno_freq[3]
+n_allele_freq_q <- n_geno_freq_g2g2 + 0.5 * n_geno_freq_g1g2
+n_allele_freq_p <- n_geno_freq_g1g1 + 0.5 * n_geno_freq_g1g2
+```
+
+$$p = f(G_1G_1) + {1\over 2}\ f(G_1G_2) = `r n_geno_freq_g1g1` + {1\over 2} * `r n_geno_freq_g1g2` = `r n_allele_freq_p`$$
+$$q = f(G_2G_2) + {1\over 2}\ f(G_1G_2) = `r n_geno_freq_g2g2`+ {1\over 2} * `r n_geno_freq_g1g2` = `r n_allele_freq_q`$$ 
+
+With $p$ and $q$, the genotypic value $a$ can be computed as shown above
+
+```{r}
+n_geno_val_a <- sqrt(n_qtl_var / (2 * n_allele_freq_p * n_allele_freq_q))
+```
+
+$$a = \sqrt{\frac{\sigma_{QTL}^2}{2pq}} = \sqrt{\frac{`r n_qtl_var`}{2 * `r n_allele_freq_p` * `r n_allele_freq_q`}} = `r n_geno_val_a`$$
+
+Depending on the genotype, we can now add the computed genotypic value $a$ to the phenotype. 
+
+```{r}
+tbl_qtl_geno <- tbl_qtl_geno %>% 
+  mutate(NewPhenoype = Phenotype + n_geno_val_a * Genotype)
+head(tbl_qtl_geno)
+```
+
+Use a scatterplot to show the different genotypes
+
+```{r}
+library(ggplot2)
+p <- ggplot(data = tbl_qtl_geno, aes(x = Genotype, y = NewPhenoype)) + 
+  geom_point()
+p
+```
+
+As a check, we can compute the regression of the new phenotypes on the genotypes
+
+```{r}
+lm_new_phen <- lm(formula = NewPhenoype ~ Genotype, data = tbl_qtl_geno)
+(sry_new_phen <- summary(lm_new_phen))
+```
+
+The coefficient for the genotype is about what we computed as the genotypic value $a$. The deviation results from the fact that the original phenotypes already showed a very small effect of the genotype on the original phenotype.
+
+The regression line can be added to the plot
+
+```{r}
+p <- p + geom_abline(slope = sry_new_phen$coefficients["Genotype", "Estimate"], 
+                     intercept = sry_new_phen$coefficients["(Intercept)", "Estimate"],
+                     color = "red")
+p
+```
+
+
+<!-- master-solution-end -->
+ 
