@@ -1,9 +1,9 @@
 # Genetic Evaluations {#gen-eval}
-```{r mrmt-gen-eval-reset, echo=FALSE}
+```{r met-gen-eval-reset, echo=FALSE}
 s_this_rmd_file <- rmdhelp::get_this_rmd_file()
-mrmt$set_this_rmd_file(ps_this_rmd_file = s_this_rmd_file)
+met$set_this_rmd_file(ps_this_rmd_file = s_this_rmd_file)
 ```
-In chapter \@ref(quan-gen), we have already seen that the __breeding value__ is a really important concept. The Definition \@ref(def:defbreedingvalue) of the term breeding value has some important consequences. 
+In chapter \@ref(quan-gen), we have already seen that the __breeding value__ is a really important concept. The Definition of the term __breeding value__ has some important consequences. 
 
 * The breeding value is based on the average of a large number of offspring. This is necessary, because offspring inherit a random sample of the alleles of a parent. But not all offspring receive the same sample of alleles. Taking the average of a large number of offspring reduces the effect of sampling and thereby lets the breeding value converge to a stable value. 
 * The breeding value is defined as a deviation from the population mean. This population mean depends on allele frequencies which are specific for each population. Therefore breeding values can only be compared within one population.
@@ -48,7 +48,7 @@ where  &  &  \\
 
 The same re-arrangement of terms in the basic model is illustrated by Figure \@ref(fig:basicmodelrearrterm)
 
-```{r basicmodelrearrterm, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", fig.cap="Re-arrangment of Terms Representing Genetic Effects"}
+```{r basicmodelrearrterm, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", fig.cap="Re-arrangment of Terms Representing Genetic Effects", out.width="100%"}
 #rmddochelper::use_odg_graphic(ps_path = "odg/basicmodelrearrterm.odg")
 knitr::include_graphics(path = "odg/basicmodelrearrterm.png")
 ```
@@ -86,7 +86,7 @@ In what follows, we have a look at how breeding values are predicted from differ
 ### Single Record {#single-record}
 When one phenotypic observation per animal is the only information we have available, the predictor $\hat{u_i}$ of the breeding value $u_i$ of animal $i$ can be derived according to the following line of argument. Let us assume for a moment that we know the true breeding value $u_i$ for a population of animals. In addition to that each animal $i$ has one observation $y_i$ available. Then we plot the values of $u_i$ against the values of $y_i$ for the complete population. 
 
-```{r regbreedingvaluesinglerecord, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", fig.cap="Regression of Breeding Values onto Phenotypic Observations"}
+```{r regbreedingvaluesinglerecord, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", fig.cap="Regression of Breeding Values onto Phenotypic Observations", out.width="100%"}
 #rmddochelper::use_odg_graphic(ps_path = "odg/regbreedingvaluesinglerecord.odg")
 knitr::include_graphics(path = "odg/regbreedingvaluesinglerecord.png")
 ```
