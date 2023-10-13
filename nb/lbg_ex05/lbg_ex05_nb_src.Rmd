@@ -1,0 +1,81 @@
+---
+title: Livestock Breeding and Genomics - Notebook 5
+author: Peter von Rohr
+date: '2023-10-13'
+output: html_notebook
+params:
+  doctype:
+    label: Document Type
+    value: solution
+    choices:
+    - exercise
+    - solution
+    - notebook
+  isonline:
+    label: Online (y/n)
+    value: true
+    choices:
+    - true
+    - false
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: QTL Data
+```{r p01-setup, echo=FALSE}
+s_data_path <- "https://charlotte-ngs.github.io/lbgfs2023/data/p1_qtl_1_loci.csv"  
+```
+
+Estimate genotypic values $a$ and $d$ and predict breeding values for all animals using the QTL-data given under:
+
+```{r, echo=FALSE, results='asis'}
+cat(s_data_path, "\n")
+```
+
+
+### Your Solution
+
+* Start by re-formatting the paternal and maternal alleles into a genotype
+* Use a linear regression to estimate genotypic values
+* Predict breeding values for all animals
+
+
+
+ 
+
+## Problem 2: Increase Effects of Genotype on Phenotype
+```{r p02-setup, echo=FALSE}
+s_data_path <- "https://charlotte-ngs.github.io/lbgfs2023/data/p1_qtl_1_loci.csv"  
+n_h2_all <- 0.45
+n_ratio_qtl <- 0.5 
+```
+
+Change the phenotypic records in the above given dataset such that the QTL explains $`r n_ratio_qtl * 100`%$ of the genetic variation when a heritability of $`r n_h2_all`$ is assumed. It is assumed that the QTL acts purely additively, hence the genotypic value of the heterozygotes can be set to $d=0$. 
+
+Show the results as a scatter plot of all phenotypic values for the QTL genotypes.
+
+### Your Solution
+
+* Compute the genetic variance that can be attributed to the QTL based on the phenotypic variance on the heritability and on the amount of variation explained by the QTL. 
+* Read the data and convert the paternal and the maternal alleles to QTL-genotypes
+* Compute allele frequencies
+* Compute the genotypic value $a$ from the QTL variance
+* Add genotypic value to the phenotypes according to the QTL-Genotype
+* Fit regression of new phenotypes on genotypes
+* Show the results with plots
+
+
+
+
+ 
+
+
+```{r, echo=FALSE, results='asis'}
+cat('\n---\n\n _Latest Changes: ', format(Sys.time(), '%Y-%m-%d %H:%M:%S'), ' (', Sys.info()['user'], ')_\n', sep = '')
+```
+ 

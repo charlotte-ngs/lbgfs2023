@@ -70,12 +70,18 @@ knitr::kable(tbl_ho)
 
 ```{r data-set-table, echo=FALSE, message=FALSE, warning=FALSE}
 s_data_url <- file.path(root_url, "data")
-tbl_data <- tibble::tibble(Nr = c(1),
-                           Date = c("2023-09-29"),
+tbl_data <- tibble::tibble(Nr = c(1, 2),
+                           Date = c("2023-09-29",
+                                    "2023-10-13"),
                            Topic = c(
                              paste0("[Exercise 3 - Problem 1](",
                                     s_data_url, 
-                                    "/lbgfs2023_lbg_ex03.csv)")
+                                    "/lbgfs2023_lbg_ex03.csv)",
+                                    collapse = ""),
+                             paste0("[Exercise 5](",
+                                    s_data_url,
+                                    "/p1_qtl_1_loci.csv",
+                                    collapse = "")
                            ))
 knitr::kable(tbl_data)
 ```
