@@ -1,3 +1,7 @@
+# lbgfs2023 0.4.1
+
+* Added slides l04
+
 # lbgfs2023 0.4.0
 
 * Added chpt03
