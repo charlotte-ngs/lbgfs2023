@@ -1,0 +1,87 @@
+---
+title: Alternative Explanation of Breeding Values
+author: Peter von Rohr
+date: "`r Sys.Date()`"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::knit_hooks$set(hook_convert_odg = rmdhelp::hook_convert_odg)
+```
+
+## Alleles
+
+* Look at effect of alleles instead of genotypes 
+* Compute for each allele: deviation of expected genotypic value from population
+* Breeding value is sum of allele deviations
+
+
+## Effect of Allele $G_1$
+
+```{r allele-deviation-effect-G1, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/allele-deviation-effect-G1.odg")
+knitr::include_graphics(path = "odg/allele-deviation-effect-G1.png")
+```
+
+## Deviation from Population Mean for $G_1$
+
+* Expected genotypic value ($\mu_1$) for offspring resulting from $G_1$
+
+$$\mu_1 = p * a + q * d$$
+* Deviation of $\mu_1$ from population mean $\mu$
+
+\begin{align}
+\alpha_1 &= \mu_1 - \mu \notag \\
+         &= p * a + q * d - \left[ (p-q)a + 2pqd \right] \notag \\
+         &= q(a + (1-2p)d)  \notag \\
+         &= q(a + (q-p)d) \notag \\
+         &= q \alpha \notag
+\end{align}
+ 
+
+## Effect of Allele $G_2$
+
+```{r allele-deviation-effect-G2, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/allele-deviation-effect-G2.odg")
+knitr::include_graphics(path = "odg/allele-deviation-effect-G2.png")
+``` 
+
+## Deviation from Population Mean for $G_2$
+
+* Expected genotypic value ($\mu_2$) for offspring resulting from $G_2$
+
+$$\mu_2 = p * d - q * a$$
+* Deviation of $\mu_2$ from population mean $\mu$
+
+\begin{align}
+\alpha_2 &= \mu_2 - \mu \notag \\
+         &= p * d - q * a - \left[ (p-q)a + 2pqd \right] \notag \\
+         &= -pa + pd -2pqd  \notag \\
+         &= -p(a - d + 2qd) \notag \\
+         &= -p(a - (1 - 2q)d)  \notag \\
+         &= -p(a + (q-p)d) \notag \\
+         &= -p \alpha \notag
+\end{align}
+
+
+## Properties and Breeding Values
+
+* Property: linear in number of $G_1$
+
+$$\alpha_1 - \alpha_2 = q\alpha -(-p\alpha) = \alpha$$
+
+* Breeding values: sum of allele effects
+    + $G_1G_1$: $BV_{11} = \alpha_1 + \alpha_1 = 2q\alpha$
+    + $G_1G_2$: $BV_{12} = \alpha_1 + \alpha_2 = (q-p)\alpha$
+    + $G_2G_2$: $BV_{22} = \alpha_2 + \alpha_2 = -2p\alpha$
+    
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, results='asis', eval=FALSE}
+tbl_bv <- tibble::tibble(
+  Genotype = c("$G_1G_1$", "$G_1G_2$", "$G_2G_2$"),
+  `Breeding Value` = c("$2q\alpha$", "$(q-p)\alpha$", "$-p\alpha$")
+)
+knitr::kable(tbl_bv, booktabs = TRUE, longtable = TRUE, escape = FALSE)
+```
+

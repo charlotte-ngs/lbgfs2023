@@ -17,10 +17,12 @@ Additional material for LBGFS2023
 
 ```{r slide-table, echo=FALSE, message=FALSE, warning=FALSE}
 sl_url <- paste0(root_url, "/sl/")
-tbl_sl <- tibble::tibble(Nr = c(1, 2, 3),
+tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5),
                          Date = c("2023-09-22",
                                   "2023-09-29",
-                                  "2023-10-06"),
+                                  "2023-10-06",
+                                  "2023-10-13",
+                                  "2023-10-13"),
                          Topic = c(
                            paste0("[Introduction to Livestock Breeding and Genomics](", 
                                   sl_url, 
@@ -32,7 +34,16 @@ tbl_sl <- tibble::tibble(Nr = c(1, 2, 3),
                                   collapse = ""),
                            paste0("[Multiple Loci](",
                                   sl_url,
-                                  "l03_qg_multiple_loci.pdf)")
+                                  "l03_qg_multiple_loci.pdf)", 
+                                  collapse = ""),
+                           paste0("[Alternative Explanation of Breeding Values](",
+                                  sl_url,
+                                  "l04_alt_expl_bv.pdf)",
+                                  collapse = ""),
+                           paste0("[Genetic Evaluation](",
+                                  sl_url,
+                                  "l04_gen-eval.pdf)",
+                                  collapse = "")
                            ))
 knitr::kable(tbl_sl)
 ```

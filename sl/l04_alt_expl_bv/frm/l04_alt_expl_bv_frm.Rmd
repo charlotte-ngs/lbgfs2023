@@ -1,0 +1,26 @@
+---
+title: "Formula Document for l04_alt_expl_bv"
+author: "Peter von Rohr"
+date: "2023-10-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Formulas for allele-deviation-effect
+
+$$G_1G_1$$
+
+$$G_1G_2$$
+
+$$G_2G_2$$
+
+
+$$G_1 \text{ with } f(G_1)=p$$
+
+
+$$G_2 \text{ with } f(G_2)=q$$
+
+
