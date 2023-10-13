@@ -1,3 +1,7 @@
+# lbgfs2023 0.4.5
+
+* Publish lbg_ex03_sol
+
 # lbgfs2023 0.4.4
 
 * Added ohp_l04
