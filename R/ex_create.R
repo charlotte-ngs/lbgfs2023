@@ -64,7 +64,7 @@ create_exercise_lbg <- function(ps_ex_name,
                                 ps_author = "Peter von Rohr",
                                 pn_nr_problem = 3,
                                 pd_creation_date = format(Sys.Date(), "%Y-%m-%d"),
-                                pb_edit          = FALSE){
+                                pb_edit          = TRUE){
   # determine default of exercise count based on numeric part of ps_ex_name
   n_exercise_count <- pn_exercise_count
   if (is.null(n_exercise_count)){
