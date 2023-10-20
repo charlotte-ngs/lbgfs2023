@@ -1,3 +1,7 @@
+# lbgfs2023 0.5.3
+
+* Solution lbg_ex04
+
 # lbgfs2023 0.5.2
 
 * Slides l05_parent_offspring_bv
