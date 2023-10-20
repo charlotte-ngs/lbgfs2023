@@ -1,3 +1,7 @@
+# lbgfs2023 0.5.0
+
+* Appendix 3.5 on parent-offspring breeding values
+
 # lbgfs2023 0.4.5
 
 * Publish lbg_ex03_sol
