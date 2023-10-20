@@ -60,7 +60,7 @@ Concerning the variances, it is assumed that $var(y_{ij})$, $var(u_i)$ and $var(
 Also $\mu_i$ which is used to represent the mean performance of animals in the same identifiable environment such as herd or management group or have the same sex or age, is assumed to be known.
 
 
-### Decomposition of Breeding Value
+### Decomposition of Breeding Value {#decomposition-breeding-value}
 As already mentioned earlier, the breeding value $u_i$ of an individual $i$ represents the average additive genetic effect that animal $i$ receives from its parents $s$ and $d$. Hence $u_i$ can be decomposed into 
 
 \begin{equation}
@@ -319,4 +319,68 @@ r_{u, \bar{y}} &= \frac{cov(u, \bar{y})}{\sqrt{var(u) var(\bar{y})}} \notag \\
 \end{align}
 
 The term for $r_{u, \bar{y}}$ in \@ref(eq:accuracyprogeny) approaches $1$ as the number of progeny increases, assuming $k$ is constant. The reliability ($r_{u, \bar{y}}^2$) of the predicted breeding value is $n/(n+k)$ and corresponds to $1/2 * b$ computed in \@ref(eq:regcoeffprogeny). 
+
+
+\clearpage
+\pagebreak
+
+
+## Appendix: Parent-Offspring Breeding Values
+In section \@ref(decomposition-breeding-value) the decomposition of the breeding value $u_i$ for animal $i$ into half of the breeding values of parents $s$ and $d$ plus the mendelian sampling effect $m_i$ is shown. The mendelian sampling effect $m_i$ models the deviation of the offspring breeding value $u_i$ from the parent average. Because $m_i$ is modelled as a deviation, we can also state that over a large number ($N$) of offspring of parents $s$ and $d$ the average over all mendelian sampling effects is $0$. This can be expressed with the following formula
+
+\begin{equation}
+{1\over N}\sum_{i=1}^N m_i = 0
+(\#eq:average-mendelian-sampling)
+\end{equation}
+
+where $m_i$ are mendelian sampling effects of $N$ offspring from the same parents $s$ and $d$.
+
+
+### Single Locus Model
+Let us return for a moment to the single locus model and try to illustrate whether the proposition in equation \@ref(eq:average-mendelian-sampling) is true. This requires to distinguish between different cases according to the genotypes of parents $s$ and $d$ at the locus $G$ of interest.
+
+
+#### Case 1: Homozygous Parents With Same Genotype
+If both parents $s$ and $d$ are homozygous and have the same genotype either both $G_1G_1$ or both $G_2G_2$, each offspring has the same genotype as the parents. If parents and offspring have the same genotypes, then they have also the same breeding values and hence every $m_i$ term is $0$ and with that equation \@ref(eq:average-mendelian-sampling) is satisfied.
+
+
+#### Case 2: Homozygous Parents With Different Genotypes
+In this case one of the parents - let us say $s$ has genotype $G_1G_1$ with breeding value $u_s = 2q\alpha$ and the other parent $d$ has genotype $G_2G_2$ with breeding value $u_d = -2p\alpha$. All offspring form such a mating are heterozygous with breeding value $(q-p)\alpha$. Inserting this into the decomposition gives
+
+$$u_i = {1\over 2}(u_s + u_d) + m_i$$
+
+Therefore
+
+$$m_i = u_i - {1\over 2}(u_s + u_d) = (q-p)\alpha - {1\over 2}(2q\alpha - 2p\alpha) = 0$$
+
+This shows that also in this case every individual $m_i$ term is $0$ and hence the average $m_i$ effect over a large number of offspring from the same parents is also $0$. 
+
+
+#### Case 3: One Parent Homozygous, the Other Parent Heterozygous
+One parent is homozygous either $G_1G_1$ or $G_2G_2$ and the other parent is heterozygous $G_1G_2$. Let us assume that parent $s$ has genotype $G_1G_1$ with breeding value $u_s = 2q\alpha$ and parent $d$ is heterozygous with breeding value $u_d = (q-p)\alpha$. The parent average breeding value is. 
+
+$${1\over 2}(u_s + u_d) = {1\over 2}(2q\alpha + (q-p)\alpha) = {3\over 2}q\alpha - {1\over 2}p\alpha$$
+
+Parents $s$ and $d$ can have either an offspring $i$ with genotype $G_1G_1$ or an offspring $j$ with genotype $G_1G_2$. Both types of offspring can be observed with probability $1/2$. Using the above parent average, $m_i$ and $m_j$ can be computed as
+
+$$m_i = u_i - {1\over 2}(u_s + u_d) = 2q\alpha - {3\over 2}q\alpha + {1\over 2}p\alpha = {1\over 2}\alpha$$
+
+Similarly
+
+$$m_j = u_j  - {1\over 2}(u_s + u_d) = (q-p)\alpha - {3\over 2}q\alpha + {1\over 2}p\alpha = -{1\over 2}\alpha$$
+
+Taking the average over a large number of offspring where $m_i$ and $m_j$ can be observed with probability $1/2$ leads to 
+
+$${1\over N}\sum_{k=1}^N m_k = {1\over 2}({1\over 2}\alpha - {1\over 2}\alpha) = 0$$
+
+The case where parent $s$ has genotype $G_2G_2$ and parent $d$ has genotype $G_1G_2$ is left to the reader as an exercise.
+
+
+#### Case 4: Heterozygous Parents
+Heterozygous parents have heterozygous offspring with probability $1/2$ and they have homozygous $G_1G_1$ offspring and homozygous $G_2G_2$ offspring both with probability $1/4$. The parent average breeding value for heterozygous parents is 
+
+$${1\over 2}(u_s + u_d) = (q-p)\alpha$$
+
+For all heterozygous offspring of parents $s$ and $d$, each individual $m_i$ term is equal to $0$. Based on the concept of allele substitution, we know that the difference between the breeding value of the $G_1G_1$ offspring and the parent average is $\alpha$. Furthermore the difference between the breeding value of the $G_2G_2$ offspring and the parent average is $-\alpha$. Because the homozygous offspring occur with the same probability, the average mendelian sampling effect for a large number of offspring for heterozygous parents is $0$. The detailed computations are left to the reader as an exercise. 
+
 

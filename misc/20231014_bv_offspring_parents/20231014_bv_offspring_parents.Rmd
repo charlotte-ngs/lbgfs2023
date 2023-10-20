@@ -1,0 +1,153 @@
+---
+title: "Breeding Values of Offpsring as a Function of Breeding Values of Parents"
+author: "Peter von Rohr"
+date: "2023-10-14"
+output:
+  bookdown::html_document2:
+    number_sections: false
+  bookdown::pdf_document2:
+    number_sections: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# rmdhelp::show_knit_hook_call()
+knitr::knit_hooks$set(hook_convert_odg = rmdhelp::hook_convert_odg)
+```
+
+
+# Disclaimer {-}
+New strategies and new ways of how to explain the relationship between breeding values of offspring and the breeding value of parents. This relationship can be expressed formally as shown in equation \@ref(eq:bvoffspring).
+
+
+\begin{equation}
+u_i\ =\ \frac{1}{2}u_s\ +\ \frac{1}{2}u_d\ +\ m_i
+(\#eq:bvoffspring)
+\end{equation}
+
+
+# Approaches
+Different approaches exist on how to explain the relationship given by \@ref(eq:bvoffspring). The following approaches can be listed
+
+* descriptive 
+* mathematical
+* simulation
+
+
+# Descriptive 
+The breeding value measures the value of the alleles passed to the offspring. 
+Because every parent passes on a sample of half of their alleles to a given offspring, the breeding value of the offspring is half of the breeding values of the parents plus a deviation that accounts for the random sampling of the alleles. 
+
+
+# Mathematical
+The mathematical approach consists of verifying the relationship given by \@ref(eq:bvoffspring) for all possible parent-offspring combinations at a given single locus. The following cases can be distinguished.
+
+## Homozygous Parents
+For homozygous parent pairs with both genotypes $G_1G_1$ or $G_2G_2$ all offspring will have the same genotypes as the parents. Hence for the example of the parent-offspring trio having $G_1G_1$ genotypes, we get 
+
+\begin{align}
+u_i  &= \frac{1}{2}u_s\ +\ \frac{1}{2}u_d\ +\ m_i \notag \\
+     &= \frac{1}{2}\ 2q\alpha \ +\ \frac{1}{2}\ 2q\alpha \notag \\
+     &= 2q\alpha
+(\#eq:homozygousg1g1)     
+\end{align}
+
+with $m_i = 0$. Hence for a large number of offspring from many matings between $G_1G_1$ parents, the derivation shown in \@ref(eq:homozygousg1g1) hold also.
+
+The same can be shown for parent-offspring trios having all $G_2G_2$ genotypes.
+
+
+## Homozygous ($G_1G_1$) and Heterozygous Parents
+With one parent being $G_1G_1$ and the second parent being $G_1G_2$, we get differnt offspring. Half of them will be $G_1G_1$ and the other half will be $G_1G_2$. 
+
+
+### Homozygous Offspring
+Hence for offspring $i$ with genotype $G_1G_1$, we get
+
+\begin{align}
+u_i  &= \frac{1}{2}u_s\ +\ \frac{1}{2}u_d\ +\ m_i \notag \\
+     &= \frac{1}{2}\ 2q\alpha \ +\ \frac{1}{2}\ (q-p)\alpha\ +\ m_i \notag \\
+     &= q\alpha \ +\ \frac{1}{2}\ (q-p)\alpha\ +\ m_i \notag \\
+     &= \frac{3}{2}\ q\alpha \ -\ \frac{1}{2}\ p\alpha\ +\ m_i \notag \\
+     &= 2q\alpha
+(\#eq:homhetg1g1g1g2)     
+\end{align}
+
+From that we can obtain $m_i$ as 
+
+\begin{align}
+m_i  &= 2q\alpha - \left[ \frac{3}{2}\ q\alpha \ -\ \frac{1}{2}\ p\alpha \right] \notag \\
+     &= \frac{1}{2}\ (q+p)\alpha = \frac{1}{2}\ \alpha
+(\#eq:homhetmi)     
+\end{align}
+
+
+### Heterozygous Offspring
+For an offspring $j$ with genotype $G_1G_2$, we can compute $m_j$ analogeously as shown above for the homozygous offspring. For this we take the observation from above that 
+
+$$\frac{1}{2}(u_s\ +\ u_d) 
+= \frac{1}{2}(2q\alpha\ +\ (q-p)\alpha) 
+= \frac{3}{2}\ q\alpha \ -\ \frac{1}{2}\ p\alpha$$
+
+The mendelian sampling effect for a heterozygous offspring is 
+
+\begin{align}
+m_j  &= (q-p)\alpha - \left[ \frac{3}{2}\ q\alpha \ -\ \frac{1}{2}\ p\alpha \right] \notag \\
+     &= q\alpha - p\alpha - \frac{3}{2}\ q\alpha + \frac{1}{2}\ p\alpha  \notag \\
+     &= -\frac{1}{2}\ (q+p)\alpha = -\frac{1}{2}\ \alpha
+(\#eq:homhetmj)     
+\end{align}
+
+
+### Large Number of Offspring
+A very important consequence from \@ref(eq:bvoffspring) which is not obvious right away, is that over a large number ($N$) of offspring the average of all $m_i$ effects tend towards zero, hence 
+
+$$\frac{1}{N}\ \sum_{i=1}^Nm_i \rightarrow 0\ \text{for}\ N \rightarrow \infty $$
+
+For a large number of offspring for two parents with $G_1G_1$ and $G_1G_2$ genotypes, half of the offspring will be homozygous $G_1G_1$ and the other half will be $G_1G_2$. Hence 
+
+$$\frac{1}{N}\ \sum_{i=1}^Nm_i = \frac{1}{2}\ (\frac{1}{2}\ \alpha + (-\frac{1}{2}\ \alpha)) = 0$$
+
+
+## Homozygous ($G_2G_2$) and Heterozygous Parents
+The same as for one parent being $G_1G_1$, can be shown for one parent being homozygous $G_2G_2$. The average breeding value of both parents is 
+
+$$\frac{1}{2}(u_s + u_d) = \frac{1}{2}(-2p\alpha + (q-p)\alpha)
+= \frac{1}{2}q\alpha - \frac{3}{2}p\alpha$$
+
+For the heterozygous offspring $i$, we get $m_i$ to be
+
+$$m_i = (q-p)\alpha - \frac{1}{2}q\alpha + \frac{3}{2}p\alpha 
+= q\alpha - p\alpha -  \frac{1}{2}q\alpha + \frac{3}{2}p\alpha
+= \frac{1}{2}q\alpha + \frac{1}{2}p\alpha = \frac{1}{2}\alpha$$
+
+For the ($G_2G_2$) - homozygous offspring $j$, we get the mendelian sampling effect $m_j$ to be
+
+$$m_j = -2p\alpha - \frac{1}{2}q\alpha + \frac{3}{2}p\alpha
+= - \frac{1}{2}q\alpha - \frac{1}{2}p\alpha = - \frac{1}{2}\alpha$$
+
+
+Hence, for a large number of offspring the mean between all mendelian sampling effects is $0$. 
+
+
+## Heterozygous Parents
+If both parents $s$ and $d$ are heterozygous, the average breeding value is 
+
+$$\frac{1}{2}(u_s + u_d) = (q-p)\alpha$$
+
+The offspring of heterozygous parents are homozygous $G_1G_1$ with probability $0.25$, homozygous $G_2G_2$ with probability $0.25$ and heterozygous with probability $0.5$. For a $G_1G_1$-homozygous offspring $i$, the mendelian sampling effect $m_i$ is 
+
+$$m_i = 2q\alpha - (q-p)\alpha = \alpha$$
+
+For a $G_2G_2$ offspring $j$, $m_j$ is
+
+$$m_j = -2p\alpha - (q-p)\alpha = -\alpha.$$
+
+For all heterozygous offspring the mendelian sampling effect is $0$. Hence for a large number of offspring the average mendelian sampling effect is again $0$. 
+
+This shows that the relationship between parent and offspring breeding values is valid and meaningful. 
+
+
+# Simulation
+TBC later ...
+
