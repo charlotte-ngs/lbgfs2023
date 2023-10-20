@@ -1,3 +1,7 @@
+# lbgfs2023 0.5.2
+
+* Slides l05_parent_offspring_bv
+
 # lbgfs2023 0.5.1
 
 * Release lbg_ex06
