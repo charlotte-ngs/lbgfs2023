@@ -1,4 +1,10 @@
+# lbgfs2023 0.6.0
+
+* Release lbg_ex07
+
 # lbgfs2023 0.5.4
+
+* OHP L05
 
 # lbgfs2023 0.5.3
 
