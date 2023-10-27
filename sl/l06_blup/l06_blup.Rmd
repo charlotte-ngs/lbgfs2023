@@ -13,6 +13,24 @@ knitr::opts_chunk$set(echo = FALSE, results = "asis")
 knitr::knit_hooks$set(hook_convert_odg = rmdhelp::hook_convert_odg)
 ```
 
+## Recap: Prediction of Breeding Values
+
+* Own Performance Records ($h^2$: Heritability)
+
+$$\hat{u}_i = h^2 * (y_i - \mu)$$
+
+
+* Repeated Measurements
+
+$$\hat{u}_i = \frac{nh^2}{1 + (n-1)t} * (\bar{y_i} - \mu) $$
+with $n$: number of records, $t$: repeatability
+
+* Progeny Records
+
+$$\hat{u}_i = \frac{2n}{n+k} * (\bar{y_i} - \mu)\ \text{ with } k=\frac{4-h^2}{h^2}$$
+with $n$: number of progeny
+
+
 ## General Principle
 
 * All methods to predict breeding values follow the same principle
