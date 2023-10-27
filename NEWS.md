@@ -1,3 +1,7 @@
+# lbgfs2023 0.6.1
+
+* Chapter 4 of course notes
+
 # lbgfs2023 0.6.0
 
 * Release lbg_ex07
