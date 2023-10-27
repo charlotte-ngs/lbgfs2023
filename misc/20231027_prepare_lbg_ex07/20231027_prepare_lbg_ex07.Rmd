@@ -1,0 +1,73 @@
+---
+title: "Data Preparation lbg_ex07"
+output: html_notebook
+---
+
+## Disclaimer
+Data for lbg_ex07 are prepared. 
+
+## Problem 1: Own Performance
+
+```{r}
+set.seed(4206)
+n_nr_animal <- 12
+n_weight_mean <- 283
+n_weight_sd <- 3
+vec_weight <- round(rnorm(n_nr_animal, mean = n_weight_mean, n_weight_sd), digits = 0)
+tbl_weight <- tibble::tibble(Animal = c(1:n_nr_animal),
+                             Weight = vec_weight)
+tbl_weight
+```
+
+For convenience the data is written to a file
+
+```{r}
+s_lbg_ex07_p1_path <- here::here("docs", "data", "lbg_ex07_p1_own_perf.csv")
+readr::write_delim(tbl_weight, s_lbg_ex07_p1_path, delim = ",")
+```
+
+
+## Problem 2: Repeated Records
+
+```{r}
+geb_gew <- 52
+mu2 <- 170
+rep <- 0.65
+h2 <- 0.45
+y <- 320
+mu <- 250
+nr_measure <- 10
+wean_weight <- y
+slope <- (wean_weight-geb_gew)/(nr_measure-1)
+measure <- c(1:nr_measure)
+weight <- round(slope*(measure-1) + geb_gew, digits = 0)
+mean_weight <- mean(weight)
+tblWeightTable <- tibble::tibble(Measurement = measure, Weight = weight)
+tblWeightTable
+```
+
+Write data to a file
+
+```{r}
+s_lbg_ex07_p2_path <- here::here("docs", "data", "lbg_ex07_p2_rep_measures.csv")
+readr::write_delim(tblWeightTable, s_lbg_ex07_p2_path, delim = ",")
+```
+
+
+## Problem 3: Progeny Records
+
+```{r}
+n_nr_progeny <- 5
+y <- 320
+vec_ww_prog <- round(y + rnorm(n_nr_progeny, mean = 0, sd = 2), digits = 0)
+tbl_prog_ww <- tibble::tibble(Offspring = c(1:n_nr_progeny),
+                              `Weaning Weight` = vec_ww_prog)
+tbl_prog_ww
+```
+
+Write data to a file
+
+```{r}
+s_lbg_ex07_p3_path <- here::here("docs", "data", "lbg_ex07_p3_prog_rec.csv")
+readr::write_delim(tbl_prog_ww, s_lbg_ex07_p3_path, delim = ",")
+```

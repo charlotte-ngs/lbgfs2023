@@ -1,0 +1,292 @@
+---
+title: Livestock Breeding and Genomics - `r tools::toTitleCase(params$doctype)` 7
+author: Peter von Rohr
+date: 2023-10-27
+output:
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+    keep_md: false
+    keep_tex: false
+header-includes:
+ \usepackage{longtable}
+ \usepackage{float}
+params:
+  doctype:
+    label: 'Document Type'
+    value: 'solution'
+    choices: ['exercise', 'solution', 'notebook']
+  isonline:
+    label: 'Online (y/n)'
+    value: TRUE
+    choices: [TRUE, FALSE]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: Own Performance
+```{r prob1-setup, echo=FALSE, message=FALSE, warning=FALSE}
+# set.seed(4206)
+ n_nr_animal <- 12
+ n_weight_mean <- 283
+ n_weight_sd <- 3
+# vec_weight <- round(rnorm(n_nr_animal, mean = n_weight_mean, n_weight_sd), digits = 0)
+# tbl_weight <- tibble::tibble(Animal = c(1:n_nr_animal),
+#                              Weight = vec_weight)
+# read from file
+s_own_perf_url <- "https://charlotte-ngs.github.io/lbgfs2023/data/lbg_ex07_p1_own_perf.csv"
+tbl_weight <- readr::read_delim(s_own_perf_url, delim = ",")
+# set h2
+n_weight_h2 <- 0.2025
+```
+
+Given is the dataset with weight observations for `r n_nr_animal` animals. The heritability ($h^2$) for the trait is `r n_weight_h2`. The population mean $\mu$ can assumed to be the mean of the weights in the table below. 
+
+`
+```{r tbl-weight, echo=FALSE}
+knitr::kable(tbl_weight, booktabs = TRUE, longtable = TRUE, escape = FALSE)
+```
+
+The data in the above table can be read from 
+
+```{r, echo=FALSE}
+cat(s_own_perf_url, "\n")
+```
+
+
+### Your Tasks
+
+* Compute the breeding values for all animals given in the table above
+* Compute the accuracies of the breeding values of all animals shown in the table above.
+
+<!-- your-solution-start
+### Your Solution
+
+* Read the data such that you have the phenotypes available as a vector or a tibble
+* Use the formula for estimating breeding values based on own-performance records
+* Show the result for each animal
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+The predicted breeding value $\widehat{u_i}$ of animal $i$ is computed as 
+
+$$\widehat{u_i} = h^2 (y_i - \mu)$$
+
+where $h^2$ is the heritability given in the problem, $y_i$ is observation of animal $i$ and $\mu$ is the poputlation mean. The population mean is to be computed from the mean of the observations. Hence
+
+```{r}
+n_mu_weight <- mean(tbl_weight$Weight)
+```
+
+The computed mean is used to predict breeding values as follows
+
+```{r}
+vec_pred_bv <- n_weight_h2 * (tbl_weight$Weight - n_mu_weight)
+tbl_result <- tibble::tibble(Animal = c(1:n_nr_animal),
+                             `Predicted Breeding Value` = vec_pred_bv)
+```
+
+The accuracy for the predicted breeding value is the same for all animals and corresponds to 
+
+$$r(u,y) = \frac{cov(u,y)}{\sqrt{var(y)  * var(u)}} = \frac{var(u)}{\sqrt{var(y)  * var(u)}} = \sqrt{\frac{var(u)}{var(y)}} = h$$
+
+Adding this to the table of results, we get
+
+```{r}
+tbl_result <- dplyr::bind_cols(tbl_result, 
+                tibble::tibble(Accuracy = rep(sqrt(n_weight_h2), n_nr_animal)))
+```
+
+The results for the predicted breeding values are shown in the following table
+
+```{r}
+knitr::kable(tbl_result, booktabs = TRUE, longtable = TRUE)
+```
+
+
+<!-- master-solution-end -->
+
+
+
+## Problem 2: Breeding Value Prediction Based on Repeated Observations
+
+```{r SetupEx2, echo=FALSE}
+geb_gew <- 52
+mu2 <- 170
+rep <- 0.65
+h2 <- 0.45
+y <- 320
+mu <- 250
+```
+
+Elsa has observations for her birth weight ($`r geb_gew`$ kg) and some more repeated measures for her weight. We assume the heritability to be  $h^2 = `r h2`$. The population mean for the repeated observations of the weight is  $`r mu2`$ kg. The repeatability of the weight measurements is $t = `r rep`$. 
+
+The following tables contains all observed values for the weight. 
+
+```{r WeightTable, echo=FALSE, message=FALSE, warning=FALSE}
+nr_measure <- 10
+wean_weight <- y
+slope <- (wean_weight-geb_gew)/(nr_measure-1)
+measure <- c(1:nr_measure)
+weight <- round(slope*(measure-1) + geb_gew, digits = 0)
+mean_weight <- mean(weight)
+# dfWeightTable <- data.frame(Measurement = measure, Weight = weight)
+s_rep_meas_url <- "https://charlotte-ngs.github.io/lbgfs2023/data/lbg_ex07_p2_rep_measures.csv"
+tblWeightTable <- readr::read_delim(s_rep_meas_url, delim = ",")
+knitr::kable(tblWeightTable, booktabs = TRUE, longtable = TRUE)
+```
+
+The data in the above table can be read from 
+
+```{r, echo=FALSE}
+cat(s_rep_meas_url, "\n")
+```
+
+
+a) Predict the breeding value for Elsa based on the repeated weight records.
+b) What is the reliability for the predicted breeding value from 2a)?
+c) Compare the reliability from 2b) with the reliability that would result from a prediction of breeding values based on own performance.
+
+
+<!-- your-solution-start
+### Your Solution
+
+As in Problem 1, you can use the assigned variables. The variables have the following meaning
+
+* nr_measure:   number of measurements of the weight
+* h2:           heritability 
+* rep:          repeatability
+* mean_weight:  mean of the weights
+* mu2:          population mean
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+
+a) The predicted breeding value based on repeated records is
+
+```{r ResultHatARepMeas, echo=FALSE}
+hat_a_rep_meas <- round((nr_measure * h2)/(1+(nr_measure - 1)*rep)*(mean_weight - mu2), digits = 2)
+```
+
+$$\hat{u}_i = \frac{nh^2}{1+(n-1)t}(\bar{y}_i - \mu) 
+            = \frac{`r nr_measure`*`r h2`}{1+(`r nr_measure-1`*`r rep`)}(`r mean_weight` - `r mu2`)
+            = `r hat_a_rep_meas`$$
+
+
+b) The reliability for the predicted breeding value from 2a) is
+
+```{r relreprecord, echo=FALSE}
+rel_rep_rec <- (nr_measure * h2)/(1+(nr_measure - 1)*rep)
+```
+
+$$B = r_{u,\bar{y}}^2  = b = \frac{nh^2}{1+(n-1)t} 
+                 = \frac{`r nr_measure`*`r h2`}{1+(`r nr_measure-1`*`r rep`)}
+                 = `r round(rel_rep_rec, digits = 2)`$$
+                 
+c) The reliability of the predicted breeding values based on repeated records is larger than the reliability of the prediction based on one record. The relation between the two reliabilities is 
+
+$$ \frac{r_{u,\bar{y}}^2}{r_{u,y}^2} = \frac{n}{1+(n-1)t} = \frac{`r nr_measure`}{1+(`r nr_measure-1`*`r rep`)}
+  = `r round(nr_measure/(1+(nr_measure-1)*rep), digits = 2)`$$
+
+
+<!-- master-solution-end -->
+
+
+
+## Problem 3: Predict Breeding Values Based on Progeny Records
+
+```{r prob3-def, echo=FALSE}
+n_nr_progeny <- 5
+```
+
+A few years later Elsa was the dam of `r n_nr_progeny` offspring. Each of the offspring has a record for weaning weight. Predict the breeding value of Elsa for weaning weight based on the offpsring records listed in the following table.
+
+```{r tab-prog-bw, echo=FALSE, message=FALSE, warning=FALSE}
+# vec_ww_prog <- round(y + rnorm(n_nr_progeny, mean = 0, sd = 2), digits = 0)
+# tbl_prog_ww <- tibble::tibble(Offspring = c(1:n_nr_progeny),
+#                               `Weaning Weight` = vec_ww_prog)
+s_prog_rec_url <- "https://charlotte-ngs.github.io/lbgfs2023/data/lbg_ex07_p3_prog_rec.csv"
+tbl_prog_ww <- readr::read_delim(s_prog_rec_url, delim = ",")
+knitr::kable(tbl_prog_ww, booktabs = TRUE, longtable = TRUE)
+```
+
+The data in the above table can be read from 
+
+```{r, echo=FALSE}
+cat(s_prog_rec_url, "\n")
+```
+
+The mean and the heritability can be taken the same as in Problems 1 and 2 resulting in 
+
+$h^2 = `r h2`$ and $\mu = `r mu`$
+
+
+
+<!-- your-solution-start
+### Your Solution
+This problem can be solved analogously to the previous problems, just taking into account that the information now comes from offspring.
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+The predicted breeding value based on progeny records is defined as
+
+\begin{equation}
+\hat{u_i} = b * (\bar{y_i} - \mu)
+\end{equation}
+
+where $\bar{y_i}$ corresponds to the mean of the progeny records for animal $i$, and $b$ is the regression coefficient which can be shown to be 
+
+$$b = \frac{2n}{n + k}$$
+
+where $n$ is the number of offspring and $k$ corresponds to 
+
+$$k = \frac{4-h^2}{h^2}$$
+
+Inserting the numbers given in the problem task results in
+
+```{r compute-k-prob3, echo=FALSE}
+k_prob3 <- (4-h2)/h2
+k_prob3_rounded <- round(k_prob3, digits = 2)
+```
+
+$$k = \frac{4 - `r h2`}{`r h2`} = `r k_prob3_rounded`$$
+
+Using the computed value of $k$ allows to get the regression coefficient $b$. 
+
+```{r compute-b-prob3, echo=FALSE}
+b_prob3 <- 2 * n_nr_progeny /(n_nr_progeny + k_prob3)
+b_prob3_rounded <- round(b_prob3, digits = 2)
+```
+
+$$b = \frac{2 * `r n_nr_progeny`}{`r n_nr_progeny` + `r k_prob3_rounded`} = `r b_prob3_rounded`$$
+
+The predicted breeding value based on progeny records corresponds to 
+
+```{r compute-hatui-prob3, echo=FALSE}
+baryi_prob3 <- mean(tbl_prog_ww$`Weaning Weight`)
+baryi_prob3_rounded <- round(baryi_prob3, digits = 2)
+hatui_prob3 <- b_prob3 * (baryi_prob3 - mu)
+hatui_prob3_rounded <- round(hatui_prob3, digits = 2)
+```
+
+$$\hat{u_i} = `r b_prob3_rounded` * (`r baryi_prob3_rounded` - `r mu`) = `r hatui_prob3_rounded`$$
+
+
+<!-- master-solution-end -->
+ 
