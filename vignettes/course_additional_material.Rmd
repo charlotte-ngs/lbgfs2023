@@ -80,9 +80,10 @@ knitr::kable(tbl_ho)
 
 ```{r data-set-table, echo=FALSE, message=FALSE, warning=FALSE}
 s_data_url <- file.path(root_url, "data")
-tbl_data <- tibble::tibble(Nr = c(1, 2),
+tbl_data <- tibble::tibble(Nr = c(1, 2, 3),
                            Date = c("2023-09-29",
-                                    "2023-10-13"),
+                                    "2023-10-13",
+                                    "2023-10-27"),
                            Topic = c(
                              paste0("[Exercise 3 - Problem 1](",
                                     s_data_url, 
@@ -91,6 +92,10 @@ tbl_data <- tibble::tibble(Nr = c(1, 2),
                              paste0("[Exercise 5](",
                                     s_data_url,
                                     "/p1_qtl_1_loci.csv",
+                                    collapse = ""),
+                             paste0("[Beef Cattle Data](",
+                                    s_data_url,
+                                    "/beef_data_blup.csv)",
                                     collapse = "")
                            ))
 knitr::kable(tbl_data)
