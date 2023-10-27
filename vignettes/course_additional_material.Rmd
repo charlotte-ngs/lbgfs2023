@@ -106,12 +106,13 @@ knitr::kable(tbl_data)
 
 ```{r ohp-table, echo=FALSE, message=FALSE, warning=FALSE}
 s_ohp_url <- file.path(root_url, "ohp")
-tbl_ohp <- tibble::tibble(Nr = c(1, 2, 3, 4, 5),
+tbl_ohp <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6),
                           Date = c("2023-09-22",
                                    "2023-09-29",
                                    "2023-10-06",
                                    "2023-10-13",
-                                   "2023-10-20"),
+                                   "2023-10-20",
+                                   "2023-10-27"),
                           Topic = c(
                             paste0("[Introduction](",
                                    s_ohp_url,
@@ -127,7 +128,11 @@ tbl_ohp <- tibble::tibble(Nr = c(1, 2, 3, 4, 5),
                                    "/20231013_ohp_l04.pdf)", collapse = ""),
                             paste0("[Genetic Evaluation](",
                                    s_ohp_url,
-                                   "/20231020_ohp_l05.pdf)", collapse = "")
+                                   "/20231020_ohp_l05.pdf)", collapse = ""),
+                            paste0("[BLUP](",
+                                   file.path(s_ohp_url, "20231027_ohp_l06.pdf"), 
+                                   ")",
+                                   collapse = "")
                           ))
 knitr::kable(tbl_ohp)
 ```
