@@ -1,3 +1,7 @@
+# lbgfs2023 0.6.2
+
+* Slides l06_blup
+
 # lbgfs2023 0.6.1
 
 * Chapter 4 of course notes
