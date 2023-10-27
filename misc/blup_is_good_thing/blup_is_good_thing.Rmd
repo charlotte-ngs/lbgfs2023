@@ -1,0 +1,42 @@
+---
+title: "The BLUP Is A Good Thing"
+date: "Started: 2023-10-27 -- Last Compiled on: `r format(Sys.time(), '%Y-%m-%d')`"
+output: 
+  bookdown::html_document2: 
+      number_sections: false
+  bookdown::pdf_document2: 
+      number_sections: false
+      toc: false
+bibliography: bibliography.bib 
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+met <- rmdhelp::MendeleyExportToolR6$new()
+```
+
+
+## Disclaimer
+This document collects arguments how BLUP works and why it is a good thing.
+
+
+## Resources
+The is a huge number of resources describing different aspects of BLUP. We start at the work of `r met$add("Robinson1991")`. 
+
+
+
+```{r, echo=FALSE, results='asis'}
+# put references before latest change
+if (exists("met")){
+  cat("# References {-}\n\n")
+  if (knitr::is_html_output()){
+    cat("<div id=\"refs\"></div>\n\n")
+  }
+}
+# write latest change message
+if (knitr::is_html_output() && is.element("rmdhelp", installed.packages()))
+  cat(paste0(rmdhelp::get_latest_change()))
+```
