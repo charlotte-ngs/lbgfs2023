@@ -1,3 +1,7 @@
+# lbgfs2023 0.6.3
+
+* Solution lbg_ex05
+
 # lbgfs2023 0.6.2
 
 * Slides l06_blup
