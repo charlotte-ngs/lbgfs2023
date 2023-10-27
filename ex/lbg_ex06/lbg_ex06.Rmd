@@ -68,6 +68,12 @@ Both parents $s$ and $d$ have genotype $G_1G_2$
 
 ### Solution
 
+#### Case 1: Homozygous and Heterozygous Parents
+
+#### Case 2: Homozygous and Heterozygous Parents
+
+#### Case 3: Heterozygous Parents
+
 <!-- master-solution-end -->
 
 
