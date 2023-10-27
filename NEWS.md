@@ -1,3 +1,7 @@
+# lbgfs2023 0.6.4
+
+* Beef cattle data
+
 # lbgfs2023 0.6.3
 
 * Solution lbg_ex05
