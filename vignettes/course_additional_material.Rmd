@@ -86,16 +86,16 @@ tbl_data <- tibble::tibble(Nr = c(1, 2, 3),
                                     "2023-10-27"),
                            Topic = c(
                              paste0("[Exercise 3 - Problem 1](",
-                                    s_data_url, 
-                                    "/lbgfs2023_lbg_ex03.csv)",
+                                    file.path(s_data_url, 
+                                    "lbgfs2023_lbg_ex03.csv)"),
                                     collapse = ""),
                              paste0("[Exercise 5](",
-                                    s_data_url,
-                                    "/p1_qtl_1_loci.csv",
+                                    file.path(s_data_url,
+                                    "p1_qtl_1_loci.csv)"),
                                     collapse = ""),
                              paste0("[Beef Cattle Data](",
-                                    s_data_url,
-                                    "/beef_data_blup.csv)",
+                                    file.path(s_data_url,
+                                    "beef_data_blup.csv)"),
                                     collapse = "")
                            ))
 knitr::kable(tbl_data)
