@@ -24,7 +24,24 @@ This document collects arguments how BLUP works and why it is a good thing.
 
 
 ## Resources
-The is a huge number of resources describing different aspects of BLUP. We start at the work of `r met$add("Robinson1991")`. 
+The is a huge number of resources describing different aspects of BLUP. We start with the work of `r met$add("Robinson1991")`. 
+
+
+## `r met$add("Robinson1991")`; That BLUP is a good thing: The estimation of random effects
+
+### Abstract
+BLUP is a technique for predicting genetic merits in animal breeding. These merits are called breeding values. In general, BLUP is a method to predict random effects and it can be used for many different applications. The paper by `r met$add("Robinson1991")` presents the theory of BLUP, some examples of its application and its relevance to the foundation of statistics. 
+
+Understanding the procedure for predicting random effects should help people to understand some complicated and controversial issues about fixed and random effect models. It can also help to bridge the gap between Bayesian and Classical schools of thought.
+
+
+### Introduction
+BLUP stands for Best Linear Unbiased Prediction and is commonly used in animal breeding. It is a method to predict random effects. The context of BLUP is the linear model
+
+$$y = X\beta + Zu + e$$
+
+where $y$ is a vector of length $n$ with random observations, $\beta$ is a vector of length $p$ of fixed effects, $u$ is a vector of length $q$ with random breeding values and $e$ is a random vector of length $n$ with residuals. Design matrices $X$ and $Z$ link fixed effects and random breeding values to observations. 
+
 
 
 
