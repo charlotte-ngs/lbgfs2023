@@ -1,0 +1,77 @@
+---
+title: Livestock Breeding and Genomics - Notebook 8
+author: Peter von Rohr
+date: '2023-11-03'
+output: html_notebook
+params:
+  doctype:
+    label: Document Type
+    value: solution
+    choices:
+    - exercise
+    - solution
+    - notebook
+  isonline:
+    label: Online (y/n)
+    value: true
+    choices:
+    - true
+    - false
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: Regression Model
+```{r l06prob01-setup, echo=FALSE}
+if (params$isonline){
+  s_data_path <- "https://charlotte-ngs.github.io/lbgfs2023/data/beef_data_bc.csv"
+} else {
+  s_data_path <- file.path(here::here(), "docs", "data", "beef_data_bc.csv")
+}
+```
+
+Use the dataset on weaning weight and fit a regression model of weaning weight on breast circumference. The following tasks are to be completed.
+
+* Use matrix-vector notation to specify the model and fill the information from the dataset into the model. 
+* Compute the solution for the estimated regression coefficient using a least squares approach. 
+* Use R to verify your result.
+
+The data set is available from
+
+```{r, echo=FALSE}
+cat(s_data_path, "\n")
+```
+
+
+### Your Solution
+
+* Regression model in matrix-vector notation: define the vectors and matrices required in the model
+* Read the data into a tibble/data_frame
+* Put information from dataset into the model
+* Compute solution for regression coefficient estimate
+* Use R to verify
+
+
+
+
+
+## Problem 2: Fixed Linear Effects Model
+Use the same dataset as in Problem 1 and fit a fixed linear effects model using breast circumference and herd as fixed effects in a model. Use the same path to get to the solution as in Problem 1 and complete the same set of tasks.
+
+
+### Your Solution
+
+
+
+
+
+
+```{r, echo=FALSE, results='asis'}
+cat('\n---\n\n _Latest Changes: ', format(Sys.time(), '%Y-%m-%d %H:%M:%S'), ' (', Sys.info()['user'], ')_\n', sep = '')
+```
+ 

@@ -1,0 +1,163 @@
+---
+title: Livestock Breeding and Genomics - `r tools::toTitleCase(params$doctype)` 8
+author: Peter von Rohr
+date: 2023-11-03
+output:
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+    keep_md: false
+    keep_tex: false
+header-includes:
+ \usepackage{longtable}
+ \usepackage{float}
+params:
+  doctype:
+    label: 'Document Type'
+    value: 'solution'
+    choices: ['exercise', 'solution', 'notebook']
+  isonline:
+    label: 'Online (y/n)'
+    value: TRUE
+    choices: [TRUE, FALSE]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: Regression Model
+```{r l06prob01-setup, echo=FALSE}
+if (params$isonline){
+  s_data_path <- "https://charlotte-ngs.github.io/lbgfs2023/data/beef_data_bc.csv"
+} else {
+  s_data_path <- file.path(here::here(), "docs", "data", "beef_data_bc.csv")
+}
+```
+
+Use the dataset on weaning weight and fit a regression model of weaning weight on breast circumference. The following tasks are to be completed.
+
+* Use matrix-vector notation to specify the model and fill the information from the dataset into the model. 
+* Compute the solution for the estimated regression coefficient using a least squares approach. 
+* Use R to verify your result.
+
+The data set is available from
+
+```{r, echo=FALSE}
+cat(s_data_path, "\n")
+```
+
+
+<!-- your-solution-start
+### Your Solution
+
+* Regression model in matrix-vector notation: define the vectors and matrices required in the model
+* Read the data into a tibble/data_frame
+* Put information from dataset into the model
+* Compute solution for regression coefficient estimate
+* Use R to verify
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+
+The regression model in matrix-vector notation is given by the following formula
+
+$$y = X\beta + e$$
+
+where $y$ is the vector of known responses. For our example this is the vector of weaning weights. The vector $\beta$ contains the intercept and the regression coefficient. The vector $e$ contains the random residuals. The matrix $X$ contains a column of all ones and a second column with breast circumference. 
+
+The data are imported to a tibble using 
+
+```{r}
+tbl_ww <- readr::read_delim(file = s_data_path, delim = ",",
+                            col_types = readr::cols(
+                              Animal = readr::col_integer(),
+                              Sire = readr::col_integer(),
+                              Dam = readr::col_integer(),
+                              Herd = readr::col_factor(),
+                              `Weaning Weight` = readr::col_double(),
+                              `Breast Circumference` = readr::col_double()
+                            ))
+head(tbl_ww)
+```
+
+The information for the known vector $y$ and for matrix $X$ are taken from the dataset. The vector $y$ contains all weaning weight values 
+
+```{r}
+vec_y <- tbl_ww$`Weaning Weight`
+```
+
+The matrix $X$ is a matrix with two columns and as many rows as there are observations.
+
+```{r}
+n_nr_obs <- nrow(tbl_ww)
+mat_X <- matrix(c(rep(1,n_nr_obs), tbl_ww$`Breast Circumference`), nrow = n_nr_obs, ncol = 2)
+```
+
+The least squares estimate is
+
+$$\hat{\beta} = (X^TX)^{-1}X^Ty$$
+
+Inserting the numbers into the formula leads to 
+
+```{r}
+mat_xtx <- crossprod(mat_X)
+mat_xty <- crossprod(mat_X, vec_y)
+vec_hat_beta <- solve(mat_xtx, mat_xty)
+vec_hat_beta
+```
+
+The standard deviation of the residuals is used as an estimate of the spread of the error terms.
+
+```{r}
+vec_r <- vec_y - crossprod(t(mat_X), vec_hat_beta)
+n_sd_res <- sqrt(crossprod(vec_r) / (n_nr_obs-2))
+n_sd_res
+```
+
+
+Verification of the results using R
+
+```{r}
+lm_ww <- lm(`Weaning Weight` ~ `Breast Circumference`, data = tbl_ww)
+summary(lm_ww)
+```
+
+<!-- master-solution-end -->
+
+
+## Problem 2: Fixed Linear Effects Model
+Use the same dataset as in Problem 1 and fit a fixed linear effects model using breast circumference and herd as fixed effects in a model. Use the same path to get to the solution as in Problem 1 and complete the same set of tasks.
+
+
+<!-- your-solution-start
+### Your Solution
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+
+The model in matrix vector notation is the same as in Problem 1
+
+$$y = X\beta + e$$
+
+But the definition of the vector $\beta$ and the matrix $X$ are different. The vectors $y$ and $e$ are defined the same way.
+
+The check with R
+
+```{r}
+lm_ww_bc_herd <- lm(`Weaning Weight` ~ `Breast Circumference` + Herd, data = tbl_ww)
+summary(lm_ww_bc_herd)
+```
+
+<!-- master-solution-end -->
+
