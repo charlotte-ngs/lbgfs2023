@@ -1,3 +1,7 @@
+# lbgfs2023 0.7.1
+
+* Course notes chapter 5
+
 # lbgfs2023 0.7.0
 
 * Release exercise lbg_ex08

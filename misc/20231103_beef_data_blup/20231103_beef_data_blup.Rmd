@@ -1,0 +1,33 @@
+---
+title: "Generate Beef Cattle Data for BLUP"
+output: html_notebook
+---
+
+
+## Background
+The topic of BLUP is introduced using an example dataset from beef cattle. 
+
+
+## Model
+The data has weight at a certain age as response variable. The independent variables are herd and breast circumference. Furthermore, the breeding value of an animal is modeled using the known variance-covariance structure imposed by the given pedigree.
+
+
+## Pedigree
+The pedigree is given in tabular form by 
+
+```{r}
+n_nr_sire <- 3
+n_nr_dam <- 8
+n_nr_parents <- n_nr_sire + n_nr_dam
+n_nr_offspring <- 12
+n_nr_animals <- n_nr_parents + n_nr_offspring
+### # assign parents to offspring and herds to records
+vec_sire_id <- c(rep(1,6), rep(2,5), rep(9,4))
+vec_dam_id <- c(3, 4, 5, rep(4:8,2), 10, 11)
+tbl_bc_ped <- tibble::tibble(Animal = c(9, 10, 11, (n_nr_parents + 1):n_nr_animals),
+                             Sire = vec_sire_id,
+                             Dame = vec_dam_id) 
+tbl_bc_ped
+```
+
+From the pedigree, we have to get to the relationship matrix
