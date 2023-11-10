@@ -11,11 +11,12 @@ Solutions to exercises for LBGFS2023
 
 ```{r solution-table, echo=FALSE, warning=FALSE, message=FALSE}
 s_sol_url <- "https://charlotte-ngs.github.io/lbgfs2023/sol/"
-tbl_sol <- tibble::tibble(Nr = c(2, 3, 4, 5),
+tbl_sol <- tibble::tibble(Nr = c(2, 3, 4, 5, 6, 7, 8),
                           Date = c("2023-10-06",
                                    "2023-10-13",
                                    "2023-10-20",
-                                   "2023-10-27"),
+                                   "2023-10-27",
+                                   rep("2023-11-10", 3)),
                           Topic = c(
                             paste0("[Linear Algebra](",
                                    s_sol_url,
@@ -28,7 +29,17 @@ tbl_sol <- tibble::tibble(Nr = c(2, 3, 4, 5),
                                    "lbg_ex04_sol.pdf)", collapse = ""),
                             paste0("[Genetic Evaluation](",
                                    s_sol_url,
-                                   "lbg_ex05_sol.pdf)", collapse = "")
+                                   "lbg_ex05_sol.pdf)", collapse = ""),
+                            paste0("[Parent Offspring Breeding Values](",
+                                   s_sol_url,
+                                   "lbg_ex06_sol.pdf)", collapse = ""),
+                            paste0("[Own Performance, Repeated Records and Progeny Records](",
+                                   s_sol_url,
+                                   "lbg_ex07_sol.pdf)", collapse = ""),
+                            paste0("[Linear Models](",
+                                   s_sol_url,
+                                   "lbg_ex08_sol.pdf)", collapse = "")
+                            
                           ))
 knitr::kable(tbl_sol)
 ```
