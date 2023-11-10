@@ -60,7 +60,7 @@ Mathematically, BLUE of $\beta$ which are denoted as $\hat{\beta}$ and BLUP of $
 $$X^TR^{-1}X\hat{\beta} + X^TR^{-1}Z\hat{u} = X^TR^{-1}y $$
 $$Z^TR^{-1}X\hat{\beta} + (Z^TR^{-1}Z + G^{-1})\hat{u} = Z^TR^{-1}y $$
 
-
+It is noted that if matrix $G^{-1}$ tends towards the zero matrix the above equations tend towards the generalized least squares normal equations for estimating $\beta$ and $u$ as fixed effects. 
 
 
 ```{r, echo=FALSE, results='asis'}
