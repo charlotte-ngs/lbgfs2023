@@ -40,7 +40,25 @@ BLUP stands for Best Linear Unbiased Prediction and is commonly used in animal b
 
 $$y = X\beta + Zu + e$$
 
-where $y$ is a vector of length $n$ with random observations, $\beta$ is a vector of length $p$ of fixed effects, $u$ is a vector of length $q$ with random breeding values and $e$ is a random vector of length $n$ with residuals. Design matrices $X$ and $Z$ link fixed effects and random breeding values to observations. 
+where $y$ is a vector of length $n$ with random observations, $\beta$ is a vector of length $p$ with fixed effects, $u$ is a vector of length $q$ with random breeding values and $e$ is a vector of length $n$ with random residuals. Design matrices $X$ and $Z$ link fixed effects and random breeding values to observations. Furthermore, expected values $E(u)$ and $E(e)$ of random effects $u$ and $e$ are set to 
+
+$$E\left[\begin{array}{c}u \\ e \end{array}\right] = \left[\begin{array}{c}0 \\ 0 \end{array}\right]$$
+
+\{Together with the model it follows that $E\left[y \right] = X\beta$\}.
+
+Variance-Covariance matrices are given by 
+
+$$Var\left[\begin{array}{c}u \\ e \end{array}\right] = \left[\begin{array}{cc} G & 0 \\ 0 & R\end{array}\right] \sigma^2$$
+where $G$ and $R$ are known positive definite matrices and $\sigma^2$ is a positive number. 
+
+\{We typically set $Var\left[u\right] = G$ and $Var\left[e\right] = R$ with $G = A\sigma_u^2$ and $R = I\sigma_e^2$. The reflects better the fact that when it comes to estimating dispersion parameters in a mixed model, there is not just one scalar unknown to be estimated. There is always a vector often referred to as $\theta$ which contains at least two components $\sigma_u^2$ and $\sigma_e^2$ which are to be estimated\}.
+
+BLUP stands for Best Linear Unbiased Prediction. They are called predictions and not estimates, because they are used to predict realized values of random effects. BLUPs of the random variables $u$ are linear functions of the data $y$. They are unbiased, because $E\left[\hat{u}\right] = E\left[u\right]$. They are best in the sense of that they have minimum mean squarred error in the class of linear predictors.
+
+Mathematically, BLUE of $\beta$ which are denoted as $\hat{\beta}$ and BLUP of $u$ are obtained as solutions to the mixed model equations, given by
+
+$$X^TR^{-1}X\hat{\beta} + X^TR^{-1}Z\hat{u} = X^TR^{-1}y $$
+$$Z^TR^{-1}X\hat{\beta} + (Z^TR^{-1}Z + G^{-1})\hat{u} = Z^TR^{-1}y $$
 
 
 

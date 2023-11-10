@@ -358,7 +358,7 @@ display: none;
 
 
 <h1 class="title toc-ignore">The BLUP Is A Good Thing</h1>
-<h4 class="date">Started: 2023-10-27 – Last Compiled on: 2023-11-03</h4>
+<h4 class="date">Started: 2023-10-27 – Last Compiled on: 2023-11-10</h4>
 
 </div>
 
@@ -382,7 +382,17 @@ display: none;
 <h3>Introduction</h3>
 <p>BLUP stands for Best Linear Unbiased Prediction and is commonly used in animal breeding. It is a method to predict random effects. The context of BLUP is the linear model</p>
 <p><span class="math display">\[y = X\beta + Zu + e\]</span></p>
-<p>where <span class="math inline">\(y\)</span> is a vector of length <span class="math inline">\(n\)</span> with random observations, <span class="math inline">\(\beta\)</span> is a vector of length <span class="math inline">\(p\)</span> of fixed effects, <span class="math inline">\(u\)</span> is a vector of length <span class="math inline">\(q\)</span> with breeding values and <span class="math inline">\(e\)</span> is a random vector of length <span class="math inline">\(n\)</span> with residuals. Design matrices <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> link fixed effects and random breeding values to observations.</p>
+<p>where <span class="math inline">\(y\)</span> is a vector of length <span class="math inline">\(n\)</span> with random observations, <span class="math inline">\(\beta\)</span> is a vector of length <span class="math inline">\(p\)</span> with fixed effects, <span class="math inline">\(u\)</span> is a vector of length <span class="math inline">\(q\)</span> with random breeding values and <span class="math inline">\(e\)</span> is a vector of length <span class="math inline">\(n\)</span> with random residuals. Design matrices <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> link fixed effects and random breeding values to observations. Furthermore, expected values <span class="math inline">\(E(u)\)</span> and <span class="math inline">\(E(e)\)</span> of random effects <span class="math inline">\(u\)</span> and <span class="math inline">\(e\)</span> are set to</p>
+<p><span class="math display">\[E\left[\begin{array}{c}u \\ e \end{array}\right] = \left[\begin{array}{c}0 \\ 0 \end{array}\right]\]</span></p>
+<p>{Together with the model it follows that <span class="math inline">\(E\left[y \right] = X\beta\)</span>}.</p>
+<p>Variance-Covariance matrices are given by</p>
+<p><span class="math display">\[Var\left[\begin{array}{c}u \\ e \end{array}\right] = \left[\begin{array}{cc} G &amp; 0 \\ 0 &amp; R\end{array}\right] \sigma^2\]</span>
+where <span class="math inline">\(G\)</span> and <span class="math inline">\(R\)</span> are known positive definite matrices and <span class="math inline">\(\sigma^2\)</span> is a positive number.</p>
+<p>{We typically set <span class="math inline">\(Var\left[u\right] = G\)</span> and <span class="math inline">\(Var\left[e\right] = R\)</span> with <span class="math inline">\(G = A\sigma_u^2\)</span> and <span class="math inline">\(R = I\sigma_e^2\)</span>. The reflects better the fact that when it comes to estimating dispersion parameters in a mixed model, there is not just one scalar unknown to be estimated. There is always a vector often referred to as <span class="math inline">\(\theta\)</span> which contains at least two components <span class="math inline">\(\sigma_u^2\)</span> and <span class="math inline">\(\sigma_e^2\)</span> which are to be estimated}.</p>
+<p>BLUP stands for Best Linear Unbiased Prediction. They are called predictions and not estimates, because they are used to predict realized values of random effects. BLUPs of the random variables <span class="math inline">\(u\)</span> are linear functions of the data <span class="math inline">\(y\)</span>. They are unbiased, because <span class="math inline">\(E\left[\hat{u}\right] = E\left[u\right]\)</span>. They are best in the sense of that they have minimum mean squarred error in the class of linear predictors.</p>
+<p>Mathematically, BLUE of <span class="math inline">\(\beta\)</span> which are denoted as <span class="math inline">\(\hat{\beta}\)</span> and BLUP of <span class="math inline">\(u\)</span> are obtained as solutions to the mixed model equations, given by</p>
+<p><span class="math display">\[X^TR^{-1}X\hat{\beta} + X^TR^{-1}Z\hat{u} = X^TR^{-1}y \]</span>
+<span class="math display">\[Z^TR^{-1}X\hat{\beta} + (Z^TR^{-1}Z + G^{-1})\hat{u} = Z^TR^{-1}y \]</span></p>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">
@@ -393,7 +403,7 @@ Robinson, G. K. 1991. <span>“<span class="nocase">That BLUP is a good thing: T
 </div>
 </div>
 <hr />
-<p><em>Latest Changes: 2023-11-03 12:55:03 CET (pvr)</em></p>
+<p><em>Latest Changes: 2023-11-10 04:58:52 CET (pvr)</em></p>
 </div>
 
 
