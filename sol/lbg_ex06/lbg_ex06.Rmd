@@ -68,6 +68,77 @@ Both parents $s$ and $d$ have genotype $G_1G_2$
 
 ### Solution
 
+#### Case 1: Homozygous and Heterozygous Parents
+Parent $s$ with genotype $G_1G_1$ and parent $d$ with genotype $G_1G_2$. The average breeding value of parents $s$ and $d$ is
+
+$${1\over 2}\left(u_s + u_d\right) = {1\over 2}\left(2q\alpha + (q-p)\alpha \right) = {3 \over 2}q\alpha - {1\over 2}p\alpha $$
+
+
+Offspring of parents $s$ and $d$ will either be homozygous $G_1G_1$ or heterozygous both with probability of $1/2$. For a homozygous offspring $i$, the mendelian sampling term $m_i$ can be computed as
+
+$$m_i = u_i - {1\over 2}\left[u_s + u_d \right] 
+= 2q\alpha - {1\over 2}\left[2q\alpha + (q-p)\alpha \right] 
+= 2q\alpha - \left[{3 \over 2}q\alpha - {1\over 2}p\alpha \right]
+= {1\over 2}q\alpha + {1\over 2}p\alpha = {1\over 2}\alpha$$
+
+
+For a heterozygous offspring $j$, the mendelian sampling term $m_j$ is computed as
+
+$$m_j = u_j - {1\over 2}\left[u_s + u_d \right] 
+= (q-p)\alpha - \left[{3 \over 2}q\alpha - {1\over 2}p\alpha \right] 
+= -{1\over 2}q\alpha - {1\over 2}p\alpha = -{1\over 2}\alpha$$
+
+
+Because homozygous and heterozygous offspring occur with equal probability, the average mendelian sampling term over a large number of offspring of parents $s$ and $d$ is
+
+$${1\over 2} * {1\over 2}\alpha + {1\over 2} * (-{1\over 2}\alpha) = 0$$
+
+
+#### Case 2: Homozygous and Heterozygous Parents
+Parent $s$ with genotype $G_2G_2$ and parent $d$ with genotype $G_1G_2$. The average breeding value of parents $s$ and $d$ is
+
+$${1\over 2}\left(u_s + u_d\right) = {1\over 2}\left(-2p\alpha + (q-p)\alpha \right) = {1\over 2}q\alpha - {3\over 2}p\alpha$$
+
+Offspring of parents $s$ and $d$ are either homozygous $G_2G_2$ or heterozygous both with probability $1/2$. For a homozygous offspring $i$, the mendelian sampling term $m_i$ is computed as
+
+$$m_i = u_i - {1\over 2}\left[u_s + u_d \right] 
+= -2p\alpha - \left[{1\over 2}q\alpha - {3\over 2}p\alpha \right]
+= -{1\over 2}p\alpha - {1\over 2}q\alpha = -{1\over 2}\alpha$$
+
+For a heterozygous offspring $j$, the term $m_j$ is computed as 
+
+$$m_j = u_j - {1\over 2}\left[u_s + u_d \right] 
+= (q-p)\alpha - \left[{1\over 2}q\alpha - {3\over 2}p\alpha \right]
+= {1\over 2}q\alpha + {1\over 2}p\alpha = {1\over 2}\alpha$$
+
+Because homozygous and heterozygous offspring occur both with equal probability, the average mendelian sampling term over a large number of offspring is 
+
+$${1\over 2} * (-{1\over 2}\alpha) + {1\over 2} * {1\over 2}\alpha = 0$$
+
+
+#### Case 3: Heterozygous Parents
+Both parents $s$ and $d$ have genotype $G_1G_2$. Both parents $s$ and $d$ are heterozygous and have therefore the same genotype and the same breeding value. Hence the average breeding value of the parents is also the same which is 
+
+$${1\over 2}\left[u_s + u_d \right] = (q-p)\alpha$$
+
+Offspring of parents $s$ and $d$ will be homozygous $G_1G_1$ or $G_2G_2$ both with probability $1/4$ or heterozygous with probability $1/2$. For offspring $i$ with genotype $G_1G_1$, the mendelian sampling term $m_i$ is 
+
+$$m_i = u_i - {1\over 2}\left[u_s + u_d \right] = 2q\alpha - \left[(q-p)\alpha \right] = \alpha$$
+
+For offspring $j$ with genotype $G_1G_2$, the mendelian sampling term $m_j$ is 
+
+$$m_j = 0$$
+
+For offspring $k$ withe genotype $G_2G_2$, the mendelian sampling term $m_k$ is 
+
+$$m_k = u_k - {1\over 2}\left[u_s + u_d \right] = -2p\alpha - \left[(q-p)\alpha \right] = -\alpha$$
+
+In the computation of $m_i$, $m_j$ and $m_k$, the definition of the allele substitution effect was used. The average mendelian sampling term over a large number of offsprings of parents $s$ and $d$ corresponds to 
+
+$${1\over 4} * \alpha + {1\over 2} * 0 + {1\over 4} * (-\alpha) = 0$$
+
+
+
 <!-- master-solution-end -->
 
 
