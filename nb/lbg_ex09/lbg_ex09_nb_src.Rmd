@@ -1,0 +1,121 @@
+---
+title: Livestock Breeding and Genomics - Notebook 9
+author: Peter von Rohr
+date: '2023-11-10'
+output: html_notebook
+params:
+  doctype:
+    label: Document Type
+    value: solution
+    choices:
+    - exercise
+    - solution
+    - notebook
+  isonline:
+    label: Online (y/n)
+    value: true
+    choices:
+    - true
+    - false
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: Numerator Relationship Matrix
+```{r lbg-ex07-p01-setup, echo=FALSE, message=FALSE, warning=FALSE}
+s_ped_data <- "https://charlotte-ngs.github.io/lbgfs2023/data/ped_num_rel_mat.csv"
+```
+
+The following pedigree is given
+
+```{r, echo=FALSE}
+nr_animal <- 6
+tbl_pedigree <- readr::read_delim(file = s_ped_data, 
+                                  col_types = readr::cols(Calf = readr::col_integer(),
+                                                          Sire = readr::col_integer(),
+                                                          Dam = readr::col_integer()))
+knitr::kable(tbl_pedigree, booktabs = TRUE, longtable = TRUE)
+```
+
+The pedigree can be read from the file
+
+```{r, echo=FALSE}
+cat(s_ped_data, "\n")
+```
+
+Compute the numerator relationship matrix $A$ for the given pedigree. Recall from the course notes that elements of matrix $A$ are computed differently for elements on the diagonal and for off-diagonal elements. In summary, we compute
+
+* diagonal element $(A)_{ii}$ as $(A)_{ii} = 1+F_i$ where $F_i = 0.5 * (A)_{sd}$ where $s$ and $d$ are parents of $i$. 
+* off-diagonal element $(A)_{ki}$ as $(A)_{ki} = 0.5 * \left[(A)_{ks} + (A)_{kd}\right]$ where $s$ and $d$ are parents of $i$
+
+
+### Task
+Use two nested loops over the rows and the columns of matrix $A$ to compute all the elements of matrix $A$ using the formulas given above.
+
+### Your Solution
+
+* Read the pedigree from the given file
+* Add parents that do not appear as animals to the column of animals
+* Create an empty square matrix $A$ with as many rows and columns as we have animals in the pedigree.
+* Use the above formula to compute the diagonal element of the first row
+* Create a first loop to compute all the off-diagonal elements of the first row
+* Create a loop to repeat the computations over all rows.
+
+
+
+
+
+## Problem 2: Verification
+Use the function `pedigreemm::getA()` from package `pedigreemm` to verify your result from problem 1.
+
+### Your Solution
+
+* Define the pedigree
+* Compute the relationship matrix with `getA()`
+
+
+
+
+
+## Problem 3: Functions in R
+Computations such as the computation of the diagonal elements or such as the one of the off-diagonal elements can be isolated and factored out in a important programming construct which is called `function`. A function takes a set of input parameter and transforms them into a result which is returned. For our example of the numerator relationship matrix two functions can be constructed according to the following template
+
+```{r}
+compute_square <- function(pn_number){
+  square_result <- pn_number*pn_number
+  return(square_result)
+}
+```
+
+The function can be used by function calls which take a given input and return a result
+
+```{r}
+compute_square(pn_number = 3)
+compute_square(1:10)
+```
+
+
+### Task
+Use the above template to construct a function and factor out the computations of the diagonal elements and of the off-diagonal elements into two separate functions.
+
+
+### Your Solution
+
+* Write a function to compute a diagonal element
+* Write a function to compute an off-diagonal element
+* Use the functions to compute all elements of the numerator relationship matrix
+
+
+
+ 
+
+
+```{r, echo=FALSE, results='asis'}
+cat('\n---\n\n _Latest Changes: ', format(Sys.time(), '%Y-%m-%d %H:%M:%S'), ' (', Sys.info()['user'], ')_\n', sep = '')
+```
+ 

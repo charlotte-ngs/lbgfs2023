@@ -1,0 +1,327 @@
+---
+title: Livestock Breeding and Genomics - `r tools::toTitleCase(params$doctype)` 9
+author: Peter von Rohr
+date: 2023-11-10
+output:
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+    keep_md: false
+    keep_tex: false
+header-includes:
+ \usepackage{longtable}
+ \usepackage{float}
+params:
+  doctype:
+    label: 'Document Type'
+    value: 'solution'
+    choices: ['exercise', 'solution', 'notebook']
+  isonline:
+    label: 'Online (y/n)'
+    value: TRUE
+    choices: [TRUE, FALSE]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: Numerator Relationship Matrix
+```{r lbg-ex07-p01-setup, echo=FALSE, message=FALSE, warning=FALSE}
+s_ped_data <- "https://charlotte-ngs.github.io/lbgfs2023/data/ped_num_rel_mat.csv"
+```
+
+The following pedigree is given
+
+```{r, echo=FALSE}
+nr_animal <- 6
+tbl_pedigree <- readr::read_delim(file = s_ped_data, 
+                                  col_types = readr::cols(Calf = readr::col_integer(),
+                                                          Sire = readr::col_integer(),
+                                                          Dam = readr::col_integer()))
+knitr::kable(tbl_pedigree, booktabs = TRUE, longtable = TRUE)
+```
+
+The pedigree can be read from the file
+
+```{r, echo=FALSE}
+cat(s_ped_data, "\n")
+```
+
+Compute the numerator relationship matrix $A$ for the given pedigree. Recall from the course notes that elements of matrix $A$ are computed differently for elements on the diagonal and for off-diagonal elements. In summary, we compute
+
+* diagonal element $(A)_{ii}$ as $(A)_{ii} = 1+F_i$ where $F_i = 0.5 * (A)_{sd}$ where $s$ and $d$ are parents of $i$. 
+* off-diagonal element $(A)_{ki}$ as $(A)_{ki} = 0.5 * \left[(A)_{ks} + (A)_{kd}\right]$ where $s$ and $d$ are parents of $i$
+
+
+### Task
+Use two nested loops over the rows and the columns of matrix $A$ to compute all the elements of matrix $A$ using the formulas given above.
+
+<!-- your-solution-start
+### Your Solution
+
+* Read the pedigree from the given file
+* Add parents that do not appear as animals to the column of animals
+* Create an empty square matrix $A$ with as many rows and columns as we have animals in the pedigree.
+* Use the above formula to compute the diagonal element of the first row
+* Create a first loop to compute all the off-diagonal elements of the first row
+* Create a loop to repeat the computations over all rows.
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+Pedigree is read from the given file
+
+```{r}
+tbl_ped <- readr::read_delim(file = s_ped_data, 
+                             delim = ";",
+                             col_types = readr::cols(
+                               Calf = readr::col_integer(),
+                               Sire = readr::col_integer(),
+                               Dam  = readr::col_integer()
+                             ))
+tbl_ped
+```
+
+Find animals that appear only as parents, start with sires
+
+```{r}
+vec_founder_sire_idx <- sapply(tbl_ped$Sire[!is.na(tbl_ped$Sire)], 
+                               function(x) !is.element(x, tbl_ped$Calf), 
+                               USE.NAMES = FALSE)
+vec_founder_sire <- unique(tbl_ped$Sire[vec_founder_sire_idx])
+vec_founder_sire
+```
+
+The same for the dams
+
+```{r}
+vec_founder_dam_idx <- sapply(tbl_ped$Dam[!is.na(tbl_ped$Dam)], 
+                              function(x) !is.element(x, tbl_ped$Calf), 
+                              USE.NAMES = FALSE)
+vec_founder_dam <- unique(tbl_ped$Dam[vec_founder_dam_idx])
+vec_founder_dam
+```
+
+Combining them into one vector and sorting them 
+
+```{r}
+vec_founder <- c(vec_founder_sire, vec_founder_dam)
+vec_founder <- vec_founder[order(vec_founder)]
+vec_founder
+```
+
+For each of the founders, a new row is added to the top of the pedigree
+
+```{r}
+tbl_ped_numrelmat <- NULL
+for (n_founder_idx in vec_founder){
+  tbl_ped_numrelmat <- dplyr::bind_rows(tbl_ped_numrelmat, 
+                                        tibble::tibble(Calf = n_founder_idx, 
+                                                       Sire = NA,
+                                                       Dam = NA))
+}
+tbl_ped_numrelmat <- dplyr::bind_rows(tbl_ped_numrelmat, tbl_ped)
+n_ani_ped <- nrow(tbl_ped_numrelmat)
+tbl_ped_numrelmat
+```
+
+An empty matrix $A$ is initialized
+
+```{r}
+mat_A <- matrix(nrow = n_ani_ped, ncol = n_ani_ped)
+mat_A
+```
+
+Start the computation with the diagonal element for animal $1$
+
+```{r}
+i <- 1
+s <- tbl_ped_numrelmat$Sire[i]
+d <- tbl_ped_numrelmat$Dam[i]
+F1 <- ifelse(is.na(s) || is.na(d), 0, 0.5*mat_A[s,d])
+mat_A[1,1] <- 1 + F1
+mat_A
+```
+
+The off-diagonal elements of the first row are computed in using the following loop
+
+```{r}
+i <- 1
+for (col_idx in 2:n_ani_ped){
+  u <- tbl_ped_numrelmat$Sire[col_idx]
+  mat_elem_u <- ifelse(is.na(u), 0, mat_A[i,u])
+  v <- tbl_ped_numrelmat$Dam[col_idx]
+  mat_elem_v <- ifelse(is.na(v), 0, mat_A[i,v])
+  mat_A[i,col_idx] <- 0.5 * (mat_elem_u + mat_elem_v)
+  mat_A[col_idx,i] <- mat_A[i,col_idx]
+}
+mat_A
+```
+
+This should now be done for all rows. Hence, we create a second loop that runs form the first row until the last row.
+
+```{r}
+for (row_idx in 1:n_ani_ped){
+  # diagonal element
+  s <- tbl_ped_numrelmat$Sire[row_idx]
+  d <- tbl_ped_numrelmat$Dam[row_idx]
+  Fi <- ifelse(is.na(s) || is.na(d), 0, 0.5*mat_A[s,d])
+  mat_A[row_idx,row_idx] <- 1 + Fi
+
+  # off-diagonal
+  if (row_idx < n_ani_ped){
+    for (col_idx in (row_idx+1):n_ani_ped){
+      u <- tbl_ped_numrelmat$Sire[col_idx]
+      mat_elem_u <- ifelse(is.na(u), 0, mat_A[row_idx,u])
+      v <- tbl_ped_numrelmat$Dam[col_idx]
+      mat_elem_v <- ifelse(is.na(v), 0, mat_A[row_idx,v])
+      mat_A[row_idx,col_idx] <- 0.5 * (mat_elem_u + mat_elem_v)
+      mat_A[col_idx,row_idx] <- mat_A[row_idx,col_idx]
+    }
+  }
+}
+mat_A
+```
+
+
+<!-- master-solution-end -->
+
+
+## Problem 2: Verification
+Use the function `pedigreemm::getA()` from package `pedigreemm` to verify your result from problem 1.
+
+<!-- your-solution-start
+### Your Solution
+
+* Define the pedigree
+* Compute the relationship matrix with `getA()`
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+The pedigree is defined by
+
+```{r}
+ped <- pedigreemm::pedigree(sire = tbl_ped_numrelmat$Sire,
+                            dam = tbl_ped_numrelmat$Dam,
+                            label = as.character(tbl_ped_numrelmat$Calf))
+
+```
+
+The numerator relationship matrix is computed by
+
+```{r, message=FALSE, warning=FALSE}
+mat_num_relmat <- pedigreemm::getA(ped = ped)
+mat_num_relmat
+```
+
+Check whether matrices are identical
+
+```{r}
+mat_A - as.matrix(mat_num_relmat)
+```
+
+<!-- master-solution-end -->
+
+
+## Problem 3: Functions in R
+Computations such as the computation of the diagonal elements or such as the one of the off-diagonal elements can be isolated and factored out in a important programming construct which is called `function`. A function takes a set of input parameter and transforms them into a result which is returned. For our example of the numerator relationship matrix two functions can be constructed according to the following template
+
+```{r}
+compute_square <- function(pn_number){
+  square_result <- pn_number*pn_number
+  return(square_result)
+}
+```
+
+The function can be used by function calls which take a given input and return a result
+
+```{r}
+compute_square(pn_number = 3)
+compute_square(1:10)
+```
+
+
+### Task
+Use the above template to construct a function and factor out the computations of the diagonal elements and of the off-diagonal elements into two separate functions.
+
+
+<!-- your-solution-start
+### Your Solution
+
+* Write a function to compute a diagonal element
+* Write a function to compute an off-diagonal element
+* Use the functions to compute all elements of the numerator relationship matrix
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+
+The function to compute the diagonal elements can be defined as follows
+
+```{r}
+compute_diag_elem <- function(pmat_numrel, ptbl_ped, pn_ani_idx){
+   s <- ptbl_ped$Sire[pn_ani_idx]
+   d <- ptbl_ped$Dam[pn_ani_idx]
+   Fi <- ifelse(is.na(s) || is.na(d), 0, 0.5*pmat_numrel[s,d])
+   result_diag_elem <- 1 + Fi
+   return(result_diag_elem)
+}
+```
+
+The function to compute an offdiagonal element is defined below
+
+```{r}
+compute_off_diag_elem <- function(pmat_numrel, ptbl_ped, pn_row_idx, pn_col_idx){
+  u <- ptbl_ped$Sire[pn_col_idx]
+  mat_elem_u <- ifelse(is.na(u), 0, pmat_numrel[pn_row_idx,u])
+  v <- ptbl_ped$Dam[pn_col_idx]
+  mat_elem_v <- ifelse(is.na(v), 0, pmat_numrel[pn_row_idx,v])
+  result_off_diag_elem <- 0.5 * (mat_elem_u + mat_elem_v) 
+  return(result_off_diag_elem)
+}
+```
+
+The functions are used to compute all elements of the matrix as shown below.
+
+```{r}
+mat_A <- matrix(nrow = n_ani_ped, ncol = n_ani_ped)
+for (row_idx in 1:n_ani_ped){
+  # compute diagonal element
+  mat_A[row_idx, row_idx] <- compute_diag_elem(pmat_numrel = mat_A, 
+                                               ptbl_ped = tbl_ped_numrelmat, 
+                                               pn_ani_idx = row_idx)
+  # compute off-diagonal elements
+  if (row_idx < n_ani_ped){
+    for (col_idx in (row_idx+1):n_ani_ped){
+      mat_A[row_idx, col_idx] <- compute_off_diag_elem(pmat_numrel = mat_A, 
+                                                       ptbl_ped = tbl_ped_numrelmat, 
+                                                       pn_row_idx = row_idx, 
+                                                       pn_col_idx = col_idx)
+      mat_A[col_idx,row_idx] <- mat_A[row_idx, col_idx]
+    }
+  }
+}
+mat_A
+```
+
+Checking the results
+
+```{r}
+mat_A - as.matrix(mat_num_relmat)
+```
+
+<!-- master-solution-end -->
+ 
