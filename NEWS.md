@@ -1,3 +1,7 @@
+# lbgfs2023 0.8.2
+
+* Release slides on genetic co-variance between animals
+
 # lbgfs2023 0.8.1
 
 * Updated solutions page for lbg_ex06-08
