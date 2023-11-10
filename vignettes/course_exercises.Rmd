@@ -12,7 +12,7 @@ Links to exercises are shown in the following table.
 ```{r exercise-table, echo=FALSE, message=FALSE, warning=FALSE}
 s_ex_url <- "https://charlotte-ngs.github.io/lbgfs2023/ex/"
 s_nb_url <- "https://charlotte-ngs.github.io/lbgfs2023/nb/"
-tbl_ex <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8),
+tbl_ex <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8, 9),
                          Date = c("2023-09-22",
                                   "2023-09-29",
                                   "2023-09-29",
@@ -20,7 +20,8 @@ tbl_ex <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8),
                                   "2023-10-13",
                                   "2023-10-20",
                                   "2023-10-27",
-                                  "2023-11-03"),
+                                  "2023-11-03",
+                                  "2023-11-10"),
                          Topic = c(
                            paste0("[Questionnaire](", 
                                   s_ex_url, 
@@ -59,7 +60,12 @@ tbl_ex <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8),
                                   s_ex_url,
                                   "lbg_ex08.pdf) | [nb](",
                                   s_nb_url,
-                                  "lbg_ex08_nb_src.nb.html)", collapse = "")
+                                  "lbg_ex08_nb_src.nb.html)", collapse = ""),
+                           paste0("Numerator Relationship Matrix [pdf](",
+                                  s_ex_url,
+                                  "lbg_ex09.pdf) | [nb](",
+                                  s_nb_url,
+                                  "lbg_ex09_nb_src.nb.html)", collapse = "")
                            ))
 knitr::kable(tbl_ex)
 ```
