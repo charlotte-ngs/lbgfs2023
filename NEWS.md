@@ -1,5 +1,7 @@
 # lbgfs2023 0.8.1
 
+* Updated solutions page for lbg_ex06-08
+
 # lbgfs2023 0.8.0
 
 * Release lbg_ex09
