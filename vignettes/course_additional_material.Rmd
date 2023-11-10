@@ -17,7 +17,7 @@ Additional material for LBGFS2023
 
 ```{r slide-table, echo=FALSE, message=FALSE, warning=FALSE}
 sl_url <- paste0(root_url, "/sl/")
-tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8),
+tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
                          Date = c("2023-09-22",
                                   "2023-09-29",
                                   "2023-10-06",
@@ -25,7 +25,7 @@ tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8),
                                   "2023-10-13",
                                   "2023-10-20",
                                   "2023-10-27",
-                                  "2023-11-10"),
+                                  rep("2023-11-10", 3)),
                          Topic = c(
                            paste0("[Introduction to Livestock Breeding and Genomics](", 
                                   sl_url, 
@@ -58,7 +58,13 @@ tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8),
                            paste0("[Genetic Covariance between Animals](",
                                   sl_url,
                                   "l07_gen_cov.pdf)",
-                                  collapse = "")
+                                  collapse = ""),
+                           paste0("[Numerator Relationship Matrix](",
+                                  sl_url,
+                                  "l08_numrelmat.pdf)", collapse = ""),
+                           paste0("[Inverse Numerator Relationship Matrix](",
+                                  sl_url,
+                                  "l08_ainv.pdf)", collapse = "")
                            ))
 knitr::kable(tbl_sl)
 ```

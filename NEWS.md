@@ -1,3 +1,7 @@
+# lbgfs2023 0.8.3
+
+* Release slides l08
+
 # lbgfs2023 0.8.2
 
 * Release slides on genetic co-variance between animals
