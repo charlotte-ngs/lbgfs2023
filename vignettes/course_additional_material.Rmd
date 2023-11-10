@@ -17,14 +17,15 @@ Additional material for LBGFS2023
 
 ```{r slide-table, echo=FALSE, message=FALSE, warning=FALSE}
 sl_url <- paste0(root_url, "/sl/")
-tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7),
+tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8),
                          Date = c("2023-09-22",
                                   "2023-09-29",
                                   "2023-10-06",
                                   "2023-10-13",
                                   "2023-10-13",
                                   "2023-10-20",
-                                  "2023-10-27"),
+                                  "2023-10-27",
+                                  "2023-11-10"),
                          Topic = c(
                            paste0("[Introduction to Livestock Breeding and Genomics](", 
                                   sl_url, 
@@ -53,6 +54,10 @@ tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7),
                            paste0("[BLUP](",
                                   sl_url,
                                   "l06_blup.pdf)",
+                                  collapse = ""),
+                           paste0("[Genetic Covariance between Animals](",
+                                  sl_url,
+                                  "l07_gen_cov.pdf)",
                                   collapse = "")
                            ))
 knitr::kable(tbl_sl)
