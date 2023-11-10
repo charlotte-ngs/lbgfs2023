@@ -1,8 +1,10 @@
 # lbgfs2023 0.8.0
 
+* Release lbg_ex09
+
 # lbgfs2023 0.7.2
 
-OHP L07
+* OHP L07
 
 # lbgfs2023 0.7.1
 
