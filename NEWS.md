@@ -1,3 +1,7 @@
+# lbgfs2023 0.9.2
+
+* Appendix C in course notes
+
 # lbgfs2023 0.9.1
 
 * Slides l09_var_inb
