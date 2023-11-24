@@ -1,5 +1,7 @@
 # lbgfs2023 0.9.4
 
+* Exercise lbg_ex11
+
 # lbgfs2023 0.9.3
 
 * Exercise lbg_ex10
