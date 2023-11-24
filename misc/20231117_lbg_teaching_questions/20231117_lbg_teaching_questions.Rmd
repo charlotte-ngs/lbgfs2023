@@ -1,0 +1,77 @@
+---
+title: "Questions and Areas of Improvement in Teaching Livestock Breeding and Genomics (LBG)"
+date: "Started: 2023-11-17 -- Last Compiled on: `r format(Sys.time(), '%Y-%m-%d')`"
+output: 
+  bookdown::html_document2: 
+      number_sections: false
+  bookdown::pdf_document2: 
+      number_sections: false
+      toc: false
+bibliography: bibliography.bib 
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+met <- rmdhelp::MendeleyExportToolR6$new()
+```
+
+
+## Disclaimer
+This document provides an overview over some questions that did come up during the teaching process of the course Livestock Breeding and Genomics (LBG) and over some areas which could potentially be improved.
+
+In what follows each question or area of improvement is described in a separate section.
+
+
+## Kinship Coefficients and Numerator Relationship Matrix
+Explain better the definition of kinship coefficient and their relationship to the elements of the numerator relationship matrix.
+
+### Covariance Between Animals
+In section 2.1.3 of `r met$add("Zihlmann2020")` the genetic covariance between related animals is derived. This derivation might contain useful information on how kinship coefficients are related to elements of the numerator relationship matrix.
+
+From the lecture on basic quatitative genetics, the decomposition of the genotypic value $V_{ij}$ for an animal having genotype $G_iG_j$ at a single locus, the idea of the regression can be used to come up with 
+
+$$V_{ij} = \mu + BV_{ij} + D_{ij}$$
+where $\mu$ is the population mean, $BV_{ij}$ is the breeding value and $D_{ij}$ the dominance deviation.
+
+Because breeding values are linear in the number of alleles ($G_1$) that have a positive effect on the phenotype, we can also write
+
+$$BV_{ij} = -2p\alpha + N\alpha$$
+where $N$ is the number of positive alleles in genotype $G_iG_j$ which is also referred to as the gene content. From that it is clear that $N \in \{0,1,2\}$ and $-2p\alpha$ is the breeding value of the $G_2G_2$ genotype.
+
+Combining both of the above equations, we get
+
+$$V_{ij} = \mu - 2p\alpha + N\alpha + D_{ij}$$
+
+This can be re-written by
+
+$$V_{ij} = \mu_G + N\alpha + D_{ij}$$
+with $\mu_G = \mu - 2p\alpha$.
+
+
+
+
+## What are the reasons for using linear mixed effects models for genetic evaluations?
+
+
+## Have a better example dataset showing that fixed linear effects models lead to violated model assumptions when used for genetic evaluation
+
+
+
+
+
+
+```{r, echo=FALSE, results='asis'}
+# put references before latest change
+if (exists("met")){
+  cat("# References {-}\n\n")
+  if (knitr::is_html_output()){
+    cat("<div id=\"refs\"></div>\n\n")
+  }
+}
+# write latest change message
+if (knitr::is_html_output() && is.element("rmdhelp", installed.packages()))
+  cat(paste0(rmdhelp::get_latest_change()))
+```

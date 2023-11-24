@@ -1,0 +1,160 @@
+---
+title: "Decompositions of Numerator Relationship Matrix"
+output: html_notebook
+---
+
+
+For a given pedigree, we can compute the numerator relationship matrix as follows
+
+```{r}
+ped <- pedigreemm::pedigree(sire = c(rep(NA, 3), 1,3),
+                            dam  = c(rep(NA, 3), 2, 2),
+                            label = 1:5)
+ped
+```
+
+The number of animals in the pedigree are given by 
+
+```{r}
+(n_nr_ani <- length(ped@label)) 
+```
+
+
+## Numerator Relationship Matrix
+The numerator relationship matrix $A$ is obtained as 
+
+```{r}
+mat_A <- as.matrix(pedigreemm::getA(ped = ped))
+mat_A
+```
+
+## Cholesky Factorisation of $A$
+The cholesky decomposition is 
+
+```{r}
+mat_A_chol <- chol(mat_A)
+mat_A_chol
+```
+
+## Matrix $D$
+The matrix $D$ from the LDL-decomposiiton is obtained as
+
+```{r}
+D_mat <- pedigreemm::Dmat(ped = ped)
+mat_D <- diag(D_mat, nrow = n_nr_ani)
+```
+
+This is obtained from the cholesky decomposition by squaring the diagonal elements 
+
+```{r}
+mat_S <- diag(mat_A_chol)
+mat_S
+```
+
+Comparing that to the result of what we get in `Dmat`
+
+```{r}
+mat_S * mat_S - D_mat
+```
+
+
+## Matrix $L$
+The matrix L is obtained by setting the diagonal of the cholesky factor to one
+
+```{r}
+mat_L <- t(mat_A_chol)
+diag(mat_L) <- 1
+mat_L
+```
+
+## Verification
+Verify
+
+```{r}
+mat_L %*% mat_D %*% t(mat_L) - mat_A
+```
+
+
+## Inverse Numerator Relationship Matrix
+The inverse numerator relationship matrix $A^{-1}$ is computed based on the LDL-decomposition of $A$. Hence from 
+
+$$A = LDL^T$$ 
+
+we get
+
+$$A^{-1} = (L^T)^{-1}D^{-1}L^{-1}$$
+
+This is relevant because $L^{-1}$ and $D^{-1}$ are easier to compute than $A^{-1}$. 
+
+
+### Matrix $D^{-1}$
+Because $D$ is a diagnoal matrix, $D^{-1}$ is a diagonal matrix also, with $i-th$ diagonal element $(D^{-1})_{ii}$ is computed as
+
+$$(D^{-1})_{ii} = (D)_{ii}^{-1} = {1\over (D)_{ii}}$$
+
+For our example from above, we get
+
+```{r}
+(mat_D_inv <- diag(1/D_mat, nrow = n_nr_ani))
+```
+
+
+### Matrix $L^{-1}$
+The matrix $L^{-1} is obtained from the two compositions of the breeding values with
+
+$$u = P \cdot u + m \Leftrightarrow m = (I-P)u$$
+
+and
+
+$$u = L \cdot m \Leftrightarrow m = L^{-1}u  $$
+
+Setting both of the above expressions for $m$ equal shows that 
+
+$$L^{-1} = I-P$$
+
+Hence, we can initialize the matrix L^{-1} with the identity matrix, then loop through the pedigree and subtract $1/2$ for every parent-offspring position. 
+
+```{r}
+mat_L_inv <- diag(nrow = n_nr_ani)
+for (i in 1:n_nr_ani){
+  cur_ani_id <- as.integer(ped@label[i])
+  if (!is.na(ped@sire[i])){
+    cur_sire_id <- as.integer(ped@sire[i])
+    mat_L_inv[cur_ani_id, cur_sire_id] <- -0.5
+  }
+  if (!is.na(ped@dam[i])){
+    cur_dam_id <- as.integer(ped@dam[i])
+    mat_L_inv[cur_ani_id, cur_dam_id] <- -0.5
+  }
+}
+mat_L_inv
+```
+
+This can be verified by
+
+```{r}
+mat_L_inv - solve(mat_L)
+```
+
+### Matrix $(L^T)^{-1}$
+The matrix $(L^T)^{-1}$ is the inverse matrix of matrix $L^T$ which means that 
+
+$$L^T \cdot (L^T)^{-1} = I$$
+
+The same relation can be established with the un-transposed version of the matrix $L$
+
+$$L \cdot L^{-1} = L^{-1} \cdot L = I$$
+
+The last equation can be transposed on both sides which gives 
+
+$$(L^{-1} \cdot L)^T = I^T = I$$
+
+Transposition can be brought into the parenthesis which changes the order of the factors leading to
+
+$$L^T \cdot (L^{-1})^T = I$$
+
+Comparing this last equation with the first equation of this subsection implies that 
+
+$$(L^{-1})^T = (L^T)^{-1}$$
+which is because of the uniqueness of each inverse matrix. Hence, we can just take the previously computed matrix $L^{-1}$ and transpose it to get the inverse $(L^T)^{-1}$. 
+
