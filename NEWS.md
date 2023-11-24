@@ -1,5 +1,7 @@
 # lbgfs2023 0.9.1
 
+* Slides l09_var_inb
+
 # lbgfs2023 0.9.0
 
 * Chapter 6 of course notes
