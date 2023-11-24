@@ -55,8 +55,9 @@ knitr::kable(tbl_chpt)
 
 ```{r appendix-table, echo=FALSE, message=FALSE, warning=FALSE}
 s_app_url <- "https://charlotte-ngs.github.io/lbgfs2023/cn/"
-tbl_appendix <- tibble::tibble(Nr  = c(1,2),
-                               Date = rep("2022-09-23",2),
+tbl_appendix <- tibble::tibble(Nr  = c(1,2, 3),
+                               Date = c(rep("2023-09-23",2),
+                                        "2023-11-24"),
                                Topic = c(
                                  paste0("[Introduction to Linear Algebra](", 
                                         s_app_url, 
@@ -64,7 +65,10 @@ tbl_appendix <- tibble::tibble(Nr  = c(1,2),
                                         collapse = ""),
                                  paste0("[Introduction to R](", 
                                         s_app_url, 
-                                        "099_Appendix_B_IntroR.pdf)")
+                                        "099_Appendix_B_IntroR.pdf)"),
+                                 paste0("[Decomposition of Numerator Relationship Matrix](",
+                                        s_app_url,
+                                        "A3_decomp_num_rel_mat.pdf)")
                                ))
 knitr::kable(tbl_appendix)
 ```
