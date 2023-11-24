@@ -1,5 +1,7 @@
 # lbgfs2023 0.9.0
 
+* Chapter 6 of course notes
+
 # lbgfs2023 0.8.4
 
 * OHP L08
