@@ -1788,9 +1788,16 @@ ped</code></pre>
 <p>The numerator relationship matrix <span class="math inline">\(A\)</span> is obtained as</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF0X0EgPC0gYXMubWF0cml4KHBlZGlncmVlbW06OmdldEEocGVkID0gcGVkKSlcbm1hdF9BXG5gYGAifQ== -->
-<pre class="r"><code>mat_A &lt;- as.matrix(pedigreemm::getA(ped = ped))
-mat_A</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF0X0EgPC0gYXMubWF0cml4KHBlZGlncmVlbW06OmdldEEocGVkID0gcGVkKSlcbmBgYCJ9 -->
+<pre class="r"><code>mat_A &lt;- as.matrix(pedigreemm::getA(ped = ped))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiJ2FzKDxkdFRNYXRyaXg+LCBcImR0Q01hdHJpeFwiKScgaXMgZGVwcmVjYXRlZC5cblVzZSAnYXMoLiwgXCJDc3BhcnNlTWF0cml4XCIpJyBpbnN0ZWFkLlxuU2VlIGhlbHAoXCJEZXByZWNhdGVkXCIpIGFuZCBoZWxwKFwiTWF0cml4LWRlcHJlY2F0ZWRcIikuXG4ifQ== -->
+<pre><code>&#39;as(&lt;dtTMatrix&gt;, &quot;dtCMatrix&quot;)&#39; is deprecated.
+Use &#39;as(., &quot;CsparseMatrix&quot;)&#39; instead.
+See help(&quot;Deprecated&quot;) and help(&quot;Matrix-deprecated&quot;).</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF0X0FcbmBgYCJ9 -->
+<pre class="r"><code>mat_A</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiICAgIDEgICAyICAgMyAgICA0ICAgIDVcbjEgMS4wIDAuMCAwLjAgMC41MCAwLjAwXG4yIDAuMCAxLjAgMC4wIDAuNTAgMC41MFxuMyAwLjAgMC4wIDEuMCAwLjAwIDAuNTBcbjQgMC41IDAuNSAwLjAgMS4wMCAwLjI1XG41IDAuMCAwLjUgMC41IDAuMjUgMS4wMFxuIn0= -->
 <pre><code>    1   2   3    4    5
@@ -1889,9 +1896,8 @@ mat_L</code></pre>
 <p>Verify</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF0X0wgJSolIG1hdF9EICUqJSB0KG1hdF9MKSAtIG1hdF9BXG5cbmBgYCJ9 -->
-<pre class="r"><code>mat_L %*% mat_D %*% t(mat_L) - mat_A
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF0X0wgJSolIG1hdF9EICUqJSB0KG1hdF9MKSAtIG1hdF9BXG5gYGAifQ== -->
+<pre class="r"><code>mat_L %*% mat_D %*% t(mat_L) - mat_A</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiICAxIDIgMyA0IDVcbjEgMCAwIDAgMCAwXG4yIDAgMCAwIDAgMFxuMyAwIDAgMCAwIDBcbjQgMCAwIDAgMCAwXG41IDAgMCAwIDAgMFxuIn0= -->
 <pre><code>  1 2 3 4 5
@@ -1956,7 +1962,7 @@ then loop through the pedigree and subtract <span class="math inline">\(1/2\)</s
 position.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF0X0xfaW52IDwtIGRpYWcobnJvdyA9IG5fbnJfYW5pKVxuZm9yIChpIGluIDE6bl9ucl9hbmkpe1xuICBjdXJfYW5pX2lkIDwtIGFzLmludGVnZXIocGVkQGxhYmVsW2ldKVxuICBpZiAoIWlzLm5hKHBlZEBzaXJlW2ldKSl7XG4gICAgY3VyX3NpcmVfaWQgPC0gYXMuaW50ZWdlcihwZWRAc2lyZVtpXSlcbiAgICBtYXRfTF9pbnZbY3VyX2FuaV9pZCwgY3VyX3NpcmVfaWRdIDwtIC0wLjVcbiAgfVxuICBpZiAoIWlzLm5hKHBlZEBkYW1baV0pKXtcbiAgICBjdXJfZGFtX2lkIDwtIGFzLmludGVnZXIocGVkQGRhbVtpXSlcbiAgICBtYXRfTF9pbnZbY3VyX2FuaV9pZCwgY3VyX2RhbV9pZF0gPC0gLTAuNVxuICB9XG59XG5tYXRfTF9pbnZcblxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF0X0xfaW52IDwtIGRpYWcobnJvdyA9IG5fbnJfYW5pKVxuZm9yIChpIGluIDE6bl9ucl9hbmkpe1xuICBjdXJfYW5pX2lkIDwtIGFzLmludGVnZXIocGVkQGxhYmVsW2ldKVxuICBpZiAoIWlzLm5hKHBlZEBzaXJlW2ldKSl7XG4gICAgY3VyX3NpcmVfaWQgPC0gYXMuaW50ZWdlcihwZWRAc2lyZVtpXSlcbiAgICBtYXRfTF9pbnZbY3VyX2FuaV9pZCwgY3VyX3NpcmVfaWRdIDwtIC0wLjVcbiAgfVxuICBpZiAoIWlzLm5hKHBlZEBkYW1baV0pKXtcbiAgICBjdXJfZGFtX2lkIDwtIGFzLmludGVnZXIocGVkQGRhbVtpXSlcbiAgICBtYXRfTF9pbnZbY3VyX2FuaV9pZCwgY3VyX2RhbV9pZF0gPC0gLTAuNVxuICB9XG59XG5tYXRfTF9pbnZcbmBgYCJ9 -->
 <pre class="r"><code>mat_L_inv &lt;- diag(nrow = n_nr_ani)
 for (i in 1:n_nr_ani){
   cur_ani_id &lt;- as.integer(ped@label[i])
@@ -1969,8 +1975,7 @@ for (i in 1:n_nr_ani){
     mat_L_inv[cur_ani_id, cur_dam_id] &lt;- -0.5
   }
 }
-mat_L_inv
-</code></pre>
+mat_L_inv</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiICAgICBbLDFdIFssMl0gWywzXSBbLDRdIFssNV1cblsxLF0gIDEuMCAgMC4wICAwLjAgICAgMCAgICAwXG5bMixdICAwLjAgIDEuMCAgMC4wICAgIDAgICAgMFxuWzMsXSAgMC4wICAwLjAgIDEuMCAgICAwICAgIDBcbls0LF0gLTAuNSAtMC41ICAwLjAgICAgMSAgICAwXG5bNSxdICAwLjAgLTAuNSAtMC41ICAgIDAgICAgMVxuIn0= -->
 <pre><code>     [,1] [,2] [,3] [,4] [,5]
@@ -1985,9 +1990,8 @@ mat_L_inv
 <p>This can be verified by</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF0X0xfaW52IC0gc29sdmUobWF0X0wpXG5cbmBgYCJ9 -->
-<pre class="r"><code>mat_L_inv - solve(mat_L)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF0X0xfaW52IC0gc29sdmUobWF0X0wpXG5gYGAifQ== -->
+<pre class="r"><code>mat_L_inv - solve(mat_L)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiICAxIDIgMyA0IDVcbjEgMCAwIDAgMCAwXG4yIDAgMCAwIDAgMFxuMyAwIDAgMCAwIDBcbjQgMCAwIDAgMCAwXG41IDAgMCAwIDAgMFxuIn0= -->
 <pre><code>  1 2 3 4 5

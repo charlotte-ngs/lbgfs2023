@@ -1,0 +1,69 @@
+# Decomposition of Numerator Relationship Matrix $A$
+```{r met-decomp-num-rel-mat, echo=FALSE}
+s_this_rmd_file <- rmdhelp::get_this_rmd_file()
+met$set_this_rmd_file(ps_this_rmd_file = s_this_rmd_file)
+```
+
+## Definition of the Numerator Relationship Matrix $A$
+The numerator relationship matrix $A$ contains the known numerical factors which are used in the variance-covariance matrix $G$ of all breeding values in a population. The matrix $G$ was defined as 
+$$G = A \sigma_u^2$$
+
+where $\sigma_u^2$ is an unknown variance component which has to be estimated from the data. The numerical factors in the numerator relationship matrix $A$ correspond to two times the kinship coefficients. More precisely `r met$add("Lange2002")` gives in chapter 5.2 (p.81) the definition of the kinship coefficient $\Phi_{ij}$ between related individuals $i$ and $j$ as the probability of a gene selected at random from $i$ and a gene selected randomly from the same autosomal locus of $j$ are identical by descent. This definition originates from `r met$add("MALECOT1948")`.
+
+The elements of matrix $A$ which are called relationship coefficients, are computed by subsequent decomposition of the breeding values into the parental breeding values in the expression of the genetic covariance between pairs of individuals. When looking at individuals $i$ and $j$ in a given population, the covariance $cov(u_i,u_j)$ between the breeding values of individuals $i$ and $j$ is by the above equation of the genetic variance-covariance matrix $G$ equal to 
+
+$$cov(u_i,u_j) = (G)_{ij} = (A)_{ij} \sigma_u^2$$
+
+With this the factor $(A)_{ij}$ can be computed by recursively decomposing $u_i$ and $u_j$ into parental breeding values until common ancestors between $i$ and $j$ in the pedigree are reached. 
+
+One important consequence of the above given definition of the numerator relationship is that the matrix $A$ is a symmetric and positive definite matrix.
+
+
+## Decomposition of $A$
+Due to the property of the matrix $A$ of being symmetric and positive definite, it can be decomposed into products of other matrices in different ways. In Livestock Breeding and Genomics, we are primarily interested in two types of matrix decompositions 
+
+1. `LDL`-decomposition
+2. cholesky decomposition
+
+As we can show immediately, the two types of decompositions are related. In what follows, the two decompositions are described. We start with the cholesky decomposition because the `LDL`-decomposition follows from the cholesky decomposition. 
+
+
+## Cholesky Decomposition of $A$
+The cholesky decomposition of the matrix $A$ is given by 
+
+$$A = RR^T$$
+
+where $R$ is a lower-triangular matrix. The cholesky decomposition is often referred to as a "square-root" operation for matrices. 
+
+
+### Important Application of Cholesky Decomposition
+The cholesky factor matrices ($R$) are important whenever we want to generate correlated random variables. Let us assume that we want to generate a vector $y$ of $n$ random numbers which should follow a given variance-covariance matrix $V$. This can be done by first generating a random vector $x$ with $n$ independent random numbers which can easily be done using the function `rnorm(n)` in `R`. Then the cholesky-decomposition of $V$ can be computed as $V = UU^T$, then the vector $y$ can be computed as $y = Ux$. In `R`, the function `chol()` can be used to get to the cholesky decomposition of a matrix. It is important to note that `chol()` returns an upper triangular matrix as its result. This would correspond to $R^T$ given the above notation.
+
+
+## `LDL`-Decomposition of $A$
+The `LDL`-decomposition of $A$ follows from the cholesky decomposition because every triangular matrix such as $R$ can be decomposed into a product of a triangular matrix $L$ with all ones on the diagonal and a diagonal matrix $S$. The diagonal elements of $S$ correspond to the diagonal elements of $R$. This means, we can write 
+
+$$R = L\cdot S$$
+
+The decomposition of the triangular matrix $R$ is shown in Figure \@ref(fig:decomp-tri-mat).
+
+```{r decomp-tri-mat, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%", fig.cap="Decomposition of Triangular Matrix"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/decomp-tri-mat.odg")
+knitr::include_graphics(path = "odg/decomp-tri-mat.png")
+```
+
+
+Inserting that into the cholesky-decomposition yields
+
+$$A = RR^T = (L\cdot S)(L\cdot S)^T = L\cdot S\cdot S^T \cdot L^T =  L\cdot S\cdot S\cdot L^T$$
+
+The last equality is based on the fact that $S$ is a diagonal matrix. Setting the product of the two diagonal matrices $S$ equal to the matrix $D$, we get 
+
+$$ L\cdot S\cdot S \cdot L^T = L\cdot D \cdot L^T = A$$
+which corresponds to the `LDL`-decomposition of $A$. The matrix $D$ is a diagonal matrix with diagonal elements
+
+$$(D)_{ii} = (S)_{ii}^2 = (R)_{ii}^2$$
+
+Hence, the matrix $D$ can be determined by extracting the diagonal elements from the cholesky factor matrix $R$ and square these diagonal elements.
+
+ 
