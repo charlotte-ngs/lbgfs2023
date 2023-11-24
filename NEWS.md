@@ -1,3 +1,7 @@
+# lbgfs2023 0.9.3
+
+* Exercise lbg_ex10
+
 # lbgfs2023 0.9.2
 
 * Appendix C in course notes

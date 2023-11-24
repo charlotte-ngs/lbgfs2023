@@ -1,0 +1,103 @@
+---
+title: Livestock Breeding and Genomics - Notebook 10
+author: Peter von Rohr
+date: '2023-11-24'
+output: html_notebook
+params:
+  doctype:
+    label: Document Type
+    value: solution
+    choices:
+    - exercise
+    - solution
+    - notebook
+  isonline:
+    label: Online (y/n)
+    value: true
+    choices:
+    - true
+    - false
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::knit_hooks$set(hook_convert_odg = rmdhelp::hook_convert_odg)
+```
+
+
+## Problem 1: Inverse Numerator Relationship Matrix
+During the lecture the method of computing the inverse numerator relationship matrix $A^{-1}$ directly was introduced. The computation is based on the LDL-decomposition. As a result, we can write 
+
+$$A^{-1} = (L^T)^{-1} \cdot D^{-1} \cdot L^{-1}$$
+where $L^{-1} = I-P$, and $D^{-1}$ is a diagonal matrix with $(D^{-1})_{ii} * \sigma_u^{-2} = var(m_i)^{-1}$.  
+
+
+## Tasks
+
+* Use the example pedigree given below and compute the matrices $L^{-1}$ and $D^{-1}$ to compute $A^{-1}$
+* Verify your result using the function `getAinv()` from package pedigreemm.
+
+
+## Pedigree
+
+```{r}
+nr_animal <- 6
+tbl_pedigree <- tibble::tibble(Calf = c(1:nr_animal),
+                               Sire = c(NA, NA, NA, 1 ,3, 4),
+                               Dam = c(NA, NA, NA, 2, 2, 5))
+tbl_pedigree
+```
+
+
+### Your Solution
+
+* Construct matrix P from the pedigree
+* Use matrix P to compute the matrix $L^{-1}$
+* Construct the matrix $D^{-1}$
+* Compute $A^{-1}$ based on $L^{-1}$ and $D^{-1}$
+
+
+
+
+
+## Problem 2: Rules
+The following diagram helps to illustrate the rules for constructing $A^{-1}$
+
+```{r inv-num-mat, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%"}
+#rmdhelp::use_odg_graphic(ps_path = "odg/inv-num-mat.odg")
+knitr::include_graphics(path = "odg/inv-num-mat.png")
+```
+ 
+
+## Tasks
+
+* Go through the list of animals in the pedigree and write down the contributions that are made to the different elements of matrix $A^{-1}$ 
+* Based on the different contributions, try to come up with some general rules
+
+
+### Your Solution
+
+
+
+
+
+## Problem 3: Program using the Rules
+Write a program in R that implements the rules found in the solution of Problem 2. Test your program with the pedigree given in Problem 1. Compare the results that you obtain with the result obtained from the function `pedigreemm::getAinv()`.
+
+
+### Your Solution
+
+* Because the focus of this problem is the implementation of Henderson's rules in a function, we use then function `pedigreemm::Dmat()` to obtain the values of the matrix $D$. 
+* Write a function `get_A_inverse` which takes as input a pedigree and that returns the inverse numerator relationship matrix
+
+
+
+ 
+
+
+```{r, echo=FALSE, results='asis'}
+cat('\n---\n\n _Latest Changes: ', format(Sys.time(), '%Y-%m-%d %H:%M:%S'), ' (', Sys.info()['user'], ')_\n', sep = '')
+```
+ 

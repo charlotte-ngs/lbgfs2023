@@ -92,12 +92,23 @@ Linv <- I - P
 Linv
 ```
 
-The matrix $D$ is obtained from the cholesky decomposition of the numerator relationship matrix $A$ and can later be verified by the package `pedigreemm`. The cholesky decomposition of the matrix $A$ is related to the `LDL`-decomposition. 
+The matrix $D$ is obtained from the cholesky decomposition of the numerator relationship matrix $A$ and can later be verified by the package `pedigreemm`. The details on how the matrix $D$ can be obtained from the cholesky decomposition are given in Appendix C of the course notes available at: https://charlotte-ngs.github.io/lbgfs2023/cn/A3_decomp_num_rel_mat.pdf. 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 ped <- pedigreemm::pedigree(sire = tbl_pedigree$Sire,
                             dam  = tbl_pedigree$Dam,
                             label = as.character(1:nr_animal))
+mat_A <- as.matrix(pedigreemm::getA(ped = ped))
+mat_A_chol <- chol(mat_A)
+mat_D_diag <- diag(mat_A_chol)^2
+mat_D_inv <- diag(1/mat_D_diag, nrow = nr_animal)
+mat_D_inv
+```
+
+
+The verification via `pedigreemm` can be done as:
+
+```{r}
 D <- pedigreemm::Dmat(ped = ped)
 Dinv <- diag(1/D, nrow = nr_animal, ncol = nr_animal)
 Dinv
