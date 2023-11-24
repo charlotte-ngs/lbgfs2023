@@ -1,0 +1,191 @@
+---
+title: "Variance and Inbreeding"
+author: "Peter von Rohr"
+date: "2023-11-24"
+output:
+  beamer_presentation:
+header-includes:
+ \usepackage{longtable}
+ \usepackage{float}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, results = "asis")
+knitr::knit_hooks$set(hook_convert_odg = rmdhelp::hook_convert_odg)
+```
+
+
+## Assumption
+
+* Variance of breeding value $u_i$: $var(u_i) = (A)_{ii} \sigma_u^2$
+* Diagnoal elements of numerator relationship matrix $A$
+
+$$(A)_{ii} = (1+F_i)$$
+
+\begin{tabular}{llp{9cm}}
+where  &  &  \\
+       &  $F_i$  &  inbreeding coefficient of animal $i$  \\
+       &  $\sigma_u^2$  &  genetic additive variance
+\end{tabular}
+
+* The higher $F_i$, the higher the similarity, the higher the variance
+
+$\rightarrow$ Contradiction?
+
+
+## Variance and Inbreeding
+
+* Relationship between variance and inbreeding
+* How does inbreeding affect the genetic variance?
+* How do we get inbreeding in a population?
+
+$\rightarrow$ Population separates into different lines
+
+## Population with Inbreeding
+
+```{r ideal-pop, echo=FALSE, hook_convert_odg=TRUE, fig_path="odg", out.width="100%"}
+#rmdhelp::use_odg_graphic(ps_path = 'odg/ideal-pop.odg')
+knitr::include_graphics(path = "odg/ideal-pop.png")
+```
+ 
+
+## Assumptions 
+
+* $N$ individuals
+* self-fertilizing, shedding constant rate of eggs and sperm
+* at a given locus: alleles in base population are non-identical by descent
+* $N$ individuals produce $2N$ gametes (eggs and sperm) at constant rate
+* probability that a pair of gametes taken at random carry identical alleles: $1/2N$
+* probability corresponds to the **inbreeding coefficient** ($F$)
+
+
+## Inbreeding Coefficient
+
+* In generation 1:
+
+$$F_1 = {1\over 2N}$$
+
+* second generation
+    + either de-novo match of alleles or
+    + the same alleles from generation 1
+    
+$$F_2 = {1\over 2N} + (1-{1\over 2N})*F_1$$
+
+* new variable $\Delta F = {1\over 2N}$, then
+
+$$F_2 = \Delta F  + (1-\Delta F) * F_1$$
+
+
+## Inbreeding Coefficient II
+
+* Generation $t$: $F_t = \Delta F  + (1-\Delta F) * F_{t-1}$
+* Solving for $\Delta F$
+
+\begin{equation}
+\Delta F = \frac{F_t - F_{t-1}}{1-F_{t-1}} \notag
+\end{equation}
+
+* Panmicitic Index $P = 1-F$
+
+$$\frac{P_t}{P_{t-1}} = 1 - \Delta F$$
+$$P_t = (1 - \Delta F)^t * P_0 \text{ with } P_0 = 1$$
+$$F_t = 1 - (1 - \Delta F)^t$$
+
+
+## Variance of Gene Frequency
+
+* Allele frequencies ($p$ and $q$) no longer constant in lines $\rightarrow$ variation
+* Variance of change of $q$ (same for $p$)
+
+\begin{equation}
+\sigma_{\Delta q}^2 = \frac{p_0q_0}{2N} = p_0q_0 \Delta F \notag
+\end{equation}
+
+* Variance of $q$ (same for $p$)
+
+\begin{equation}
+\sigma_{q}^2 = p_0q_0  F \notag
+\end{equation}
+
+
+## Genotype Frequencies
+
+* Average genotype frequency of homozygotes across all lines: $\bar{q^2}$
+* Definition of variance
+
+$$\sigma_{q}^2 = \bar{q^2} - \bar{q}^2$$
+where $\bar{q}$ is the mean allele frequency across all lines and hence is the same as $q_0$ in the base population
+
+* Therefore 
+
+$$\bar{q^2} =  q_0^2 + \sigma_{q}^2 = q_0^2 + p_0q_0  F$$
+
+## Genotype Frequencies II
+
+```{r var-inb-genofreq-inb-tab, echo=FALSE}
+tbl_genofreq <- tibble::tibble(Genotype = c("$A_1A_1$", "$A_1A_2$", "$A_2A_2$"),
+                               `Original Frequencies` = c("$p_0^2$", "$2p_0q_0$", "$q_0^2$"),
+                               `Changes due to inbreeding` = c("$+p_0q_0 F$", "$-2p_0q_0 F$", "$+p_0q_0 F$"))
+knitr::kable(tbl_genofreq,
+             booktabs = TRUE, 
+             caption = "Genotype Frequencies for a bi-allelic locus, expressed in terms of inbreeding coefficient $F$",
+             escape = FALSE)  
+```
+
+
+## Changes of Mean Value
+
+```{r var-inb-genotypic-value, echo=FALSE}
+tbl_genovalue <- tibble::tibble(Genotype = c("$A_1A_1$", "$A_1A_2$", "$A_2A_2$"),
+                                Frequency = c("$\\bar{p}^2 + \\bar{p}\\bar{q}F$", "$2\\bar{p}\\bar{q} - 2\\bar{p}\\bar{q}F$","$\\bar{q}^2 + \\bar{p}\\bar{q}F$"),
+                                Value = c("$a$", "$d$", "$-a$"),
+                                Product = c("$(\\bar{p}^2 + \\bar{p}\\bar{q}F)a$","$(2\\bar{p}\\bar{q} - 2\\bar{p}\\bar{q}F)d$","$-(\\bar{q}^2 + \\bar{p}\\bar{q}F)a$"))
+knitr::kable(tbl_genovalue,
+             booktabs = TRUE, 
+             caption = "Derivation of Inbreeding Depression",
+             escape = FALSE) 
+```
+
+
+## Inbreeding Depression
+
+\begin{align}
+M_F &= (\bar{p}^2 + \bar{p}\bar{q}F)a + (2\bar{p}\bar{q} - 2\bar{p}\bar{q}F)d - (\bar{q}^2 + \bar{p}\bar{q}F)a \notag \\
+    &= a(\bar{p} - \bar{q}) + 2d\bar{p}\bar{q} - 2d\bar{p}\bar{q}F \notag \\
+    &= a(\bar{p} - \bar{q}) + 2d\bar{p}\bar{q}(1-F) \notag \\
+    &= M_0 - 2d\bar{p}\bar{q}F \notag
+\end{align}
+
+
+## Changes of Variance
+
+* Only additive locus
+* Within line: as before
+
+\begin{align}
+V_{\bar{G}}  &=  2(\bar{pq})a^2 \notag \\
+             &=  2p_0q_0(1-F) \notag \\
+             &=  V_G(1-F) \notag
+\end{align}
+
+* New variance component: between line
+
+\begin{equation}
+var(M) = \sigma_M^2 =  4a^2 \sigma_q^2 = 4a^2p_0q_0F = 2FV_G \notag
+\end{equation}
+
+
+## Summary
+
+```{r tab-genvar-anova, echo=FALSE}
+tbl_gen_anova <- tibble::tibble(Source = c("Between lines", "Within lines","Total"),
+                                Variance = c("$2FV_G$", "$(1-F)V_G$", "$(1+F)V_G$"))
+
+knitr::kable(tbl_gen_anova,
+             booktabs = TRUE, 
+             caption = "Partitioning of the variance in a population with inbreeding coefficient F",
+             escape = FALSE) 
+```
+
+
+
