@@ -1,0 +1,105 @@
+---
+title: Livestock Breeding and Genomics - Notebook 11
+author: Peter von Rohr
+date: '2023-11-24'
+output: html_notebook
+params:
+  doctype:
+    label: Document Type
+    value: solution
+    choices:
+    - exercise
+    - solution
+    - notebook
+  isonline:
+    label: Online (y/n)
+    value: true
+    choices:
+    - true
+    - false
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: Inbreeding Coefficient
+```{r prob1-setup, echo=FALSE}
+n_pop_size <- 200
+n_line <- 4
+n_year_emigration <- 1810
+n_year_semen_import <- 1960
+n_sex_ratio <- 0.5
+n_generation_interval <- 10
+```
+
+Because of very low amounts of harvested corn and grains at the end of the $18^{th}$ century in central Europe, many farmers were forced to leave their contry and find a new home in the USA. In `r n_year_emigration` a group of farmers took a population of about `r n_pop_size` animals and moved to the US.  After the arrival, the group formed `r n_line` subgroups and settled in the states of Wisconsin, Virginia, Texas and California. The animals were equally partitioned to the subgroups. After the partion into the subpopulations, the animals were bred independently in the four different lines. In `r n_year_semen_import`, semen from bulls of the partitioned subpopulations was re-imported to Europe. 
+
+## Assumptions
+* Although, cattle does not follow the same mode of inheritance as the organism shown in the lecture, the computations as shown in the lecture can be used as an approximation. 
+* The ratio of the number of female animals to the total population size can be assumed to be $`r n_sex_ratio`$.
+* In contrast to the size $N$ of the subpopulations that was assumed to be the number of individuals, here $N$ is the number of female animals in a given subpopulation.
+* The generation interval can be assumed to be `r n_generation_interval` years.
+
+### Your Task:
+
+* Compute the inbreeding coefficient $F_t$ for the bulls from which semen was re-imported back into Europe. 
+
+
+
+### Your Solution
+
+Use the formulas given in the script and the input given in the problem to compute the inbreeding coefficient.
+
+
+
+
+
+## Problem 2: Inbreeding Depression
+```{r ex09p02-setup, echo=FALSE}
+n_hom_value <- 25
+n_maf_locus_a <- .1
+n_diff_het <- 10
+n_maf <- .05
+```
+
+Use the same assumptions as in Problem 1 and compute the inbreeding depression caused by the inbreeding coefficient computed in Problem 1 at two different genetic loci.
+
+a. Locus $A$ is purely additive with a genotypic value of $a=`r n_hom_value`$. Hence the genotypic value of the heterozygous genotype is in the middle between the values of the two homozygous genotypes. In other words, the quantity $d = 0$. The minor allele frequency (MAF) of the positive allele of locus $A$ is $p = `r n_maf_locus_a`$
+b. Locus $B$ where the valud of the heterozygous genotypes $B_1B_2$ is $10$ units above the mean of the homozygous genotypes, hence you can set the quantity $d=10$. The minor allele frequency of the positive allele of locus $B$ is $p = `r n_maf`$. 
+
+
+### Your Solution
+
+* Inbreeding depression was presented during the lecture
+* Compute the inbreeding depression for the two scenarios in a) and b)
+
+
+
+
+
+## Problem 3: Genetic additive Variance
+Compute the between-line, the within-line and the total genetic variance for the population described in Problem 1 and the locus $A$ of Problem 2a. 
+
+
+### Your Solution
+
+Compute the two variance components as given in the lecture which are 
+
+1. between-line
+2. within-line
+
+From both components get the total genetic variance
+
+
+
+ 
+
+
+```{r, echo=FALSE, results='asis'}
+cat('\n---\n\n _Latest Changes: ', format(Sys.time(), '%Y-%m-%d %H:%M:%S'), ' (', Sys.info()['user'], ')_\n', sep = '')
+```
+ 
