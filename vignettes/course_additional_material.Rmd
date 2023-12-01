@@ -125,7 +125,7 @@ knitr::kable(tbl_data)
 
 ```{r ohp-table, echo=FALSE, message=FALSE, warning=FALSE}
 s_ohp_url <- file.path(root_url, "ohp")
-tbl_ohp <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8),
+tbl_ohp <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8, 9),
                           Date = c("2023-09-22",
                                    "2023-09-29",
                                    "2023-10-06",
@@ -133,7 +133,8 @@ tbl_ohp <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8),
                                    "2023-10-20",
                                    "2023-10-27",
                                    "2023-11-03",
-                                   "2023-11-10"),
+                                   "2023-11-10",
+                                   "2023-12-01"),
                           Topic = c(
                             paste0("[Introduction](",
                                    s_ohp_url,
@@ -160,6 +161,10 @@ tbl_ohp <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8),
                                    collapse = ""),
                             paste0("[Genetic Covariance between Animals](", 
                                    file.path(s_ohp_url, "20231110_ohp_l08.pdf"),
+                                   ")",
+                                   collapse = ""),
+                            paste0("[Additional Aspects of BLUP](",
+                                   file.path(s_ohp_url, "20231201_ohp_l11.pdf"),
                                    ")",
                                    collapse = "")
                           ))
