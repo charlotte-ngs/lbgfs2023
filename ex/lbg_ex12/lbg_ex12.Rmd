@@ -59,20 +59,11 @@ cat(s_beef_data_path)
 <!-- your-solution-start
 ### Your Solution
 
----  your-solution-end -->
-
-
-<!-- master-solution-start -->
-
-### Solution
-
-<!-- master-solution-end -->
-
-
-## Problem 2
-
-<!-- your-solution-start
-### Your Solution
+* Read the data
+* Specify the linear mixed effects model
+* Setup the mixed model equations (MME)
+* Get estimates of fixed effects and predictions of breeding values from solutions of MME
+* Compute accuracies from inverse of coefficient matrix of MME
 
 ---  your-solution-end -->
 
@@ -84,17 +75,3 @@ cat(s_beef_data_path)
 <!-- master-solution-end -->
 
 
-## Problem 3
-
-<!-- your-solution-start
-### Your Solution
-
----  your-solution-end -->
-
-
-<!-- master-solution-start -->
-
-### Solution
-
-<!-- master-solution-end -->
- 
