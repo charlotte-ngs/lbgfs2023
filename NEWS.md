@@ -1,3 +1,7 @@
+# lbgfs2023 0.10.1
+
+* Exercise lbg_ex12
+
 # lbgfs2023 0.10.0
 
 * Chapter 7 of course notes
