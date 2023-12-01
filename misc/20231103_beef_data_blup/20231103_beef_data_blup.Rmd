@@ -138,6 +138,6 @@ Write the data to a file
 
 ```{r}
 s_bc_data <- here::here("docs", "data", "beef_data_blup.csv")
-readr::write_delim(tbl_bc_data, s_bc_data)
+readr::write_delim(tbl_bc_data, s_bc_data, delim = ",")
 ```
 
