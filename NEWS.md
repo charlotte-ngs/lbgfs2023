@@ -1,3 +1,7 @@
+# lbgfs2023 0.10.2
+
+* Solutions lbg_ex10 and lbg_ex11
+
 # lbgfs2023 0.10.1
 
 * Exercise lbg_ex12
