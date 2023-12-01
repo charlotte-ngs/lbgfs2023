@@ -1,0 +1,77 @@
+---
+title: Livestock Breeding and Genomics - `r tools::toTitleCase(params$doctype)` 12
+author: Peter von Rohr
+date: 2023-12-01
+output:
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+    keep_md: false
+    keep_tex: false
+header-includes:
+ \usepackage{longtable}
+ \usepackage{float}
+params:
+  doctype:
+    label: 'Document Type'
+    value: 'solution'
+    choices: ['exercise', 'solution', 'notebook']
+  isonline:
+    label: 'Online (y/n)'
+    value: TRUE
+    choices: [TRUE, FALSE]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r p1-init, echo=FALSE}
+if (!exists("params")) params <- list(isonline = TRUE)
+if (params$isonline){
+  s_beef_data_path <- "https://charlotte-ngs.github.io/lbgfs2023/data/beef_data_blup.csv"
+} else {
+  s_beef_data_path <- here::here("docs", "data", "beef_data_blup.csv")
+}
+n_h2_weight <- 0.25
+```
+
+
+## Problem 1: Accuracy of Predicted Breeding Values
+Use the dataset given below to predict breeding values for the response variable `Weight` using a BLUP animal model. The model contains `Herd` as fixed effect and `BreastCircumference` as regression covariate. Compute reliabilities ($B\%$) for all predicted breeding values. 
+
+
+### Hints
+* The phenotypic variance $\sigma_p^2$ can be computed from the variance of the weight values given in the dataset. 
+* Heritability ($h^2$) is assumed to be `r n_h2_weight` for the trait `Weight`. 
+
+
+### Data
+The dataset is available from
+
+```{r, echo=FALSE}
+cat(s_beef_data_path)
+```
+
+
+
+<!-- your-solution-start
+### Your Solution
+
+* Read the data
+* Specify the linear mixed effects model
+* Setup the mixed model equations (MME)
+* Get estimates of fixed effects and predictions of breeding values from solutions of MME
+* Compute accuracies from inverse of coefficient matrix of MME
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+
+<!-- master-solution-end -->
+
+
