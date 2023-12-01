@@ -1,0 +1,62 @@
+---
+title: "Prediction Error Variance"
+output: html_notebook
+---
+
+
+## Solution for Fixed Effects
+
+Given $var(y) = V\sigma^2$ with $V$ being a positive definite symmetric matrix, we can do a cholesky transformation as follows
+
+
+## Cholesky Factorization of $V$
+The cholesky factorization of $V$ yields
+
+$$V = RR^T$$ 
+
+
+## Transformation
+The response variable $y$ is transformed to $y^*$ according to
+
+$$y^* = R^{-1}y$$
+
+with that we get
+
+$$var(y^*) = var(R^{-1}y) 
+  = R^{-1} \cdot var(y) \cdot (R^{-1})^T 
+  = R^{-1} \cdot V \cdot (R^{-1})^T * \sigma^2
+  = R^{-1} \cdot R\cdot R^T \cdot (R^{-1})^T * \sigma^2= I * \sigma^2$$
+
+
+## Model Transformation
+
+The original model 
+
+$$y = X\beta + e$$
+is transformed by multiplying both sides with $R^{-1}$ yielding 
+
+$$R^{-1}y = R^{-1}(X\beta + e)$$
+which can be written as
+
+$$y^* = X^*\beta^* + e^*$$
+with $X^* = R^{-1}X$, $\beta^* = R^{-1}\beta$ and $e^* = R^{-1}e$
+
+
+## Solutions for Fixed Effects
+The estimate for $\beta^*$ is obtained from the least squares normal equations
+
+$$(X^*)^TX^*\hat{\beta^*} = (X^*)^Ty^*$$
+Provided $X^*$ has full column rank, we get the solution for $\hat{\beta^*}$ as
+
+$$\hat{\beta^*} = \left( (X^*)^T X^* \right)^{-1} (X^*)^T y^*
+= \left( (R^{-1}X)^T R^{-1} X \right)^{-1} (R^{-1}X)^T R^{-1}y
+= \left( X^T (R^{-1})^T R^{-1} X \right)^{-1} X^T (R^{-1})^T R^{-1}y
+= \left(X^TV^{-1}X \right)^{-1} X^TV^{-1}y
+$$
+
+
+
+
+
+
+
