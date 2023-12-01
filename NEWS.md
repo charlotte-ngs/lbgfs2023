@@ -1,3 +1,7 @@
+# lbgfs2023 0.10.0
+
+* Chapter 7 of course notes
+
 # lbgfs2023 0.9.5
 
 * Solution lbg_ex09

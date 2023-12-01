@@ -272,3 +272,46 @@
   url = {https://acteon.webs.upv.es/LIBROS/LIBRO. MALECOT. Les math{\'{e}}matiques de lh{\'{e}}r{\'{e}}dit{\'{e}}.pdf},
   year = {1948},
 }
+
+@Article{Bijma2012,
+  abstract = {The accuracy of estimated breeding values (EBVs) is an important parameter in livestock genetic improvement. It is used to calculate response to selection and to express the credibility of individual EBVs. Although it is well-known that selection reduces accuracy, this effect is not well-studied and accuracies from genetic evaluations are not adjusted for selection. This work investigates the effect of selection on accuracy of EBVs estimated using best linear unbiased predictors. Results show that accuracies in a selected population may be considerably smaller than the ordinary accuracy from genetic evaluation. Accuracy of the parent average is dramatically reduced by selection, up to a factor of three. Expressions for equilibrium accuracies in selected populations are presented and depend only on the unselected accuracy and the intensity of selection. Thus, schemes with the same unselected accuracy and intensity of selection also have the same equilibrium accuracy and response to selection. At the same unselected accuracy, therefore, schemes based on between-family information do not show greater reduction in response and accuracy because of the Bulmer effect. An example shows that benefit of genomic selection may be underestimated when the effect of selection on accuracy is ignored. Finally, this work argues that the SE of an EBV and the correlation between true and EBVs are different things, and that accuracies should not be adjusted for selection when they primarily serve to indicate the SEs of EBVs. {\textcopyright} 2012 Wageningen University.},
+  author = {P. Bijma},
+  doi = {10.1111/j.1439-0388.2012.00991.x},
+  file = {:Users/pvr/Library/Application Support/Mendeley Desktop/Downloaded/Bijma - 2012 - Accuracies of estimated breeding values from ordinary genetic evaluations do not reflect the correlation between true and.pdf:pdf},
+  issn = {09312668},
+  journal = {Journal of Animal Breeding and Genetics},
+  keywords = {Accuracy,Best linear unbiased prediction,Estimated breeding value,Genomic selection,Selection},
+  number = {5},
+  pages = {345--358},
+  pmid = {22963356},
+  title = {{Accuracies of estimated breeding values from ordinary genetic evaluations do not reflect the correlation between true and estimated breeding values in selected populations}},
+  volume = {129},
+  year = {2012},
+}
+
+@Article{Legarra2018,
+  abstract = {Background: Cross-validation tools are used increasingly to validate and compare genetic evaluation methods but analytical properties of cross-validation methods are rarely described. There is also a lack of cross-validation tools for complex problems such as prediction of indirect effects (e.g. maternal effects) or for breeding schemes with small progeny group sizes. Results: We derive the expected value of several quadratic forms by comparing genetic evaluations including "partial" and "whole" data. We propose statistics that compare genetic evaluations including "partial" and "whole" data based on differences in means, covariance, and correlation, and term the use of these statistics "method LR" (from linear regression). Contrary to common belief, the regression of true on estimated breeding values is (on expectation) lower than 1 for small or related validation sets, due to family structures. For validation sets that are sufficiently large, we show that these statistics yield estimators of bias, slope or dispersion, and population accuracy for estimated breeding values. Similar results hold for prediction of future phenotypes although we show that estimates of bias, slope or dispersion using prediction of future phenotypes are sensitive to incorrect heritabilities or precorrection for fixed effects. We present an example for a set of 2111 Brahman beef cattle for which, in repeated partitioning of the data into training and validation sets, there is very good agreement of statistics of method LR with prediction of future phenotypes. Conclusions: Analytical properties of cross-validation measures are presented. We present a new method named LR for cross-validation that is automatic, easy to use, and which yields the quantities of interest. The method compares predictions based on partial and whole data, which results in estimates of accuracy and biases. Prediction of observed records may yield biased results due to precorrection or use of incorrect heritabilities.},
+  annote = {Compare prediction of whole and reduced dataset to get estimates of accuracy and biases.
+- tools needed not only to know goodness of an evaluation but also to compare model choices and quality
+- bases on cross-validation test based on focal animals (where focal can be all population or subgroups)
+Accuracy: cov(EBV,TBV)/sqrt(var(EBV)*var(TBV))
+Bias:mean(TBV)-mean(EBV)
+Dispersion:slope of regression of TBV on EBV
+- needs large number of animals (several hundreds at least and of multiple half-sibs families},
+  author = {Andres Legarra and Antonio Reverter},
+  doi = {10.1186/s12711-018-0426-6},
+  file = {:Users/pvr/Library/Application Support/Mendeley Desktop/Downloaded/Legarra, Reverter - 2018 - Semi-parametric estimates of population accuracy and bias of predictions of breeding values and future phenot.pdf:pdf},
+  issn = {12979686},
+  journal = {Genetics Selection Evolution},
+  keywords = {Agriculture,Animal Genetics and Genomics,Evolutionary Biology,LR-Method,Single Step Validation},
+  mendeley-tags = {LR-Method,Single Step Validation},
+  month = {nov},
+  number = {1},
+  pages = {1--18},
+  pmid = {30400768},
+  publisher = {BioMed Central Ltd.},
+  title = {{Semi-parametric estimates of population accuracy and bias of predictions of breeding values and future phenotypes using the LR method}},
+  url = {https://link.springer.com/article/10.1186/s12711-018-0426-6},
+  volume = {50},
+  year = {2018},
+}
