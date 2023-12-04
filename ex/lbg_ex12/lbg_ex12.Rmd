@@ -149,7 +149,7 @@ n_nr_ani <- n_nr_fnd + n_nr_obs
 ped <- pedigreemm::pedigree(sire = c(rep(NA, n_nr_fnd), tbl_beef$Sire),
                             dam  = c(rep(NA, n_nr_fnd), tbl_beef$Dam),
                             label = c(1:n_nr_ani))
-matA_inv <- pedigreemm::getAInv(ped = ped)
+matA_inv <- as.matrix(pedigreemm::getAInv(ped = ped))
 ```
 
 The coefficient matrix and the right-hand-sides of the MME are
@@ -183,9 +183,27 @@ mat_sol[(n_nr_fix + 1):n_nr_sol,]
 ```
 
 
-
-
 * Compute accuracies from inverse of coefficient matrix of MME
+
+The above computed coefficient matrix corresponds to the simplified version. The prediction error variance is obtained from the inverse of the general form of the coefficient matrix. To get from the simplified to the general form, we have to divide by $\sigma_e^2$. 
+
+```{r}
+var_p <- var(tbl_beef$Weight)
+var_e <- (1-n_h2_weight) * var_p
+mat_coef_gen <- mat_coef / var_e
+mat_coef_inv <- solve(mat_coef_gen)
+mat_C22 <- mat_coef_inv[(n_nr_fix + 1):n_nr_sol,(n_nr_fix + 1):n_nr_sol]
+vec_diag_C22 <- diag(mat_C22)
+vec_inb <- pedigreemm::inbreeding(ped = ped)
+vec_ui <- n_h2_weight * var_p * (1+vec_inb)
+vec_Bi <- 1 - vec_diag_C22 / vec_ui
+```
+
+The reliabilities (B%) of all animals in the pedigree are 
+
+```{r}
+100 * vec_Bi
+```
 
 <!-- master-solution-end -->
 
