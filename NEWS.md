@@ -1,3 +1,7 @@
+# lbgfs2023 0.10.5
+
+* Solution lbg_ex12
+
 # lbgfs2023 0.10.4
 
 * OHP L11
