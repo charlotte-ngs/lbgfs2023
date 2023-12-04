@@ -11,14 +11,15 @@ Solutions to exercises for LBGFS2023
 
 ```{r solution-table, echo=FALSE, warning=FALSE, message=FALSE}
 s_sol_url <- "https://charlotte-ngs.github.io/lbgfs2023/sol/"
-tbl_sol <- tibble::tibble(Nr = c(2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
+tbl_sol <- tibble::tibble(Nr = c(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
                           Date = c("2023-10-06",
                                    "2023-10-13",
                                    "2023-10-20",
                                    "2023-10-27",
                                    rep("2023-11-10", 3),
                                    "2023-11-24",
-                                   rep("2023-12-01", 2)),
+                                   rep("2023-12-01", 2),
+                                   "2023-12-08"),
                           Topic = c(
                             paste0("[Linear Algebra](",
                                    s_sol_url,
