@@ -1,5 +1,7 @@
 # lbgfs2023 0.10.6
 
+* Test exam
+
 # lbgfs2023 0.10.5
 
 * Solution lbg_ex12
