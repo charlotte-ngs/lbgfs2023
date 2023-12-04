@@ -72,6 +72,139 @@ cat(s_beef_data_path)
 
 ### Solution
 
+* Read the data
+
+```{r}
+tbl_beef <- readr::read_delim(s_beef_data_path, delim = ",")
+```
+
+* Specify the linear mixed effects model
+
+$$y = X\beta + Zu + e$$
+with vectors $y$: observations, $\beta$: fixed regression coefficient of `BreastCircumference` and fixed herd-effects, $u$: random breeding values, $e$: random residuals. Matrix $X$ links covariates and fixed effects to observations and matrix Z related breeding values to observations. 
+
+Expected values of the random components are 
+
+$$E \left[\begin{array}{c}y \\ u \\ e  \end{array} \right] = \left[\begin{array}{c}X\beta \\ 0 \\ 0  \end{array} \right]$$
+
+Variance-Covariance matrices of the random components are
+
+$$var\left[\begin{array}{c}y \\ u \\ e  \end{array} \right] = \left[\begin{array}{ccc} V & ZG & R \\ GZ^T & G & 0 \\ R & 0 & R  \end{array} \right] $$
+with $R = I * \sigma_e^2$, $G = A \sigma_u^2$ and $V = ZGZ^T + R$. Matrix $A$ is the numerator relationship matrix based on the pedigree and $\sigma_e^2$ and $\sigma_u^2$ are given variance components. 
+
+
+* Setup the mixed model equations (MME)
+
+Mixed model equations for BLUE of $\beta$ and BLUP of $u$ are given by
+
+$$
+\left[
+\begin{array}{lr}
+X^TX & X^TZ \\
+Z^TX & Z^TZ + \lambda * A^{-1}
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+\hat{\beta} \\
+\hat{u}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+X^Ty \\
+Z^Ty
+\end{array}
+ \right]
+$$
+
+Information from data are inserted to the MME. Start with matrix $X$
+
+```{r}
+matX <- model.matrix(lm(Weight ~ 0 + BreastCircumference + as.factor(Herd), data = tbl_beef))
+attr(matX,"assign") <- NULL
+attr(matX,"contrasts") <- NULL
+dimnames(matX) <- NULL
+```
+
+For matrix $Z$, we have to complete the pedigree
+
+```{r}
+vec_fnd_sire <- setdiff(tbl_beef$Sire, tbl_beef$Animal)
+vec_fnd_sire <- vec_fnd_sire[!is.na(vec_fnd_sire)]
+vec_fnd_dam <- setdiff(tbl_beef$Dam, tbl_beef$Animal)
+vec_fnd_dam <- vec_fnd_dam[!is.na(vec_fnd_dam)]
+vec_fnd <- c(vec_fnd_sire, vec_fnd_dam)
+n_nr_fnd <- length(vec_fnd)
+n_nr_obs <- nrow(tbl_beef)
+matZ <- cbind(matrix(rep(0, n_nr_fnd*n_nr_obs), nrow = n_nr_obs),
+              diag(nrow = n_nr_obs))
+```
+
+The inverse numerator relationship $A^{-1}$ is computed based on the pedigree
+
+```{r}
+n_nr_ani <- n_nr_fnd + n_nr_obs
+ped <- pedigreemm::pedigree(sire = c(rep(NA, n_nr_fnd), tbl_beef$Sire),
+                            dam  = c(rep(NA, n_nr_fnd), tbl_beef$Dam),
+                            label = c(1:n_nr_ani))
+matA_inv <- as.matrix(pedigreemm::getAInv(ped = ped))
+```
+
+The coefficient matrix and the right-hand-sides of the MME are
+
+```{r}
+lambda <- (1-n_h2_weight) / n_h2_weight
+mat_coef <- rbind(cbind(crossprod(matX), crossprod(matX, matZ)), 
+                  cbind(crossprod(matZ, matX), crossprod(matZ) + lambda * matA_inv))
+vec_y <- tbl_beef$Weight
+mat_rhs <- rbind(crossprod(matX, vec_y),
+                 crossprod(matZ, vec_y))
+mat_sol <- solve(mat_coef, mat_rhs)
+mat_sol
+```
+
+
+* Get estimates of fixed effects and predictions of breeding values from solutions of MME
+
+Estimates for the fixed effects are: 
+
+```{r}
+n_nr_sol <- nrow(mat_sol)
+n_nr_fix <- n_nr_sol - n_nr_ani
+mat_sol[1:n_nr_fix,]
+```
+
+Predicted breeding values are:
+
+```{r}
+mat_sol[(n_nr_fix + 1):n_nr_sol,]
+```
+
+
+* Compute accuracies from inverse of coefficient matrix of MME
+
+The above computed coefficient matrix corresponds to the simplified version. The prediction error variance is obtained from the inverse of the general form of the coefficient matrix. To get from the simplified to the general form, we have to divide by $\sigma_e^2$. 
+
+```{r}
+var_p <- var(tbl_beef$Weight)
+var_e <- (1-n_h2_weight) * var_p
+mat_coef_gen <- mat_coef / var_e
+mat_coef_inv <- solve(mat_coef_gen)
+mat_C22 <- mat_coef_inv[(n_nr_fix + 1):n_nr_sol,(n_nr_fix + 1):n_nr_sol]
+vec_diag_C22 <- diag(mat_C22)
+vec_inb <- pedigreemm::inbreeding(ped = ped)
+vec_ui <- n_h2_weight * var_p * (1+vec_inb)
+vec_Bi <- 1 - vec_diag_C22 / vec_ui
+```
+
+The reliabilities (B%) of all animals in the pedigree are 
+
+```{r}
+100 * vec_Bi
+```
+
 <!-- master-solution-end -->
 
 
