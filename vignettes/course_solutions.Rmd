@@ -49,8 +49,10 @@ tbl_sol <- tibble::tibble(Nr = c(2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
                                    "lbg_ex10_sol.pdf)", collapse = ""),
                             paste0("[Variance and Inbreeding](",
                                    s_sol_url,
-                                   "lbg_ex11_sol.pdf)", collapse = "")
-                            
+                                   "lbg_ex11_sol.pdf)", collapse = ""),
+                            paste0("[Accuracy of BLUP Breeding Values](",
+                                   s_sol_url,
+                                   "lbg_ex12_sol.pdf)", collapse = "")
                           ))
 knitr::kable(tbl_sol)
 ```
