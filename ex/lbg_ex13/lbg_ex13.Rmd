@@ -1,0 +1,327 @@
+---
+title: Livestock Breeding and Genomics - `r tools::toTitleCase(params$doctype)` 13
+author: Peter von Rohr
+date: 2023-12-08
+output:
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+    keep_md: false
+    keep_tex: false
+header-includes:
+ \usepackage{longtable}
+ \usepackage{float}
+params:
+  doctype:
+    label: 'Document Type'
+    value: 'solution'
+    choices: ['exercise', 'solution', 'notebook']
+  isonline:
+    label: 'Online (y/n)'
+    value: TRUE
+    choices: [TRUE, FALSE]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: Marker Effect Model
+
+```{r dataflemsnpobs, echo=FALSE, message=FALSE}
+library(dplyr)
+### # fix the number of animals
+n_nr_animal <- 10
+### # intercept
+n_inter_cept <- 150
+### # residual standard deviation
+n_res_sd <- 9.3
+### # vector of genotype value coefficients
+vec_geno_value_coeff <- c(-1,0,1)
+### # sample genotypes of unlinked SNP randomly
+set.seed(5432)
+### # fix allele frequency of positive allele
+n_prob_snps <- .45
+### # genotypic values 
+vec_geno_val <- c(17.9, 3.3)
+n_nr_snp <- length(vec_geno_val)
+### # put together the genotypes into a matrix
+mat_geno_snp <- matrix(c(sample(vec_geno_value_coeff, n_nr_animal, prob = c((1-n_prob_snps)^2, 
+                                                                   2*(1-n_prob_snps)*n_prob_snps, 
+                                                                   n_prob_snps^2), 
+                       replace = TRUE),
+                       sample(vec_geno_value_coeff, n_nr_animal, prob = c(n_prob_snps^2, 
+                                                                   2*(1-n_prob_snps)*n_prob_snps, 
+                                                                   (1-n_prob_snps)^2), 
+                       replace = TRUE)),
+                       nrow = n_nr_snp)
+mat_obs_y <- n_inter_cept + crossprod(mat_geno_snp, vec_geno_val) + rnorm(n = n_nr_animal, mean = 0, sd = n_res_sd)
+### # combine SNP genotypes into a tibble
+geno_code <- tibble::tibble(`SNP A` = mat_geno_snp[1,],
+                            `SNP B` = mat_geno_snp[2,])
+
+### # add the data
+mat_obs_y_rounded <- round(mat_obs_y, digits = 0)
+tbl_obs <- tibble::tibble(Observation = mat_obs_y_rounded[,1])
+geno_code %>% bind_cols(tbl_obs) -> tbl_all_data
+### # add animal ids
+tbl_all_data <- bind_cols(Animal = c(1:n_nr_animal),tbl_all_data)
+### # write data to file
+# s_data_path <- file.path(here::here(), "docs", "data", "geno_data.csv")
+# readr::write_delim(tbl_all_data, file = s_data_path, delim = ",")
+# data url
+s_data_url_path <- "https://charlotte-ngs.github.io/lbgfs2023/data/geno_data.csv"
+```
+
+We are given the dataset that is shown in the table below. This dataset contains gentyping results of `r n_nr_animal` for `r n_nr_snp` SNP loci.
+
+```{r showdataex13, echo=FALSE}
+tbl_all_data <- readr::read_delim(s_data_url_path, delim = ",")
+knitr::kable(tbl_all_data,
+             booktabs = TRUE,
+             longtable = TRUE,
+#             caption = "Animals With Two SNP Loci A and B Affecting A Quantitative Trait",
+             escape = FALSE)
+
+```
+
+The above data can be read from:
+
+```{r, echo=FALSE}
+cat(s_data_url_path, "\n")
+```
+
+
+### Your Task
+* The goal of this problem is to estimate SNP marker effects using a `marker effect model`. Because we have just `r n_nr_snp` SNP loci, you can use a fixed effects linear model with the `r n_nr_snp` loci as fixed effects. Furthermore you can also include a fixed intercept into the model.
+* Specify all the model components including the vector of observations, the design matrix $X$, the vector of unknowns and the vector of residuals. 
+* You can use the R-function `lm()` to get the solutions for estimates of the unknown SNP effects.
+
+
+<!-- your-solution-start
+### Your Solution
+
+* Set up the regression model
+* Use lm() to get the regression coefficients as marker effects
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+The fixed effects model to estimate the marker effects can be written as
+
+$$y = X\beta + e$$
+where $y$ is the vector of observations, $\beta$ is the vector of fixed effects and $e$ is the vector of residuals. Inserting the data from the dataset into the model components leads to
+
+```{r show-vec-obs, echo=FALSE, results='asis'}
+vec_beta <- c("\\beta_0", "\\beta_{A}", "\\beta_{B}")
+vec_res <- rmdhelp::vecGetVecElem(psBaseElement = "e", pnVecLen = n_nr_animal, psResult = 'latex')
+cat("$$\n")
+cat(paste(rmdhelp::bcolumn_vector(pvec = tbl_all_data$Observation, ps_name = 'y'), collapse = '\n'), '\n')
+cat(paste(rmdhelp::bcolumn_vector(pvec = vec_beta, ps_name = '\\beta'), collapse = '\n'), '\n')
+cat(paste(rmdhelp::bcolumn_vector(pvec = vec_res, ps_name = 'e'), collapse = '\n'), '\n')
+cat("$$\n")
+```
+
+where $\beta_0$ is the intercept and $\beta_A$ and $\beta_B$ correspond to the marker effects (a-values) for both SNPs A and B.
+
+The design matrix $X$ is taken from the dataset as
+
+```{r show-design-mat-x, echo=FALSE, results='asis'}
+mat_X <- cbind(matrix(1,nrow = ncol(mat_geno_snp), ncol = 1), t(mat_geno_snp))
+cat(paste(rmdhelp::bmatrix(pmat = mat_X, ps_name = 'X', ps_env = '$$'), collapse = '\n'), '\n')
+```
+
+The solution for the intercept and the marker effects are obtained with 
+
+```{r, results='markup'}
+lm_snp_eff <- lm(tbl_all_data$Observation ~ tbl_all_data$`SNP A` + tbl_all_data$`SNP B`, 
+                 data = tbl_all_data)
+summary(lm_snp_eff)
+```
+
+
+<!-- master-solution-end -->
+
+
+## Problem 2: Breeding Value Model
+Use the same data as in Problem 1 to estimate genomic breeding values using a `breeding value model`.
+
+
+### Hints
+* The only fixed effect in this model is the mean $\mu$ which is the same for all observations.
+* You can use the following function to compute the genomic relationship matrix
+
+```{r, echo=TRUE}
+#' Compute genomic relationship matrix based on data matrix
+computeMatGrm <- function(pmatData) {
+  matData <- pmatData
+  # check the coding, if matData is -1, 0, 1 coded, then add 1 to get to 0, 1, 2 coding
+  if (min(matData) < 0) matData <- matData + 1
+  # Allele frequencies, column vector of P and sum of frequency products
+  freq <- apply(matData, 2, mean) / 2
+  P <- 2 * (freq - 0.5)
+  sumpq <- sum(freq*(1-freq))
+  # Changing the coding from (0,1,2) to (-1,0,1) and subtract matrix P
+  Z <- matData - 1 - matrix(P, nrow = nrow(matData), 
+                             ncol = ncol(matData), 
+                             byrow = TRUE)
+  # Z%*%Zt is replaced by tcrossprod(Z)
+  return(tcrossprod(Z)/(2*sumpq))
+}
+matG <-computeMatGrm(pmatData = t(mat_geno_snp))
+matG_star <- matG + 0.01 * diag(nrow = nrow(matG))
+n_min_eig_matG_start <- min(eigen(matG_star, only.values = TRUE)$values)
+if (n_min_eig_matG_start < sqrt(.Machine$double.eps))
+  stop(" *** Genomic relationship matrix singular with smallest eigenvalue: ", 
+       n_min_eig_matG_start)
+```
+
+* The resulting genomic relationship matrix is given by
+
+```{r show-genomic-reltionship-matrix, echo=FALSE, results='asis'}
+cat(paste(rmdhelp::bmatrix(pmat = round(matG_star, digits = 3), ps_name = 'G', ps_env = '$$'), collapse = '\n'), '\n')
+```
+
+### Your Tasks
+* Specify all model components of the linear mixed model, including the expected values and the variance-covariance matrix of the random effects.
+
+
+<!-- your-solution-start
+### Your Solution
+
+* Specify the model formula
+* Name all model components
+* Put all information from the data into the model components
+* Specify expected values and variance-covariance matrix for all random effects in the model
+* Setup mixed model equations
+* Compute solutions of mixed model equations
+
+---  your-solution-end -->
+
+
+<!-- master-solution-start -->
+
+### Solution
+The breeding value model is a linear mixed effects model which can be written as
+
+$$y = X \beta + W u + e$$
+where 
+
+* $y$ is the vector of observations
+* $\beta$ is the vector of fixed effects
+* $u$ is the vector of random genomic breeding values
+* $e$ is the vector of random residuals
+* $X$ and $W$ are design matrices linking fixed effects and genomic breeding values to observations.
+
+Inserting the information from the dataset into the model leads to
+
+```{r show-vecs-bv-model, echo=FALSE, results='asis'}
+vec_beta <- c("\\mu")
+vec_u <- rmdhelp::vecGetVecElem(psBaseElement = "u", pnVecLen = n_nr_animal, psResult = 'latex')
+vec_res <- rmdhelp::vecGetVecElem(psBaseElement = "e", pnVecLen = n_nr_animal, psResult = 'latex')
+cat("$$\n")
+cat(paste(rmdhelp::bcolumn_vector(pvec = tbl_all_data$Observation, ps_name = 'y'), collapse = '\n'), '\n')
+cat(paste(rmdhelp::bcolumn_vector(pvec = vec_beta, ps_name = '\\beta'), collapse = '\n'), '\n')
+cat(paste(rmdhelp::bcolumn_vector(pvec = vec_u, ps_name = 'u'), collapse = '\n'), '\n')
+cat(paste(rmdhelp::bcolumn_vector(pvec = vec_res, ps_name = 'e'), collapse = '\n'), '\n')
+cat("$$\n")
+```
+
+The design matrices $X$ and $W$ correspond to
+
+```{r show-design-mat-bv-model, echo=FALSE, results='asis'}
+mat_x_bv <- matrix(1, nrow = n_nr_animal, ncol = 1)
+mat_w_bv <- diag(nrow = n_nr_animal)
+cat("$$\n")
+cat(paste(rmdhelp::bmatrix(pmat = mat_x_bv, ps_name = 'X'), collapse = '\n'), '\n')
+cat(paste(rmdhelp::bmatrix(pmat = mat_w_bv, ps_name = 'W'), collapse = '\n'), '\n')
+cat("$$\n")
+```
+
+The expected values of the random effects are
+
+$$E(u) = 0$$
+$$E(e) = 0$$
+$$E(y) = X\beta$$
+
+The variance-covariance matrices of the random effects are
+
+$$var(u) = G * \sigma_u^2$$
+where $G$ is the genomic relationship matrix and $\sigma_u^2$ the genetic additive variance explained by the SNPs 
+
+$$var(e) = I * \sigma_e^2 = R$$
+where $I$ is the identity matrix and $\sigma_e^2$ the residual variance.
+
+$$var(y) = WGW^T * \sigma_u^2 + R$$
+
+The solutions for the fixed effects are obtained from mixed model equations.
+
+$$
+\left[
+  \begin{array}{lr}
+  X^TX  &  X^TW \\
+  W^TX  &  W^TW + G^{-1}* \lambda
+  \end{array}
+\right]
+\left[
+  \begin{array}{c}
+  \hat{\beta} \\
+  \hat{u}
+  \end{array}
+\right]
+=
+\left[
+  \begin{array}{c}
+  X^Ty \\
+  W^Ty
+  \end{array}
+\right]
+\notag
+$$
+
+```{r}
+lambda <- 3
+```
+
+The parameter $\lambda = \sigma_e^2 / \sigma_u^2$ is the ratio between residual variance and genetic variance. We assume that this value corresponds to $\lambda = `r lambda`$. 
+
+The single components of the mixed model equations are
+
+```{r}
+mat_xtx <- crossprod(mat_x_bv)
+mat_xtw <- crossprod(mat_x_bv, mat_w_bv)
+mat_wtx <- t(mat_xtw)
+mat_wtw_ginv_lam <- crossprod(mat_w_bv) + solve(matG_star) * lambda
+mat_coeff <- rbind(cbind(mat_xtx, mat_xtw), cbind(mat_wtx, mat_wtw_ginv_lam))
+mat_rhs <- rbind(crossprod(mat_x_bv, mat_obs_y), crossprod(mat_w_bv, mat_obs_y))
+mat_sol <- solve(mat_coeff, mat_rhs)
+```
+
+```{r, echo=FALSE, results='asis'}
+cat("$$\n")
+cat(paste(rmdhelp::bmatrix(pmat = mat_xtx, ps_name = 'X^TX'), collapse = '\n'), '\n')
+cat(", ")
+cat(paste(rmdhelp::bmatrix(pmat = mat_xtw, ps_name = 'X^TW'), collapse = '\n'), '\n')
+cat(", ")
+cat(paste(rmdhelp::bmatrix(pmat = mat_wtx, ps_name = 'W^TX'), collapse = '\n'), '\n')
+cat("$$\n\n")
+cat(paste(rmdhelp::bmatrix(pmat = round(mat_wtw_ginv_lam, digits = 3), ps_name = 'W^TW + G^{-1}', ps_env = '$$'), collapse = '\n'), '\n')
+
+cat("with $$rhs = \\left[\\begin{array}{c} X^Ty \\\\ W^Ty \\end{array}\\right]$$\n")
+cat(paste(rmdhelp::bmatrix(pmat = round(mat_rhs, digits = 3), ps_name = 'rhs', ps_env = '$$'), collapse = '\n'), '\n')
+```
+
+The solution vector for the estimate of the fixed effect $\mu$ and the genomic breeding values for all animals are given by
+
+$$sol =  \left[\begin{array}{c} \hat{\beta} \\ \hat{u} \end{array}\right]$$
+
+```{r, echo=FALSE, results='asis'}
+cat(paste(rmdhelp::bmatrix(pmat = round(mat_sol, digits = 4), ps_name = 'sol', ps_env = '$$'), collapse = '\n'), '\n')
+```
+
+<!-- master-solution-end -->

@@ -1,0 +1,169 @@
+---
+title: Livestock Breeding and Genomics - Notebook 13
+author: Peter von Rohr
+date: '2023-12-08'
+output: html_notebook
+params:
+  doctype:
+    label: Document Type
+    value: solution
+    choices:
+    - exercise
+    - solution
+    - notebook
+  isonline:
+    label: Online (y/n)
+    value: true
+    choices:
+    - true
+    - false
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1: Marker Effect Model
+
+```{r dataflemsnpobs, echo=FALSE, message=FALSE}
+library(dplyr)
+### # fix the number of animals
+n_nr_animal <- 10
+### # intercept
+n_inter_cept <- 150
+### # residual standard deviation
+n_res_sd <- 9.3
+### # vector of genotype value coefficients
+vec_geno_value_coeff <- c(-1,0,1)
+### # sample genotypes of unlinked SNP randomly
+set.seed(5432)
+### # fix allele frequency of positive allele
+n_prob_snps <- .45
+### # genotypic values 
+vec_geno_val <- c(17.9, 3.3)
+n_nr_snp <- length(vec_geno_val)
+### # put together the genotypes into a matrix
+mat_geno_snp <- matrix(c(sample(vec_geno_value_coeff, n_nr_animal, prob = c((1-n_prob_snps)^2, 
+                                                                   2*(1-n_prob_snps)*n_prob_snps, 
+                                                                   n_prob_snps^2), 
+                       replace = TRUE),
+                       sample(vec_geno_value_coeff, n_nr_animal, prob = c(n_prob_snps^2, 
+                                                                   2*(1-n_prob_snps)*n_prob_snps, 
+                                                                   (1-n_prob_snps)^2), 
+                       replace = TRUE)),
+                       nrow = n_nr_snp)
+mat_obs_y <- n_inter_cept + crossprod(mat_geno_snp, vec_geno_val) + rnorm(n = n_nr_animal, mean = 0, sd = n_res_sd)
+### # combine SNP genotypes into a tibble
+geno_code <- tibble::tibble(`SNP A` = mat_geno_snp[1,],
+                            `SNP B` = mat_geno_snp[2,])
+
+### # add the data
+mat_obs_y_rounded <- round(mat_obs_y, digits = 0)
+tbl_obs <- tibble::tibble(Observation = mat_obs_y_rounded[,1])
+geno_code %>% bind_cols(tbl_obs) -> tbl_all_data
+### # add animal ids
+tbl_all_data <- bind_cols(Animal = c(1:n_nr_animal),tbl_all_data)
+### # write data to file
+# s_data_path <- file.path(here::here(), "docs", "data", "geno_data.csv")
+# readr::write_delim(tbl_all_data, file = s_data_path, delim = ",")
+# data url
+s_data_url_path <- "https://charlotte-ngs.github.io/lbgfs2023/data/geno_data.csv"
+```
+
+We are given the dataset that is shown in the table below. This dataset contains gentyping results of `r n_nr_animal` for `r n_nr_snp` SNP loci.
+
+```{r showdataex13, echo=FALSE}
+tbl_all_data <- readr::read_delim(s_data_url_path, delim = ",")
+knitr::kable(tbl_all_data,
+             booktabs = TRUE,
+             longtable = TRUE,
+#             caption = "Animals With Two SNP Loci A and B Affecting A Quantitative Trait",
+             escape = FALSE)
+
+```
+
+The above data can be read from:
+
+```{r, echo=FALSE}
+cat(s_data_url_path, "\n")
+```
+
+
+### Your Task
+* The goal of this problem is to estimate SNP marker effects using a `marker effect model`. Because we have just `r n_nr_snp` SNP loci, you can use a fixed effects linear model with the `r n_nr_snp` loci as fixed effects. Furthermore you can also include a fixed intercept into the model.
+* Specify all the model components including the vector of observations, the design matrix $X$, the vector of unknowns and the vector of residuals. 
+* You can use the R-function `lm()` to get the solutions for estimates of the unknown SNP effects.
+
+
+### Your Solution
+
+* Set up the regression model
+* Use lm() to get the regression coefficients as marker effects
+
+
+
+
+
+## Problem 2: Breeding Value Model
+Use the same data as in Problem 1 to estimate genomic breeding values using a `breeding value model`.
+
+
+### Hints
+* The only fixed effect in this model is the mean $\mu$ which is the same for all observations.
+* You can use the following function to compute the genomic relationship matrix
+
+```{r, echo=TRUE}
+#' Compute genomic relationship matrix based on data matrix
+computeMatGrm <- function(pmatData) {
+  matData <- pmatData
+  # check the coding, if matData is -1, 0, 1 coded, then add 1 to get to 0, 1, 2 coding
+  if (min(matData) < 0) matData <- matData + 1
+  # Allele frequencies, column vector of P and sum of frequency products
+  freq <- apply(matData, 2, mean) / 2
+  P <- 2 * (freq - 0.5)
+  sumpq <- sum(freq*(1-freq))
+  # Changing the coding from (0,1,2) to (-1,0,1) and subtract matrix P
+  Z <- matData - 1 - matrix(P, nrow = nrow(matData), 
+                             ncol = ncol(matData), 
+                             byrow = TRUE)
+  # Z%*%Zt is replaced by tcrossprod(Z)
+  return(tcrossprod(Z)/(2*sumpq))
+}
+matG <-computeMatGrm(pmatData = t(mat_geno_snp))
+matG_star <- matG + 0.01 * diag(nrow = nrow(matG))
+n_min_eig_matG_start <- min(eigen(matG_star, only.values = TRUE)$values)
+if (n_min_eig_matG_start < sqrt(.Machine$double.eps))
+  stop(" *** Genomic relationship matrix singular with smallest eigenvalue: ", 
+       n_min_eig_matG_start)
+```
+
+* The resulting genomic relationship matrix is given by
+
+```{r show-genomic-reltionship-matrix, echo=FALSE, results='asis'}
+cat(paste(rmdhelp::bmatrix(pmat = round(matG_star, digits = 3), ps_name = 'G', ps_env = '$$'), collapse = '\n'), '\n')
+```
+
+### Your Tasks
+* Specify all model components of the linear mixed model, including the expected values and the variance-covariance matrix of the random effects.
+
+
+### Your Solution
+
+* Specify the model formula
+* Name all model components
+* Put all information from the data into the model components
+* Specify expected values and variance-covariance matrix for all random effects in the model
+* Setup mixed model equations
+* Compute solutions of mixed model equations
+
+
+
+
+
+```{r, echo=FALSE, results='asis'}
+cat('\n---\n\n _Latest Changes: ', format(Sys.time(), '%Y-%m-%d %H:%M:%S'), ' (', Sys.info()['user'], ')_\n', sep = '')
+```
+ 
