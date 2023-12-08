@@ -12,7 +12,7 @@ Links to exercises are shown in the following table.
 ```{r exercise-table, echo=FALSE, message=FALSE, warning=FALSE}
 s_ex_url <- "https://charlotte-ngs.github.io/lbgfs2023/ex/"
 s_nb_url <- "https://charlotte-ngs.github.io/lbgfs2023/nb/"
-tbl_ex <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13),
+tbl_ex <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14),
                          Date = c("2023-09-22",
                                   "2023-09-29",
                                   "2023-09-29",
@@ -24,7 +24,7 @@ tbl_ex <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13),
                                   "2023-11-10",
                                   rep("2023-11-24", 2),
                                   "2023-12-01",
-                                  "2023-12-08"),
+                                  rep("2023-12-08", 2)),
                          Topic = c(
                            paste0("[Questionnaire](", 
                                   s_ex_url, 
@@ -84,6 +84,11 @@ tbl_ex <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13),
                                   "lbg_ex12.pdf) | [nb](",
                                   s_nb_url,
                                   "lbg_ex12_nb_src.nb.html)", collapse = ""),
+                           paste0("Genomic Selection [pdf](",
+                                  s_ex_url,
+                                  "lbg_ex13.pdf) | [nb](",
+                                  s_nb_url,
+                                  "lbg_ex13_nb_src.nb.html)", collapse=""),
                            paste0("Test Exam [pdf](",
                                   s_ex_url,
                                   "20221223_tsk_exam.pdf)", collapse = "")
