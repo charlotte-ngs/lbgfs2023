@@ -1,8 +1,8 @@
 #!/bin/bash
 # sq2h
 SCRIPTDIR=/home/quagadmin/courses/lbgfs2023/bash
-#DIRTOFETCH=ex/lbg_ex12
-DIRTOFETCH=sol/lbg_ex11
+#DIRTOFETCH=ex/lbg_ex13
+DIRTOFETCH=sol/lbg_ex13
 TESTSTUDENT=/home/quagadmin/courses/lbgfs2023/students/test_usernames_lbgfs_2023.csv
 STUDENTUSER=/home/quagadmin/courses/lbgfs2023/students/usernames_lbgfs_2023.csv
 #' fetch individual directory

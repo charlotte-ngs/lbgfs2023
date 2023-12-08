@@ -1,5 +1,7 @@
 # lbgfs2023 0.11.2
 
+* Slides l11_gen_sel
+
 # lbgfs2023 0.11.1
 
 * Exercise lbg_ex13

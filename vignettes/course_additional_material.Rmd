@@ -17,7 +17,7 @@ Additional material for LBGFS2023
 
 ```{r slide-table, echo=FALSE, message=FALSE, warning=FALSE}
 sl_url <- paste0(root_url, "/sl/")
-tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
+tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13),
                          Date = c("2023-09-22",
                                   "2023-09-29",
                                   "2023-10-06",
@@ -27,7 +27,8 @@ tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
                                   "2023-10-27",
                                   rep("2023-11-10", 3),
                                   "2023-11-24",
-                                  "2023-12-01"),
+                                  "2023-12-01",
+                                  "2023-12-08"),
                          Topic = c(
                            paste0("[Introduction to Livestock Breeding and Genomics](", 
                                   sl_url, 
@@ -72,7 +73,10 @@ tbl_sl <- tibble::tibble(Nr = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
                                   "l09_var_inb.pdf)", collapse = ""),
                            paste0("[Additional Aspects of BLUP](",
                                   sl_url,
-                                  "l10_add_asp_blup.pdf)", collapse = "")
+                                  "l10_add_asp_blup.pdf)", collapse = ""),
+                           paste0("[Genomic Selection](",
+                                  sl_url,
+                                  "l11_geno_sel.pdf)", collapse = "")
                            ))
 knitr::kable(tbl_sl)
 ```
