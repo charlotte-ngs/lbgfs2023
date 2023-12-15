@@ -6,7 +6,11 @@ articles:
   course_exercises: course_exercises.html
   course_notes: course_notes.html
   course_solutions: course_solutions.html
+<<<<<<< HEAD
 last_built: 2023-12-15T08:16Z
+=======
+last_built: 2023-12-15T08:19Z
+>>>>>>> 39b18a6af4fa223c89e173adafb4c0cdf8c2f520
 urls:
   reference: https://charlotte-ngs.github.io/lbgfs2023/reference
   article: https://charlotte-ngs.github.io/lbgfs2023/articles
