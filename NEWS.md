@@ -1,5 +1,7 @@
 # lbgfs2023 0.12.0
 
+* Master Thesis and Internship Projects
+
 # lbgfs2023 0.11.3
 
 * Course notes as one document

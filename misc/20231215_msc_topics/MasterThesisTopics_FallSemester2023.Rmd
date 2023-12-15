@@ -1,0 +1,110 @@
+---
+title: "Master Thesis Topics with Qualitas AG and ETHZ"
+author: "Peter von Rohr"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<style type="text/css">
+h1.title {
+  font-size: 32px;
+  color: Black;
+}
+h1 { /* Header 1 */
+  font-size: 28px;
+  color: DarkRed;
+}
+h2 { /* Header 2 */
+    font-size: 22px;
+  color: DarkRed;
+}
+h3 { /* Header 3 */
+  font-size: 18px;
+  color: DarkRed;
+}
+</style>
+
+If you are interested in any of the following topics or if you have questions, please contact Peter von Rohr (Qualitas AG) Chamerstrasse 56, 6300 Zug; peter.vonrohr@qualitasag.ch, Tel 041 768 92 21.
+
+
+### Optimizing the genetic evaluation for calving traits
+Interbull provided a set of recommendations for harmonising calving traits in the framework of MACE (multiple across country evaluation) evaluations. The central task of the project will be to understand the current evaluation for calving traits (dairy population) in Switzerland and to implement the Interbull recommendations  in the current system. To do this, adaption of data preparation and estimation of new variance components are required.
+
+* Interbull Document: https://interbull.org/static/web/Recommendations_Harmonisation_Calving_Traits.pdf
+* Main areas for harmonisation:
+    + Measurement/definition of the traits calving ease (CE) and stillbirth (SB)
+    + Categories of phenotyped animals used in the evaluation: differentiating between first vs. later calvings
+    + Data editing: Exclude multiple birth records (already the case), correct consideration of embryo transfer, transform the data by applying the Snell method
+    + Evaluation model: whenever possible, the proofs should be estimated by a multi-trait (CE/SB, first parity/later parities) animal model fitting both direct and maternal genetic effects. Instead of applying an animal model a sire-maternal grandsire (S-MGS) model can be fitted. In this case, direct EBV = 2 * Sire and maternal EBV = 2 * MGS - Sire
+    + EDC computed using multiple-trait EDC methods (Sullivan 2022)
+* Other possible topic: Best practice to account for multiple breeds and dairy on dairy and beef on dairy calvings.
+
+
+
+### Factors Influencing Stability of Predicted Genomic Breeding Values
+* Example: BVCH
+* Reference: 
+    + Patry, C. and Ducrocq, V. (2011) ‘Evidence of biases in genetic evaluations due to genomic preselection in dairy cattle’, Journal of Dairy Science. Elsevier, 94(2), pp. 1011–1020. doi: 10.3168/jds.2010-3804.
+    + Patry, C. and Ducrocq, V. (2011) ‘Accounting for genomic pre-selection in national BLUP evaluations in dairy cattle’, Genetics Selection Evolution, 43(1), pp. 1–9. doi: 10.1186/1297-9686-43-30.
+    + Tyrisevä, A.-M. M. et al. (2018) ‘Detection of evaluation bias caused by genomic preselection’, Journal of Dairy Science. American Dairy Science Association, 101(4), pp. 3155–3163. doi: 10.3168/jds.2017-13527.
+    + Uemoto, Y., Osawa, T. and Saburi, J. (2017) ‘Effect of genotyped cows in the reference population on the genomic evaluation of Holstein cattle’, Animal, 11(3), pp. 382–393. doi: 10.1017/S1751731116001762.
+
+
+### Connectedness Between Herds In Different Populations {#project_header .emphasized}
+In populations with a low rate of artificial insemination, it is often a problem that effects of herds cannot be compared or estimated. There are different measures that indicate such problems. These measures are all contained in the general concept of connectedness.
+
+
+### First steps towards a genetic evaluation for conception rate
+An analysis comparable to https://doi.org/10.3168/jds.2018-15858 is to be developed.
+
+
+### Application of Generalized Linear Mixed Effect Models
+Based on the results of a previous master thesis, different comparison studies should be undertaken where conventional linear mixed models are compared with the generalized linear mixed model based on the same data set. 
+
+
+### Relationship between Myostatin-Status with Calving Traits
+Some beef cattle breeds (Charolais, Limousin, ...) are looking into the genetic basis of the myostatin-gene (double-muscle). Recent developments in genomic selection of beef cattle in Switzerland give the possibility to analyse the status of the myostatin-gene in the Swiss beef cattle breeds. A specific emphasis is to be put to the relationship with other important characteristics of the animals such as calving traits.
+
+
+### Early first calving evaluation
+This trait is associated with efficiency and with environmental footprint of animals. A number of publications already exist on this topic. Tasks would consist of 
+
+* descriptive statistics in Swiss cattle populations
+* estimation of genetic parameters
+* characterisation of different populations at the genomic level (GWAS, ...)
+
+
+### PSB-Measures
+The Swiss Federal government has decided on measures to reduce the amount of phosphoros (P) and nitrogen (N) that is released to the environment due to livestock production. The possible impact of such measures is to be investigated. 
+
+
+### Feed Efficiency
+In the more recent past huge efforts are undertaken to improve feed efficiency of dairy cows. Thies is due to the fact that the economic pressure for dairy farms have dramatically increased during the past few years and also because of the higher awareness of the impact of livestock production on the environment. In this project the possibilities to improve feed efficiency at the genetic level are to be researched, discussed and if possible evaluated.
+
+
+### Aspects in Single-Step Genomic BLUP
+Examples: 
+
+* reliabilities 
+* blending  
+* comparison of marker-effect models and breeding-value based models. 
+
+An important aspect of a change from a two-step marker-effect model to a single-step GBLUP-procedure is that the latter often assume that all SNP contribute a very small amount to the genetic variance. This violates the generic model of quantitative genetics which states that only a few QTL are responsible for the expression of a quantitative trait. The advantage of the single-step GBLUP-procedure is that it is stable across evaluations which is most likely due to  its shrinkage feature.
+
+Genetic variance of a trait of interest can usually not be explained completely by markers linked to QTL (cf. “missing heritability”). In single step genomic evaluations, where genomic and phenotypic information are combined in a single evaluation, this issue is commonly addressed by including a residual polygenic (RPG) term in the used models. This term is derived from pedigree information and included in the H-Matrix, the relationship matrix for single step evaluations. A weight is assigned to the RPG in comparison to the genetic part of the matrix. Commonly this term is set to a value between 0.1 and 0.3. A possible reference for this problem is Liu, Z., Goddard, M. E., Hayes, B. J., Reinhardt, F., & Reents, R. (2016). Technical note: Equivalent genomic models with a residual polygenic effect. Journal of Dairy Science, 99(3), 2016–2025. Technical note: Equivalent genomic models with a residual polygenic effect  (available in Mendeley). In order to implement single step genomic evaluation a definition of RPG is required. During the project the problem of RPG will be adressed. The central task of the project will be to investigate and understand the effect of different RPG on single step breeding values and their reliabilities. Different criteria such as validation reliabilities will be used in order to investigate this question.
+
+---
+
+If you are interested in any of the following topics or if you have questions, please contact Peter von Rohr (Qualitas AG) Chamerstrasse 56, 6300 Zug; peter.vonrohr@qualitasag.ch, Tel 041 768 92 21.
+
+
+```{r echo=FALSE, results='asis'}
+cat(rmdhelp::get_latest_change())
+```
+

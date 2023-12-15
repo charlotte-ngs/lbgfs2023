@@ -1,0 +1,16 @@
+---
+title: "ChatGPT in RStudio"
+output: html_notebook
+---
+
+Check possibilities how to use ChatGPT in RStudio
+
+
+## Resources
+
+[1] https://youtu.be/QQfDTLExoNU?si=IrguJe41mPdWRTWI
+
+
+## Material
+In [1] , the package `GPTstudio` is used. This package is available at: https://github.com/MichelNivard/GPTstudio
+
