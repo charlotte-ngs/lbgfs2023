@@ -1,3 +1,7 @@
+# lbgfs2023 0.12.1
+
+* Fixed errors in solution of test exam
+
 # lbgfs2023 0.12.0
 
 * Master Thesis and Internship Projects
