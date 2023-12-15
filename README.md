@@ -11,8 +11,9 @@ The course website can be found at:
 
 ## Topics for Master Theses
 
-Topics for Master Theses at Qualitas AG together with ETH will be
-available soon
+Topics for Master Theses at Qualitas AG together with ETH will is
+available from
+[here](https://charlotte-ngs.github.io/lbgfs2023/misc/MasterThesisTopics_FallSemester2023.html)
 
 ## Description
 
