@@ -9,6 +9,11 @@ Welcome to the website of
 The course website can be found at:
 <https://charlotte-ngs.github.io/lbgfs2023/>
 
+## Exam Datasets
+
+Instructions how to read datasets for the exam are provided
+[here](https://charlotte-ngs.github.io/lbgfs2023/exam/20231222_exam_datasets.html)
+
 ## Topics for Master Theses
 
 Topics for Master Theses at Qualitas AG together with ETH will is
