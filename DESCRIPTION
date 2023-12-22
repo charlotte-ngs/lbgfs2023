@@ -1,6 +1,6 @@
 Package: lbgfs2023
 Title: Course Material for Livestock Breeding and Genomics Fall 2023 at ETHZ
-Version: 0.12.1
+Version: 0.13.0
 Authors@R: 
     person("Peter", "von Rohr", , "peter.vonrohr@usys.ethz.ch", role = c("aut", "cre"))
 Description: Contains all material for the masters course of Livestock Breeding and Genomics 

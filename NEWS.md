@@ -1,3 +1,7 @@
+# lbgfs2023 0.13.0
+
+* Instructions for reading exam datasets
+
 # lbgfs2023 0.12.1
 
 * Fixed errors in solution of test exam
