@@ -1,0 +1,513 @@
+---
+output:
+  pdf_document:
+    includes:
+      in_header: tex/header.tex
+    fig_caption: no
+    keep_tex: no
+  html_document:
+    df_print: paged
+output_file: "20231222_tsk_exam.pdf"
+params:
+  seed: 2023
+  name: "Student"
+  firstname: "Test"
+  leginr: "23-987-123"
+  examdate: "2023-12-22"
+  alias: test
+--- 
+
+\newcommand{\points}[1]
+{\begin{flushright}\textbf{#1}\end{flushright}}
+
+```{r ChunkOptions, echo=FALSE}
+# knitr::opts_chunk$set(echo = FALSE, results = 'hide')
+#knitr::opts_chunk$set(concordance=TRUE)
+knitr::opts_chunk$set(warning = FALSE, 
+                      message = FALSE)
+knitr::knit_hooks$set(hook_convert_odg = rmdhelp::hook_convert_odg)
+# write the parameters to file
+b_params_to_file <- FALSE
+# check whether seed is set and output it to a file
+s_this_rmd_file = basename(ifelse(rstudioapi::isAvailable(), 
+                         rstudioapi::getSourceEditorContext()$path, 
+                         whereami::thisfile()))
+if (is.null(params$seed)){
+  stop(" ** Error parameter seed has not been set.")
+} else {
+  set.seed(params$seed)
+  s_params_file <- paste0(format(Sys.time(), '%Y%m%d%H%M%S'), "_params_", s_this_rmd_file, ".txt", collapse = "")
+  if (b_params_to_file) dput(params, file = s_params_file)
+}
+s_data_url_root <- "https://charlotte-ngs.github.io/lbgfs2023/data"
+```
+
+```{r PointsQ1, echo=FALSE}
+# Assign Points for Q1
+lPointsQ1 <- list(TaskA = 12,
+                  TaskB = 22,
+                  TaskC = 14,
+                  TaskD = 0)
+nPointQ1Total <- sum(unlist(lPointsQ1))
+```
+
+```{r PointsQ2, echo=FALSE}
+# Assign Points for Q2
+lPointsQ2 <- list(TaskA = 10,
+                  TaskB = 6,
+                  TaskC = 2,
+                  TaskD = 0)
+nPointQ2Total <- sum(unlist(lPointsQ2))
+```
+
+```{r PointsQ3, echo=FALSE}
+# Assign Points for Q3
+lPointsQ3 <- list(TaskA = 4,
+                  TaskB = 4,
+                  TaskC = 4,
+                  TaskD = 0)
+nPointQ3Total <- sum(unlist(lPointsQ3))
+```
+
+```{r PointsQ4, echo=FALSE}
+# Assign Points for Q4
+lPointsQ4 <- list(TaskA = 25,
+                  TaskB = 10,
+                  TaskC = 0,
+                  TaskD = 0)
+nPointQ4Total <- sum(unlist(lPointsQ4))
+```
+
+```{r PointsQ5, echo=FALSE}
+# Assign Points for Q4
+lPointsQ5 <- list(TaskA = 25,
+                  TaskB = 25,
+                  TaskC = 0,
+                  TaskD = 0)
+nPointQ5Total <- sum(unlist(lPointsQ5))
+```
+
+```{r PointsTotal, echo=FALSE}
+nPointOverallTotal <- nPointQ1Total + nPointQ2Total + nPointQ3Total + nPointQ4Total + nPointQ5Total
+```
+
+
+\thispagestyle{empty}
+
+\fcolorbox{white}{white}{
+	\centering \parbox[t]{1.0\linewidth}{
+		\fontsize{12pt}{20pt}\selectfont % 
+		\vspace*{0.5cm} % 
+
+   	Peter von Rohr \\ Institute of Agricultural Sciences\\ D-USYS\\ ETH Zurich
+
+		\vspace*{0.5cm} 
+	}
+}
+
+\vspace*{2cm}
+
+\fcolorbox{white}{white}{
+	\parbox[t]{1.0\linewidth}{
+		\centering \fontsize{25pt}{40pt}\selectfont %
+		\vspace*{0.2cm}
+		 751-7602-00 V \\
+     Exam in    \\
+     Livestock Breeding \\
+     and Genomics \\
+     Fall Semester 2023
+
+		\vspace*{0.7cm} % Space between the end of the title and the bottom of the grey box
+	}
+}
+
+
+\vspace*{1cm}
+
+<!-- % Table with Name -->
+\begin{tabular}{p{3cm}p{6cm}}
+Date:     &  `r params$examdate` \\
+          &  \\
+          &  \\
+Name:     &  \\
+          &  \\
+          &  \\
+Legi-Nr:  &  \\
+\end{tabular}
+
+<!-- % Table with Points -->
+
+\vspace{5ex}
+\begin{center}
+\begin{tabular}{|p{3cm}|c|c|}
+\hline
+Problem  &  Maximum Number of Points  &  Number of Points Reached\\
+\hline
+1        &  `r nPointQ1Total`  & \\
+\hline
+2        &  `r nPointQ2Total`  & \\
+\hline
+3        &  `r nPointQ3Total`  & \\
+\hline
+4        &  `r nPointQ4Total`  & \\
+\hline
+5        &  `r nPointQ5Total`  & \\
+\hline
+Total    &  `r nPointOverallTotal` & \\
+\hline
+\end{tabular}
+\end{center}
+
+
+\clearpage
+\pagebreak
+
+
+## Problem 1: Numerator Relationship Matrix, Inbreeding and Pedigree
+```{r setup-problem1, echo=FALSE}
+s_p1_pedigree_path <- file.path(s_data_url_root, "exam_pedigree_p1.csv")
+tbl_pedigree_p1 <- readr::read_delim(s_p1_pedigree_path, delim = ",")
+```
+
+Given is the pedigree shown in the Table below. 
+
+
+\textit{Geben ist das Pedigree in der nachfolgenden Tabelle}
+
+```{r, echo=FALSE}
+knitr::kable(tbl_pedigree_p1, booktabs = TRUE, longtable = TRUE)
+```
+
+```{r, echo=FALSE}
+cat(s_p1_pedigree_path, "\n")
+```
+
+\begin{enumerate}
+\item[a)] Setup the numerator relationship matrix $A$ for the above given pedigree
+
+\textit{Erstellen Sie die additive-genetische Verwandtschaftsmatrix $A$ auf für das oben gegebene Pedigree}
+
+\end{enumerate}
+\points{`r lPointsQ1$TaskA`}
+
+
+### Solution
+
+
+
+\clearpage
+\pagebreak
+
+\begin{enumerate}
+\item[b)] Specify which of the animals given in the above pedigree is inbred and compute the inbreeding coefficient $F$ for each animal. Please fill out the table below.
+
+\textit{Geben Sie an, welches der Tiere im oben gegebenen Pedigree ingezüchtet ist und berechnen Sie für jedes Tier den Inzuchtkoeffizienten $F$. Füllen Sie dazu die unten angegebenen Tabelle aus.}
+
+\end{enumerate}
+\points{`r lPointsQ1$TaskB`}
+
+### Solution 
+
+```{r sol-tab-p1b, echo=FALSE}
+vec_founder <- c(setdiff(tbl_pedigree_p1$sire, tbl_pedigree_p1$animal),
+                 setdiff(tbl_pedigree_p1$dam, tbl_pedigree_p1$animal))
+vec_founder <- vec_founder[order(vec_founder)]
+n_nr_animal <- length(vec_founder) + nrow(tbl_pedigree_p1)
+tbl_inb <- tibble::tibble(Animal = 1:n_nr_animal,
+                          `Inbred (Y/N)` = rep("",n_nr_animal),
+                          `Inbreeding Coefficient` = rep("",n_nr_animal))
+knitr::kable(tbl_inb, booktabs = TRUE, longtable = TRUE)
+```
+
+
+
+
+\clearpage
+\pagebreak
+
+\begin{enumerate}
+\item[c)] Construct the pedigree from the numerator relationship matrix $A$ shown below.
+
+\textit{Erstellen Sie das Pedigree basierend auf der unten gegebenen additive-genetischen Verwandtschaftsmatrix $A$}
+
+\end{enumerate}
+\points{`r lPointsQ1$TaskC`}
+
+```{r setup-problem-1c, echo=FALSE, results='asis'}
+s_p1_num_rel_mat_path <- file.path(s_data_url_root, "exam_num_rel_mat_p1.csv")
+tbl_mat_A <- readr::read_delim(s_p1_num_rel_mat_path, delim = ",")
+mat_mat_A <- as.matrix(tbl_mat_A)
+```
+
+```{r show-matrix-problem-1c, echo=FALSE, results='asis'}
+cat(paste(rmdhelp::bmatrix(mat_mat_A, ps_name = "A", ps_env = "$$"),collapse = '\n'), '\n')
+```
+
+```{r, echo=FALSE}
+cat(s_p1_num_rel_mat_path, "\n")
+```
+
+### Solution 
+
+
+\clearpage
+\pagebreak
+
+## Problem 2: Quantitative Genetics
+```{r p02-setup, echo=FALSE}
+s_data_p2 <- file.path(s_data_url_root, "exam_qg_single_locus_p2.csv")
+tbl_p2 <- readr::read_delim(s_data_p2, delim = ",")
+```
+
+The following dataset shows the influence of a single locus on the pigmentation of a number of animals.
+
+\textit{Der unten gezeigte Datensatz zeigt den Einfluss eines einzelnen Locus auf die Pigemntierung von Tieren.}
+
+
+```{r tbl-p02-show, echo=FALSE}
+knitr::kable(tbl_p2, booktabs = TRUE, longtable = TRUE)
+```
+
+```{r, echo=FALSE}
+cat(s_data_p2, "\n")
+```
+
+
+\clearpage
+\pagebreak
+
+
+\begin{enumerate}
+\item[a)] Compute the allele frequencies ($p$ and $q$) and the genotypic values ($a$ and $d$) from the above shown dataset assuming that the number in column `LocusC` counts the number of alleles with a positive effect on pigmentation. 
+
+\textit{Berechnen Sie die Allelfrequenzen ($p$ und $q$) und die genotypischen Werten ($a$ und $d$) aufgrund des oben gezeigten Datensatzes. Die Zahlen in der Kolonne mit der Überschrift `LocusC` entspricht der Anzahl Allele mit positiver Wirkung auf die Pigmentierung}
+
+\end{enumerate}
+\points{`r lPointsQ2$TaskA`}
+
+
+### Solution
+
+
+
+\clearpage
+\pagebreak
+
+
+\begin{enumerate}
+\item[b)] Compute the breeding values and the dominance deviations for the genotypes of `LocusC` based on the above given dataset.
+
+\textit{Berechnen Sie die Zuchtwerte und die Dominanzabweichungen für die Genotypen von `LocusC` basierend auf den oben gegebenen Daten.}
+
+\end{enumerate}
+\points{`r lPointsQ2$TaskB`}
+
+
+### Solution
+
+
+\clearpage
+\pagebreak
+
+\begin{enumerate}
+\item[c)] Compute the additive-genetic variance, the dominance variance and the total genetic variance for the data given above.
+
+\textit{Berechnen Sie die additive-genetische Varianz, die Dominanz-Varianz und die totale genetische Varianz für die oben angegeben Daten.}
+
+\end{enumerate}
+\points{`r lPointsQ2$TaskC`}
+
+
+### Solution 
+
+
+\clearpage
+\pagebreak
+
+
+## Problem 3: Variance and Inbreeding
+```{r p3-setup, echo=FALSE}
+n_exile_year <- 1953
+n_export_year <- 2023
+n_nr_sub_pop <- 4
+n_nr_dam_per_sub_pop <- 10^4
+n_nr_dams_total <- n_nr_sub_pop * n_nr_dam_per_sub_pop
+n_gen_int <- 5
+```
+
+Starting in the year `r n_exile_year` the cattle breed Simmental was divided into `r n_nr_sub_pop` subpopulations of equal size. Since the separations the subpopulations stayed isolated without any exchange of genetic material. Before the separation the number of dams in the Simmental breed was `r n_nr_dams_total`. The generation interval can be assumed to be `r n_gen_int` years. The males in the populations can be ignored in this problem.
+
+\textit{Seit `r n_exile_year` wurde die Rinderrasse Simmental in `r n_nr_sub_pop` gleich grosse Subpopulationen unterteilt. Seit der Aufteilung gab es keinen Austausch von genetischem Material zwischen den Subpopulationen. Vor der Aufteilung umfasste die Rasse Simmental `r n_nr_dams_total` Kühe. Das Generationeninterval wird mit `r n_gen_int` Jahren angegeben. Die Stiere in der Population werden in dieser Aufgabe nicht berücksichtigt.}
+
+\begin{enumerate}
+\item[a)] Compute the inbreeding coefficient $F_t$ in the subpopulations that can be expected today. 
+
+\textit{Berechnen Sie den Inzuchtkoeffizienten $F_t$ in den Subpopulationen, welchen wir heute erwarten können.}
+
+\end{enumerate}
+\points{`r lPointsQ3$TaskA`}
+
+
+### Solution
+
+
+\clearpage
+\pagebreak
+
+```{r p3b-setup, echo=FALSE}
+n_maf <- 0.325
+n_geno_val_a <- 50
+n_geno_val_d <- 35
+n_two_pqd <- 2 * n_maf * (1-n_maf) * n_geno_val_d
+Ft_assumed <- 0.001
+```
+
+\begin{enumerate}
+\item[b)] Breeders try to avoid inbreeding because they want to prevent inbreeding depression. For a quantitative trait influenced by a single locus inbreeding depression is to be computed. The allele frequency is $p = `r n_maf`$ and the genotypic values are $a = `r n_geno_val_a`$ and $d = `r n_geno_val_d`$. The inbreeding coefficient can be taken from the result of problem a. (In case problem a) was not solved, an inbreeding coefficient $F_t = `r Ft_assumed`$ can be assumed.)
+
+\textit{ZüchterInnen sind bestrebt Inzucht zu begrenzen, da Inzuchtdepression vermieden werden soll. Für ein quantitatives Merkmal, welches von einem Locus beeinflusst wird, soll die Inzuchtdepression berechnet werden. Die Allelfrequenz beträgt $p = `r n_maf`$ und die genotypischen Werte sind $a = `r n_geno_val_a`$ und $d = `r n_geno_val_d`$. Der Inzuchtkoeffizient kann aus der Lösung von Aufgabe a übernommen werden. (Falls Aufgabe a) nicht gelöst wurde, dann kann ein Inzuchtkoeffizient von $F_t = `r Ft_assumed`$ angenommen werden.)}
+
+\end{enumerate}
+\points{`r lPointsQ3$TaskB`}
+
+
+
+### Solution
+
+\clearpage
+\pagebreak
+
+```{r p3c-setup, echo=FALSE}
+DeltaM_target <- 0.1
+```
+
+\begin{enumerate}
+\item[c)] How many generations does it take until the inbreeding depression as computed under Problem b) is larger than `r DeltaM_target`? 
+
+\textit{Wie viele Generationen wird es dauern bis die Inzuchtdepression, so wie sie in Aufgabe b) berechnet wurde grösser ist als `r DeltaM_target`?}
+\end{enumerate}
+\points{`r lPointsQ3$TaskC`}
+
+
+### Solution
+
+\clearpage
+\pagebreak
+
+
+## Problem 4: BLUP 
+```{r p4-setup, echo=FALSE}
+s_data_url_p4 <- file.path(s_data_url_root, "exam_blup_p4.csv")
+s_delim_char <- ","
+tbl_p4 <- readr::read_delim(s_data_url_p4, delim = s_delim_char)
+```
+```{r p4-assumptions, echo=FALSE}
+s_response_var <- "weight"
+l_fixed_effects <- list(names = c("sex", "Breast Circumference"), abbreviations = c("sex", "BC"))
+n_h2_weight <- 0.36
+```
+
+
+The following dataset is to be used to predict breeding values for the response variable `weight`. Use a linear mixed model with `sex` and `Breast Circumference` (BC) as fixed effects. The heritability ($h^2$) for weight is assumed to be $h^2 = `r n_h2_weight`$. The phenotypic variance can directly be computed based on the given observations in the dataset. 
+
+\textit{Der folgende Datensatz soll für die Schätzung von Zuchtwerten für das Merkmal `weight` verwendet werden. Verwenden Sie ein gemischtes lineares Modell mit `sex` und `Brustumfang` (BC) als fixe Effekte. Die Erblichkeit ($h^2$) für das Merkmal `weight` wird mit  $h^2 = `r n_h2_weight`$ angenommen. Die phänotypische Varianz kann aus den beobachteten Daten berechnet werden.}
+
+```{r tbl-p4-show, echo=FALSE}
+knitr::kable(tbl_p4, booktabs = TRUE, longtable = TRUE)
+```
+
+```{r, echo=FALSE}
+cat(s_data_url_p4, "\n")
+```
+
+
+\clearpage
+\pagebreak
+
+\begin{enumerate}
+\item[a)] Predict breeding values for the response variable `weight` using a BLUP animal model. Specify the model with a formula using matrix-vector notation. Explain all the symbols used and insert the information from the dataset to the known model components. For all random effects in the model,  specify the expected values and the variance-covariance matrices.
+
+\textit{Schätzen Sie Zuchtwerte für die Zielgrösse `weight` mit einem BLUP-Tiermodell. Geben Sie das Modell mit einer Formel in Matrix-Vektor-Schreibweise an. Erläutern Sie die verwendeten Symbole im Modell und setzen Sie die Informationen aus dem Datensatz in die bekannten Modellkomponenten ein. Für all zufälligen Effekte im Modell, geben Sie bitte die Erwartungswerte und die Varianz-Kovarianz-Matrizen an.}
+
+\end{enumerate}
+\points{`r lPointsQ4$TaskA`}
+
+
+### Solution
+
+
+\clearpage
+\pagebreak
+
+\begin{enumerate}
+\item[b)] Compute the reliabilities ($B\%$) for the predicted breeding values from problem a). 
+
+\textit{Berechnen Sie die Bestimmtheitsmasse ($B\%$) für die unter Aufgabe a) geschätzten Zuchtwerte.}
+
+\end{enumerate}
+\points{`r lPointsQ4$TaskB`}
+
+
+### Solution
+
+\clearpage
+\pagebreak
+
+
+## Problem 5: Genomic Breeding Values
+```{r p5-setup, echo=FALSE}
+s_data_url_p5 <- file.path(s_data_url_root, "exam_geno_p5.csv")
+s_delim_char <- ","
+tbl_p5 <- readr::read_delim(s_data_url_p5, delim = s_delim_char)
+```
+
+The following dataset is given to predict genomic breeding values. The column with the header `BC` contains the covariable `Breast Circumference` in cm. The response variable ($y$) is in the column with the header `weight`. 
+
+\textit{Der folgende Datensatz wird verwendet um genomische Zuchtwerte zu schätzen. Die Kolonne mit der Überschrift enthält die Kovariable `Brustumfang`. Die Zielgrösse ($y$) befindet sich in der Kolonne mit der Überschrift `weight`.}
+
+```{r p5-tbl-show, echo=FALSE}
+knitr::kable(tbl_p5, booktabs = TRUE, longtable = TRUE)
+```
+
+```{r, echo=FALSE}
+cat(s_data_url_p5, "\n")
+```
+
+\clearpage
+\pagebreak
+
+```{r p5a-setup, echo=FALSE}
+lambda_q <- 3
+```
+
+\begin{enumerate}
+\item[a)] Use a marker-effects model to predict genomic breeding values for the response variable `weight`. Use `BC` and `sex` as fixed effects. The columns `S1`-`S15` contain marker genotypes to be used in the prediction of genomic breeding values. The ratio $\lambda_q = \sigma_e^2/\sigma_q^2$ is assumed to be $\lambda_q = `r lambda_q`$.
+
+\textit{Verwenden Sie ein Marker-Effekt Modell zur Schätzung von genomischen Zuchtwerten für die Zielgrösse `weight`. Verwenden Sie `BC` und `sex` als fixe Effekte. Die Kolonnen `S1`-`S15` enthalten Markergenotypen, welche für die genomische Zuchtwertschätzung verwendet werden sollen. Das Verhältnis $\lambda_q = \sigma_e^2/\sigma_q^2$ soll den Wert $\lambda_q = `r lambda_q`$ haben.}
+
+\end{enumerate}
+\points{`r lPointsQ5$TaskA`}
+
+
+### Solution
+
+\clearpage
+\pagebreak
+
+```{r p5b-setup, echo=FALSE}
+lambda_g <- 5
+```
+\begin{enumerate}
+\item[b)] Use a breeding-value based genomic BLUP model to predict genomic breeding values for the response variable `weight`. Use `BC` and `sex` as fixed effects. The columns `S1`-`S15` contain marker genotypes to be used in the prediction of genomic breeding values. The ratio $\lambda_g = \sigma_e^2/\sigma_g^2$ is assumed to be $\lambda_g = `r lambda_g`$.
+
+\textit{Verwenden Sie ein Zuchtwert-basiertes genomisches BLUP Modell für die Schätzung von genomischen Zuchtwerten für die Zielgrösse `weight`. Verwenden Sie `BC` und `sex` als fixe Effekte. Die Kolonnen `S1`-`S15` enthalten Markergenotypen, welche für die genomische Zuchtwertschätzung verwendet werden sollen. Das Verhältnis $\lambda_g = \sigma_e^2/\sigma_g^2$ soll den Wert $\lambda_g = `r lambda_g`$ haben.}
+
+\end{enumerate}
+\points{`r lPointsQ5$TaskB`}
+
+
+### Solution
+
+\clearpage
+\pagebreak
+

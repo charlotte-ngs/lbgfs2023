@@ -1,0 +1,72 @@
+---
+title: "Exam Datasets"
+author: "Peter von Rohr"
+date: "2023-12-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+## Disclaimer
+This document provides R code-chunks that read the datasets used in the exam 2023.
+
+
+## Problem 1
+
+The following pedigree is used for 1a and 1b
+```{r}
+s_data_root <- "https://charlotte-ngs.github.io/lbgfs2023/data"
+s_data_p1_path <- file.path(s_data_root, "exam_pedigree_p1.csv")
+tbl_data_p01 <- readr::read_delim(s_data_p1_path, delim = ",")
+dim(tbl_data_p01)
+```
+
+The numerator relationship matrix can be read with
+
+```{r}
+s_data_root <- "https://charlotte-ngs.github.io/lbgfs2023/data"
+s_p1_num_rel_mat_path <- file.path(s_data_root, "exam_num_rel_mat_p1.csv")
+tbl_mat_A <- readr::read_delim(s_p1_num_rel_mat_path, delim = ",")
+mat_mat_A <- as.matrix(tbl_mat_A)
+dim(mat_mat_A)
+```
+
+
+## Problem 2
+
+
+```{r}
+s_data_root <- "https://charlotte-ngs.github.io/lbgfs2023/data"
+s_data_p2 <- file.path(s_data_root, "exam_qg_single_locus_p2.csv")
+tbl_p2 <- readr::read_delim(s_data_p2, delim = ",")
+dim(tbl_p2)
+```
+
+
+
+## Problem 3
+
+No dataset to be read.
+
+
+## Problem 4
+
+```{r}
+s_data_root <- "https://charlotte-ngs.github.io/lbgfs2023/data"
+s_data_url_p4 <- file.path(s_data_root, "exam_blup_p4.csv")
+tbl_p4 <- readr::read_delim(s_data_url_p4, delim = ",")
+dim(tbl_p4)
+```
+
+
+## Problem 5
+
+```{r}
+s_data_root <- "https://charlotte-ngs.github.io/lbgfs2023/data"
+s_data_url_p5 <- file.path(s_data_root, "exam_geno_p5.csv")
+tbl_p5 <- readr::read_delim(s_data_url_p5, delim = ",")
+dim(tbl_p5)
+```
+

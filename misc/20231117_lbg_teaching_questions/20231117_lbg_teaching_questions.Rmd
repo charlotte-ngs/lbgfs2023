@@ -2,11 +2,11 @@
 title: "Questions and Areas of Improvement in Teaching Livestock Breeding and Genomics (LBG)"
 date: "Started: 2023-11-17 -- Last Compiled on: `r format(Sys.time(), '%Y-%m-%d')`"
 output: 
-  bookdown::html_document2: 
-      number_sections: false
   bookdown::pdf_document2: 
       number_sections: false
       toc: false
+  bookdown::html_document2: 
+      number_sections: false
 bibliography: bibliography.bib 
 ---
 
@@ -54,12 +54,20 @@ with $\mu_G = \mu - 2p\alpha$.
 
 
 ## What are the reasons for using linear mixed effects models for genetic evaluations?
+Have a look at example data shown in Figure 1.1 (p.4) of `r met$add("Pinheiro2000")` for a possible motivation.
+
 
 
 ## Have a better example dataset showing that fixed linear effects models lead to violated model assumptions when used for genetic evaluation
+Similar to previous subsection. Have a look at `r met$add("Pinheiro2000")` for constructing a better motivation example dataset.
 
 
+## Exercise Platform
+Have a look at `webr` for a replacement of the docker-based exercise platform. Have a look at https://docs.r-wasm.org/webr/latest/
 
+
+## R-Packages
+Replace `pedigreemm` by something more modern and better maintained.
 
 
 
